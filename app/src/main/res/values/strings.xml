@@ -1,0 +1,15 @@
+<resources>
+    <!--Name of App-->
+    <string name="app_name">FundCache</string>
+    <!--Placeholder for Username text input-->
+    <string name="username">Username</string>
+    <!--Placeholder for Password text input-->
+    <string name="password">Password</string>
+    <!--Placeholder for Login text input-->
+    <string name="login">Login</string>
+    <!--Placeholder for Register text input-->
+    <string name="register">Register</string>
+    <!--Placeholder for Forgot Password text input-->
+    <string name="forgot_password">Forgot Password?</string>
+
+</resources>
