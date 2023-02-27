@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "390691544341",
+    "project_id": "fundcache",
+    "storage_bucket": "fundcache.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390691544341:android:83d461d08cbb6fe93c5d1c",
+        "android_client_info": {
+          "package_name": "com.example.fundcache"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "390691544341-c4k6ls4g2evilo9fopp2rco9ccgo73jk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjOlS1DcsLzNdWS5-DbXkx1H_ohdZ4zng"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390691544341-4csrl0imaiqm4vq1ir66e1kf2jn0e73i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
