@@ -12,4 +12,6 @@
     <!--Placeholder for Forgot Password text input-->
     <string name="forgot_password">Forgot Password?</string>
 
+    <string name="test">test</string>
+
 </resources>
