@@ -1,6 +1,8 @@
 package com.example.fundcache
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
@@ -19,10 +21,12 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginButton: Button
     private lateinit var registerButton: Button
     private lateinit var progressBar: ProgressBar
+    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        supportActionBar?.hide()
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
@@ -34,9 +38,15 @@ class LoginActivity : AppCompatActivity() {
         registerButton = findViewById(R.id.buttonRegister)
         progressBar = findViewById(R.id.progressBar)
 
+        // Get reference to SharedPreferences
+        prefs = getSharedPreferences("com.example.fundcache", Context.MODE_PRIVATE)
+
+        // Check if the user has logged in before
+        val hasLoggedInBefore = prefs.getBoolean("hasLoggedInBefore", false)
+
         // Set click listener for login button
         loginButton.setOnClickListener {
-            loginUser()
+            loginUser(hasLoggedInBefore)
         }
 
         // Set click listener for register button
@@ -44,9 +54,10 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+
     }
 
-    private fun loginUser() {
+    private fun loginUser(hasLoggedInBefore: Boolean) {
         val email = emailEditText.text.toString().trim()
         val password = passwordEditText.text.toString().trim()
 
@@ -74,10 +85,25 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Login successful, navigate to MainActivity
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    val user = auth.currentUser
+                    if (user != null && user.isEmailVerified) {
+                        val prefs = getSharedPreferences("com.example.fundcache", MODE_PRIVATE)
+                        val hasLoggedInBefore = prefs.getBoolean("hasLoggedInBefore", false)
+
+                        if (!hasLoggedInBefore) {
+                            // Save that the user has logged in for the first time
+                            prefs.edit().putBoolean("hasLoggedInBefore", true).apply()
+                        }
+
+                        // Login successful and email is verified, navigate to MainActivity
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        // Email not verified, sign the user out and display message
+                        auth.signOut()
+                        Toast.makeText(baseContext, "Please verify your email before logging in", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
                     // Login failed, display error message
                     Toast.makeText(baseContext, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()

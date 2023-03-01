@@ -72,17 +72,41 @@ class RegisterActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Registration successful, navigate to MainActivity
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    // Send email verification to user's email
+                    auth.currentUser?.sendEmailVerification()
+                        ?.addOnCompleteListener { verificationTask ->
+                            if (verificationTask.isSuccessful) {
+                                Toast.makeText(
+                                    baseContext,
+                                    "Verification email sent to ${auth.currentUser?.email}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                // Navigate to LoginActivity
+                                val intent = Intent(this, LoginActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                // Failed to send verification email
+                                Toast.makeText(
+                                    baseContext,
+                                    "Failed to send verification email: ${verificationTask.exception?.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            progressBar.visibility = View.GONE
+                        }
                 } else {
                     // Registration failed, display error message
-                    Toast.makeText(baseContext, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext,
+                        "Registration failed: ${task.exception?.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    progressBar.visibility = View.GONE
                 }
-
-                progressBar.visibility = View.GONE
-            }
     }
-
+    }
 }

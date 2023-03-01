@@ -8,8 +8,21 @@
     <!--Placeholder for Login text input-->
     <string name="login">Login</string>
     <!--Placeholder for Register text input-->
-    <string name="register">Register</string>
+    <string name="register">Create Account</string>
     <!--Placeholder for Forgot Password text input-->
     <string name="forgot_password">Forgot Password?</string>
+
+    <string name="settings">Settings</string>
+    <string name="location_enabled">Location Enabled</string>
+    <string name="notifications_enabled">Notifications Enabled</string>
+    <string name="privacy">Privacy</string>
+    <string name="general">General</string>
+    <string name="account">Account</string>
+    <string name="logout">Logout</string>
+
+    <string name="name">Name</string>
+    <string name="home_fragment_label">Home</string>
+    <string name="profile_fragment_label">Profile</string>
+    <string name="choose_name_fragment_label">Name</string>
 
 </resources>
