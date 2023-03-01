@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.fundcache.HomeFragment"
+        android:label="@string/home_fragment_label"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/chooseNameFragment"
+        android:name="com.example.fundcache.ChooseNameFragment"
+        android:label="@string/choose_name_fragment_label"
+        tools:layout="@layout/fragment_choose_name" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.fundcache.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@xml/preferences" />
+
+    <action
+        android:id="@+id/action_homeFragment_to_chooseNameFragment"
+        app:destination="@id/chooseNameFragment" />
+</navigation>
