@@ -25,11 +25,19 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Check if the user is already logged in
+        auth = FirebaseAuth.getInstance()
+        if (auth.currentUser != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
+        }
+
+        // Continue with the login flow as usual
         setContentView(R.layout.activity_login)
         supportActionBar?.hide()
-
-        // Initialize Firebase Auth
-        auth = FirebaseAuth.getInstance()
 
         // Get references to UI elements
         emailEditText = findViewById(R.id.editTextEmail)
@@ -41,12 +49,9 @@ class LoginActivity : AppCompatActivity() {
         // Get reference to SharedPreferences
         prefs = getSharedPreferences("com.example.fundcache", Context.MODE_PRIVATE)
 
-        // Check if the user has logged in before
-        val hasLoggedInBefore = prefs.getBoolean("hasLoggedInBefore", false)
-
         // Set click listener for login button
         loginButton.setOnClickListener {
-            loginUser(hasLoggedInBefore)
+            loginUser()
         }
 
         // Set click listener for register button
@@ -54,10 +59,9 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
-
     }
 
-    private fun loginUser(hasLoggedInBefore: Boolean) {
+    private fun loginUser() {
         val email = emailEditText.text.toString().trim()
         val password = passwordEditText.text.toString().trim()
 
@@ -87,7 +91,6 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     if (user != null && user.isEmailVerified) {
-                        val prefs = getSharedPreferences("com.example.fundcache", MODE_PRIVATE)
                         val hasLoggedInBefore = prefs.getBoolean("hasLoggedInBefore", false)
 
                         if (!hasLoggedInBefore) {
