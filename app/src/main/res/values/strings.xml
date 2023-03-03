@@ -14,4 +14,19 @@
 
     <string name="test">test</string>
 
+    <string name="wallet_name">Wallet name</string>
+    <string name="wallet_name_hint">Enter wallet name</string>
+    <string name="currency">Currency</string>
+    <string name="currency_hint">Select currency</string>
+    <string name="amount">Amount</string>
+    <string name="amount_hint">Enter amount</string>
+    <string name="color">Color</string>
+    <string name="color_hint">Select color</string>
+    <string name="save_wallet">Save Wallet</string>
+    <string name="toast_wallet_created">Wallet created successfully</string>
+    <string name="toast_wallet_creation_failed">Failed to create wallet</string>
+    <string name="toast_fill_all_fields">Please fill all the fields</string>
+
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 </resources>

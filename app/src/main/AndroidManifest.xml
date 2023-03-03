@@ -16,6 +16,8 @@
         <activity android:name=".HomeFragment" />
         <activity android:name=".ChooseNameFragment" />
         <activity android:name=".SettingsFragment" />
+        <activity android:name=".WalletsFragment" />
+        <activity android:name=".AddWalletsFragment" />
 
         <activity android:name=".MainActivity" />
         <activity
