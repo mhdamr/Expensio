@@ -1,6 +1,8 @@
 package com.example.fundcache
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
@@ -19,13 +21,23 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginButton: Button
     private lateinit var registerButton: Button
     private lateinit var progressBar: ProgressBar
+    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
-        // Initialize Firebase Auth
+        // Check if the user is already logged in
         auth = FirebaseAuth.getInstance()
+        if (auth.currentUser != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
+        }
+
+        // Continue with the login flow as usual
+        setContentView(R.layout.activity_login)
+        supportActionBar?.hide()
 
         // Get references to UI elements
         emailEditText = findViewById(R.id.editTextEmail)
@@ -33,6 +45,9 @@ class LoginActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.buttonLogin)
         registerButton = findViewById(R.id.buttonRegister)
         progressBar = findViewById(R.id.progressBar)
+
+        // Get reference to SharedPreferences
+        prefs = getSharedPreferences("com.example.fundcache", Context.MODE_PRIVATE)
 
         // Set click listener for login button
         loginButton.setOnClickListener {
@@ -76,8 +91,15 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     if (user != null && user.isEmailVerified) {
+                        val hasLoggedInBefore = prefs.getBoolean("hasLoggedInBefore", false)
+
+                        if (!hasLoggedInBefore) {
+                            // Save that the user has logged in for the first time
+                            prefs.edit().putBoolean("hasLoggedInBefore", true).apply()
+                        }
+
                         // Login successful and email is verified, navigate to MainActivity
-                        val intent = Intent(this, LoginActivity::class.java)
+                        val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {

@@ -107,6 +107,6 @@ class RegisterActivity : AppCompatActivity() {
 
                     progressBar.visibility = View.GONE
                 }
-            }
+    }
     }
 }
