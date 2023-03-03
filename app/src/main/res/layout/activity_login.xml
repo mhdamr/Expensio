@@ -23,25 +23,28 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:hint="@string/email"
+        android:textColorHint="@color/gray"
         android:paddingTop="16dp"
-        app:background="@android:color/transparent"
-        app:boxStrokeColor="@android:color/transparent"
-        app:boxStrokeWidth="0dp"
         app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewLogo">
+        app:layout_constraintTop_toBottomOf="@+id/imageViewLogo"
+        app:boxStrokeWidthFocused="0dp"
+        app:boxStrokeWidth="0dp"
+        android:hint="@string/email"
+        app:startIconDrawable="@drawable/ic_baseline_email_24"
+        app:startIconTint="@color/gray"
+        app:startIconContentDescription="@string/email"
+        app:startIconCheckable="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            app:boxStrokeColor="@android:color/transparent"
-            app:boxStrokeWidth="0dp"
+            android:background="@drawable/rounded_edit_text"
             android:inputType="textEmailAddress"
-            android:maxLines="1" />
+            android:textColor="#000000"
+            android:textColorHint="#000000"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -51,23 +54,26 @@
         android:layout_height="wrap_content"
         android:hint="@string/password"
         android:paddingTop="16dp"
-        app:background="@android:color/transparent"
-        app:boxStrokeColor="@android:color/transparent"
-        app:boxStrokeWidth="0dp"
         app:hintEnabled="true"
+        android:textColorHint="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout"
+        app:boxStrokeWidthFocused="0dp"
+        app:boxStrokeWidth="0dp"
+        app:startIconDrawable="@drawable/ic_baseline_key_24"
+        app:startIconTint="@color/gray"
+        app:startIconContentDescription="@string/email"
+        app:startIconCheckable="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
-            android:background="@color/colorWhite"
-            app:boxStrokeColor="@android:color/transparent"
-            app:boxStrokeWidth="0dp"
+            android:background="@drawable/rounded_edit_text"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:maxLines="1" />
+            android:textColor="#000000"
+            android:textColorHint="#000000"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

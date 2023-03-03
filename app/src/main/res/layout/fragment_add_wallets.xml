@@ -1,0 +1,66 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <!-- Add any necessary data bindings here -->
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/wallet_name_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wallet" />
+
+            <EditText
+                android:id="@+id/wallet_name_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/wallet_name_hint"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/currency_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Currency" />
+
+            <Spinner
+                android:id="@+id/currency_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/amount_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Amount" />
+
+            <EditText
+                android:id="@+id/amount_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/amount_hint"
+                android:inputType="numberDecimal" />
+
+
+            <Button
+                android:id="@+id/create_wallet_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create Wallet" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>
