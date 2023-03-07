@@ -1,9 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-        <!-- Add any necessary data bindings here -->
-    </data>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -51,6 +48,12 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/amount_hint"
                 android:inputType="numberDecimal" />
+
+            <Button
+                android:id="@+id/btnSelectColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select a Color" />
 
 
             <Button

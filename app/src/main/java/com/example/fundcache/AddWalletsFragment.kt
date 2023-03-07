@@ -1,6 +1,7 @@
 package com.example.fundcache
 
 import android.content.ContentValues.TAG
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,14 +12,21 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.fundcache.databinding.FragmentAddWalletsBinding
+import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import androidx.core.content.ContextCompat
+import com.github.dhaval2404.colorpicker.ColorPickerView
+import com.github.dhaval2404.colorpicker.util.setVisibility
+import com.github.dhaval2404.colorpicker.listener.ColorListener
+import com.github.dhaval2404.colorpicker.model.ColorShape
 
 class AddWalletsFragment : Fragment() {
     private lateinit var binding: FragmentAddWalletsBinding
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
+    private var selectedColor = "#2196f3"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +47,21 @@ class AddWalletsFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.currencySpinner.adapter = adapter
 
+        binding.btnSelectColor.setOnClickListener {
+            ColorPickerDialog
+                .Builder(requireContext())
+                .setTitle("Select a Color")
+                .setColorShape(ColorShape.SQAURE)
+                .setDefaultColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
+                .setColorListener(object : ColorListener {
+                    override fun onColorSelected(color: Int, colorHex: String) {
+                        selectedColor = colorHex
+                        binding.btnSelectColor.setBackgroundColor(color)
+                    }
+                })
+                .show()
+        }
+
         binding.createWalletButton.setOnClickListener {
             val walletName = binding.walletNameEditText.text.toString().trim()
             val currency = binding.currencySpinner.selectedItem.toString().trim()
@@ -48,7 +71,8 @@ class AddWalletsFragment : Fragment() {
                 val wallet = hashMapOf(
                     "name" to walletName,
                     "currency" to currency,
-                    "amount" to amount
+                    "amount" to amount,
+                    "color" to selectedColor // <-- Save the selected color
                 )
 
                 // Add the wallet data to the document with the ID of the current user

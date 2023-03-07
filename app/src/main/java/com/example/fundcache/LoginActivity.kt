@@ -85,7 +85,7 @@ class LoginActivity : AppCompatActivity() {
 
         progressBar.visibility = View.VISIBLE
 
-        // Authenticate the user with Firebase Auth
+        // Authenticate the user with Firebase Auth and remember if the user logged in.
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {

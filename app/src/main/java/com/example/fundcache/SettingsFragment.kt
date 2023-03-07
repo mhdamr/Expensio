@@ -3,6 +3,7 @@ package com.example.fundcache
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.Preference
+import androidx.preference.PreferenceScreen
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
@@ -19,6 +20,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
+
 
         // Get a reference to the FirebaseAuth and FirebaseFirestore instances
         auth = FirebaseAuth.getInstance()
