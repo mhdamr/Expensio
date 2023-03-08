@@ -1,7 +1,10 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <solid android:color="@color/textBoxBackground" />
+            <solid android:color="@color/colorWhite" />
+            <stroke
+                android:width="0dp"
+                android:color="@android:color/transparent" />
             <corners android:radius="50dp" />
         </shape>
     </item>
