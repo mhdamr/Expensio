@@ -12,6 +12,8 @@
     <!--Placeholder for Forgot Password text input-->
     <string name="forgot_password">Forgot Password?</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="settings">Settings</string>
     <string name="location_enabled">Location Enabled</string>
     <string name="notifications_enabled">Notifications Enabled</string>

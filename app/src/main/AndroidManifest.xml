@@ -20,6 +20,7 @@
         <activity android:name=".AddWalletsFragment" />
 
         <activity android:name=".MainActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false">
@@ -40,6 +41,8 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+
     </application>
 
 </manifest>
