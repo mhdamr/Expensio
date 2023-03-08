@@ -52,7 +52,7 @@ class AddWalletsFragment : Fragment() {
                 .Builder(requireContext())
                 .setTitle("Select a Color")
                 .setColorShape(ColorShape.SQAURE)
-                .setDefaultColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
+                .setDefaultColor(ContextCompat.getColor(requireContext(), R.color.colorOrange))
                 .setColorListener(object : ColorListener {
                     override fun onColorSelected(color: Int, colorHex: String) {
                         selectedColor = colorHex

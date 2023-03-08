@@ -5,11 +5,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.fundcache.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -36,10 +38,16 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
-        // Set up the ActionBar
+
+        // Find the Toolbar
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+
+        // Set the Toolbar as the support ActionBar
+        setSupportActionBar(toolbar)
+
+        // Set up the navigation with the NavController and AppBarConfiguration
         val appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
 
 
         bottomNav = findViewById(R.id.bottomNav) as BottomNavigationView

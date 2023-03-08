@@ -2,16 +2,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/windowBackground"
+    android:theme="@style/Theme.FundCache"
+    android:paddingTop="?attr/actionBarSize">
 
     <TextView
         android:id="@+id/total_amount_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textPrimary"
         android:textStyle="bold"
-        android:layout_marginHorizontal="30dp"/>
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="10dp"/>
 
     <ScrollView
         android:layout_width="match_parent"

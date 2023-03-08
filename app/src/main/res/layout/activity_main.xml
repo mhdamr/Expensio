@@ -6,6 +6,7 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:theme="@style/Theme.FundCache"
         tools:context=".MainActivity">
 
 
@@ -16,6 +17,17 @@
             android:layout_height="match_parent"
             app:navGraph="@navigation/nav_graph">
         </fragment>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/windowBackground"
+            app:title="@string/app_name"
+            app:titleTextColor="@color/textPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:layout_marginHorizontal="0dp"/>
+
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
