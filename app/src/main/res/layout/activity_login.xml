@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/windowBackground"
     android:padding="16dp">
 
     <ImageView
@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:textColorHint="@color/gray"
+        android:textColorHint="@color/textPrimary"
         android:paddingTop="16dp"
         app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,7 @@
         app:boxStrokeWidth="0dp"
         android:hint="@string/email"
         app:startIconDrawable="@drawable/ic_baseline_email_24"
-        app:startIconTint="@color/gray"
+        app:startIconTint="@color/textPrimary"
         app:startIconContentDescription="@string/email"
         app:startIconCheckable="true">
 
@@ -42,9 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edit_text"
-            android:inputType="textEmailAddress"
-            android:textColor="#000000"
-            android:textColorHint="#000000"/>
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,14 +53,14 @@
         android:hint="@string/password"
         android:paddingTop="16dp"
         app:hintEnabled="true"
-        android:textColorHint="@color/gray"
+        android:textColorHint="@color/textPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout"
         app:boxStrokeWidthFocused="0dp"
         app:boxStrokeWidth="0dp"
         app:startIconDrawable="@drawable/ic_baseline_key_24"
-        app:startIconTint="@color/gray"
+        app:startIconTint="@color/textPrimary"
         app:startIconContentDescription="@string/email"
         app:startIconCheckable="true">
 
@@ -71,9 +69,7 @@
             android:layout_width="match_parent"
             android:background="@drawable/rounded_edit_text"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="#000000"
-            android:textColorHint="#000000"/>
+            android:inputType="textPassword"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,7 +79,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:text="@string/forgot_password"
-        android:textColor="@color/colorLightGray"
+        android:textColor="@color/textPrimary"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout" />
@@ -95,7 +91,7 @@
         android:layout_marginTop="40dp"
         android:background="@drawable/login_button"
         android:text="@string/login"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/buttonSecondary"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +105,7 @@
         android:gravity="center"
         android:text="or"
         android:textAlignment="center"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/textPrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +118,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/register_button"
         android:text="@string/register"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/textSecondary"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

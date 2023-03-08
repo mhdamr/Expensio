@@ -1,9 +1,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-        <!-- Add any necessary data bindings here -->
-    </data>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="?attr/actionBarSize"
+    android:background="@color/windowBackground"
+    android:theme="@style/Theme.FundCache">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,12 +18,14 @@
                 android:id="@+id/wallet_name_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:text="Wallet" />
 
             <EditText
                 android:id="@+id/wallet_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:hint="@string/wallet_name_hint"
                 android:inputType="text" />
 
@@ -32,31 +33,43 @@
                 android:id="@+id/currency_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:text="Currency" />
 
             <Spinner
                 android:id="@+id/currency_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:id="@+id/amount_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:text="Amount" />
 
             <EditText
                 android:id="@+id/amount_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:hint="@string/amount_hint"
                 android:inputType="numberDecimal" />
+
+            <Button
+                android:id="@+id/btnSelectColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Select a Color" />
 
 
             <Button
                 android:id="@+id/create_wallet_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Create Wallet" />
 
         </LinearLayout>
