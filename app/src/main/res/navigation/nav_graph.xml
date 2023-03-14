@@ -13,12 +13,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/chooseNameFragment"
-        android:name="com.example.fundcache.ChooseNameFragment"
-        android:label="@string/choose_name_fragment_label"
-        tools:layout="@layout/fragment_choose_name" />
-
-    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.fundcache.SettingsFragment"
         android:label="Settings"
@@ -35,14 +29,6 @@
         android:name="com.example.fundcache.AddWalletsFragment"
         android:label="Add Wallets"
         tools:layout="@layout/fragment_add_wallets" />
-
-    <action
-        android:id="@+id/action_homeFragment_to_chooseNameFragment"
-        app:destination="@id/chooseNameFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
 
     <action
         android:id="@+id/action_homeFragment_to_walletsFragment"
