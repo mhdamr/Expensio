@@ -1,0 +1,57 @@
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="30dp"
+        android:minWidth="350dp"
+        android:minHeight="300dp"
+        android:background="@drawable/rounded_box">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Profile"
+            android:textSize="18dp"
+            android:textAppearance="?attr/textAppearanceHeadline6" />
+
+        <ImageView
+            android:id="@+id/selectProfilePictureButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_baseline_add_a_photo_24"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:focusable="true"
+            android:contentDescription="Profile Picture"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Choose Name"
+            android:textSize="18dp"
+            android:textAppearance="?attr/textAppearanceHeadline6" />
+
+
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:hint="Name"
+            android:background="@drawable/rounded_edit_text"
+            android:inputType="text"
+            android:paddingStart="15dp"/>
+
+        <Button
+            android:id="@+id/saveName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"
+            android:text="Save" />
+
+</LinearLayout>

@@ -25,7 +25,8 @@
 
             // Check if the user is already logged in
             auth = FirebaseAuth.getInstance()
-            if (auth.currentUser != null) {
+            val currentUser = auth.currentUser
+            if (currentUser != null && currentUser.isEmailVerified) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
