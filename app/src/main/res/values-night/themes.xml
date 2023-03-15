@@ -21,6 +21,8 @@
         <!-- Bottom app bar style. -->
         <item name="bottomAppBarStyle">@style/BottomAppBarStyle</item>
 
+        <item name="materialDrawerStyle">@style/DrawerStyle</item>
+
     </style>
 
     <style name="ActionBarStyle" parent="Widget.MaterialComponents.ActionBar.Solid">
@@ -40,5 +42,8 @@
         <item name="backgroundTint">@color/textBoxBackground</item>
     </style>
 
-
+    <style name="DrawerStyle" parent="Widget.MaterialDrawerStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
 </resources>

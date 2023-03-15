@@ -7,4 +7,5 @@
         android:title="@string/settings"
         android:iconTint="@color/textPrimary"
         app:showAsAction="always"/>
+
 </menu>
