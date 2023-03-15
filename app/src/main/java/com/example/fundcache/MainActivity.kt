@@ -73,7 +73,8 @@ class MainActivity : AppCompatActivity() {
 
             when(it.itemId) {
 
-                R.id.home -> Toast.makeText(applicationContext,"Clicked Home", Toast.LENGTH_SHORT).show()
+                R.id.drawer_bank_sync -> Toast.makeText(applicationContext,"Clicked Home", Toast.LENGTH_SHORT).show()
+                R.id.drawer_log_out -> Toast.makeText(applicationContext,"Clicked Home", Toast.LENGTH_SHORT).show()
             }
 
             true
@@ -112,7 +113,27 @@ class MainActivity : AppCompatActivity() {
         if (currentUser != null && currentUser.isEmailVerified) {
 
                         navController.navigate(R.id.homeFragment)
+
+            // Check if the user has a name in Firestore
+            val currentUser = auth.currentUser
+            if (currentUser != null) {
+                val userRef = db.collection("users").document(currentUser.uid)
+                userRef.get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        val name = documentSnapshot.getString("name")
+                        if (name.isNullOrEmpty()) {
+                            // Show a dialog to prompt the user to enter a name
+                            showCreateProfileDialog()
+                        }
                     }
+                    .addOnFailureListener { e ->
+                        // Show an error message
+                        Log.e("HomeFragment", "Error retrieving user name: ${e.message}", e)
+                    }
+            }
+
+
+        }
 
         userNameTextView = headerView.findViewById(R.id.user_name)
         userEmailTextView = headerView.findViewById(R.id.user_email)
@@ -134,10 +155,20 @@ class MainActivity : AppCompatActivity() {
 
         profileBox = headerView.findViewById(R.id.profile_box)
         profileBox.setOnClickListener {
-            showEditDialog()
+            showEditProfileDialog()
         }
 
 
+    }
+
+    private fun showCreateProfileDialog() {
+        val createProfileDialogFragment = CreateProfileDialogFragment()
+        createProfileDialogFragment.show(supportFragmentManager, "CreateProfileDialog")
+    }
+
+    private fun showEditProfileDialog() {
+        val editProfileDialogFragment = EditProfileDialogFragment()
+        editProfileDialogFragment.show(supportFragmentManager, "EditProfileDialog")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -165,51 +196,5 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    private fun showEditDialog() {
-
-        // Create an AlertDialog builder
-        val builder = AlertDialog.Builder(this)
-
-        // Set the title and message of the dialog box
-        builder.setTitle("Edit Profile")
-        builder.setMessage("Update your name and email")
-
-        // Set up the layout of the dialog box
-        val view = LayoutInflater.from(this).inflate(R.layout.edit_profile_dialog, null)
-        val nameEditText = view.findViewById<EditText>(R.id.edit_name)
-        val emailEditText = view.findViewById<EditText>(R.id.edit_email)
-
-        // Set the current user name and email to the EditText fields
-        nameEditText.setText(userNameTextView.text)
-        emailEditText.setText(userEmailTextView.text)
-
-        // Add the view to the builder
-        builder.setView(view)
-
-        // Set up the buttons of the dialog box
-        builder.setPositiveButton("Save") { dialog, which ->
-            val name = nameEditText.text.toString().trim()
-            val email = emailEditText.text.toString().trim()
-
-            // Update the user name and email in Firestore
-            val currentUser = auth.currentUser
-            if (currentUser != null) {
-                db.collection("users").document(currentUser.uid)
-                    .update("name", name)
-                    .addOnSuccessListener {
-                        userNameTextView.text = name
-                        Toast.makeText(this, "Profile updated", Toast.LENGTH_SHORT).show()
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show()
-                    }
-            }
-        }
-        builder.setNegativeButton("Cancel", null)
-
-        // Show the dialog box
-        val dialog = builder.create()
-        dialog.show()
-    }
 
 }

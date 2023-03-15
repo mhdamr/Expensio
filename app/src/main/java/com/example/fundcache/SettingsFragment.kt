@@ -27,7 +27,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         db = FirebaseFirestore.getInstance()
 
         // Get a reference to the SharedPreferences instance
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         // Get a reference to the "Name" preference and set its summary to the user's name
         val namePreference = findPreference<Preference>("account_name")

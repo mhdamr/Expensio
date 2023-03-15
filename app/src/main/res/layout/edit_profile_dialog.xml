@@ -1,55 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="30dp"
+    android:minWidth="350dp"
+    android:minHeight="200dp"
+    android:background="@drawable/rounded_box">
 
     <TextView
-        android:id="@+id/dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Edit Profile"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/profile_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"/>
-
-    <Button
-        android:id="@+id/change_photo_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Change Profile Photo" />
+        android:textSize="18dp"
+        android:textColor="@color/textPrimary" />
 
     <EditText
         android:id="@+id/edit_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Name" />
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_edit_text"
+        android:hint="Name"
+        android:paddingStart="15dp" />
 
     <EditText
         android:id="@+id/edit_email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email" />
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/rounded_edit_text"
+        android:paddingStart="15dp" />
 
-    <EditText
-        android:id="@+id/edit_password"
+<!--    <EditText-->
+<!--        android:id="@+id/new_email_edit_text"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:hint="Email"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:background="@drawable/rounded_edit_text"-->
+<!--        android:paddingStart="15dp" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/email_verification_status_text"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Edit Profile"-->
+<!--        android:textSize="18dp"-->
+<!--        android:textColor="@color/textPrimary" />-->
+
+    <Button
+        android:id="@+id/change_email_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword" />
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:text="Change Email"
+        android:textColor="@color/buttonSecondary"
+        android:background="@drawable/login_button"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/verify_email_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:text="Verify Email"
+        android:textColor="@color/buttonSecondary"
+        android:background="@drawable/login_button"
+        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/save_changes_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Save Changes" />
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:text="Save"
+        android:textColor="@color/buttonSecondary"
+        android:background="@drawable/login_button"
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>
