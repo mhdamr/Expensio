@@ -22,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 
 class CreateProfileDialogFragment : DialogFragment() {
-    private var selectedProfilePictureUri: Uri? = null
+    private var selectedProfilePictureUri: Uri? =   null
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private val REQUEST_IMAGE_PICK = 1
