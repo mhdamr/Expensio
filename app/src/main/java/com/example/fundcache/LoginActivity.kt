@@ -116,7 +116,7 @@
                         }
                     } else {
                         // Login failed, display error message
-                        Toast.makeText(baseContext, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(baseContext, "Login failed: Incorrect Credentials", Toast.LENGTH_SHORT).show()
                     }
 
                     progressBar.visibility = View.GONE
