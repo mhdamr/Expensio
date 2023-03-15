@@ -3,7 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
     <item
-        android:id="@+id/drawer_home"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="Home"  />
+        android:id="@+id/drawer_bank_sync"
+        android:icon="@drawable/ic_baseline_account_balance_24"
+        android:title="Bank Sync" />
+    <item
+        android:id="@+id/drawer_log_out"
+        android:icon="@drawable/ic_baseline_logout_24"
+        android:title="Log Out"/>
 </menu>

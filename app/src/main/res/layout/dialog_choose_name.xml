@@ -49,9 +49,11 @@
         <Button
             android:id="@+id/saveName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="end"
             android:layout_marginTop="16dp"
+            android:textColor="@color/buttonSecondary"
+            android:background="@drawable/login_button"
             android:text="Save" />
 
 </LinearLayout>
