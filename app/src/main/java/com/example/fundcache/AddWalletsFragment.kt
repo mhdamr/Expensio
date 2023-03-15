@@ -1,5 +1,6 @@
 package com.example.fundcache
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.os.Bundle
@@ -37,6 +38,7 @@ class AddWalletsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
