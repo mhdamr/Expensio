@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         if (currentUser != null && currentUser.isEmailVerified) {
             if (hasLoggedInBefore) {
                 // Navigate to the HomeFragment
-                navController.navigate(R.id.homeFragment)
+                navController.navigate(R.id.action_homeFragment)
             }
         } else {
             // Navigate to the LoginActivity
@@ -135,8 +135,7 @@ class MainActivity : AppCompatActivity() {
 
         // Set up the navigation with the NavController and AppBarConfiguration
         val appBarConfiguration = AppBarConfiguration((setOf(
-            R.id.homeFragment, R.id.walletsFragment,
-            R.id.addWalletsFragment, R.id.settingsFragment)),drawerLayout)
+            R.id.homeFragment, R.id.walletsFragment, R.id.settingsFragment)),drawerLayout)
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
 
@@ -147,11 +146,11 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
-                    navController.navigate(R.id.homeFragment)
+                    navController.navigate(R.id.action_homeFragment)
                     true
                 }
                 R.id.wallets -> {
-                    navController.navigate(R.id.walletsFragment)
+                    navController.navigate(R.id.action_walletsFragment)
                     true
                 }
                 else -> {
@@ -166,7 +165,7 @@ class MainActivity : AppCompatActivity() {
         // Show the Create Profile Dialog if the user does not have a display name
         if (currentUser != null && currentUser.isEmailVerified) {
 
-                        navController.navigate(R.id.homeFragment)
+                        navController.navigate(R.id.action_homeFragment)
 
             // Check if the user has a name in Firestore
             val currentUser = auth.currentUser
@@ -248,4 +247,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        // Get the current fragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
+
+        // Check if the current fragment is a child of the HomeFragment
+        if (currentFragment is HomeFragment) {
+            // Exit the app if the user is on the HomeFragment
+            super.onBackPressed()
+        } else {
+            // Navigate back if the user is not on the HomeFragment
+            navHostFragment?.childFragmentManager?.popBackStack()
+        }
+    }
 }

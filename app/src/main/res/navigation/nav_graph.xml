@@ -11,13 +11,6 @@
         android:name="com.example.fundcache.HomeFragment"
         android:label="@string/home_fragment_label">
 
-        <action
-            android:id="@+id/action_homeFragment_to_walletsFragment"
-            app:destination="@id/walletsFragment"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"
-            />
-
     </fragment>
 
     <fragment
@@ -35,7 +28,41 @@
     <fragment
         android:id="@+id/addWalletsFragment"
         android:name="com.example.fundcache.AddWalletsFragment"
-        android:label="Add Wallets">
+        android:label="Create Wallet">
     </fragment>
 
+    <fragment
+        android:id="@+id/editWalletsFragment"
+        android:name="com.example.fundcache.EditWalletsFragment"
+        android:label="Edit Wallet">
+    </fragment>
+
+
+    <action
+        android:id="@+id/action_homeFragment"
+        app:destination="@id/homeFragment"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        />
+
+    <action
+        android:id="@+id/action_walletsFragment"
+        app:destination="@id/walletsFragment"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        />
+
+    <action
+        android:id="@+id/action_addWalletsFragment"
+        app:destination="@id/addWalletsFragment"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        />
+
+    <action
+        android:id="@+id/action_editWalletsFragment"
+        app:destination="@id/editWalletsFragment"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        />
 </navigation>

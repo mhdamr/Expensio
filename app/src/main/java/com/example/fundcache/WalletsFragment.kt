@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import com.example.fundcache.databinding.FragmentWalletsBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
@@ -24,6 +25,7 @@ class WalletsFragment : Fragment() {
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
     private val EDIT_DIALOG_TAG = "EditWalletsDialogFragment"
+
 
 
     override fun onCreateView(
@@ -48,18 +50,10 @@ class WalletsFragment : Fragment() {
         fab?.setOnClickListener {
             // Navigate to the AddWalletsFragment
             if (isVisible) {
-                findNavController().navigate(R.id.addWalletsFragment)
+                findNavController().navigate(R.id.action_addWalletsFragment)
             }
         }
 
-        refreshWalletsList()
-
-        childFragmentManager.setFragmentResultListener("refreshWallets", this) { _, _ ->
-            refreshWalletsList()
-        }
-    }
-
-    private fun refreshWalletsList() {
         if (currentUser != null) {
             // Query the wallets collection for the current user
             db.collection("users").document(currentUser.uid).collection("wallets")
@@ -97,12 +91,11 @@ class WalletsFragment : Fragment() {
                             val args = Bundle()
                             args.putString("walletId", document.id)
 
-                            val editDialog = EditWalletsDialogFragment()
-                            editDialog.arguments = args
-                            childFragmentManager.setFragmentResultListener("refreshWallets", viewLifecycleOwner) { _, _ ->
-                                refreshWalletsList()
-                            }
-                            editDialog.show(childFragmentManager, EDIT_DIALOG_TAG)
+                            // Navigate to the EditWalletsFragment
+                            findNavController().navigate(
+                                R.id.action_editWalletsFragment,
+                                args
+                            )
                         }
 
                         walletList.addView(walletBox)
@@ -115,6 +108,7 @@ class WalletsFragment : Fragment() {
                     totalAmountText.text = String.format("Total: $%.2f", totalAmount)
                 }
         }
+
     }
 
 
