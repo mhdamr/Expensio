@@ -62,6 +62,21 @@ class AddWalletsFragment : Fragment() {
             builder.create().show()
         }
 
+        binding.btnSelectColor.setOnClickListener {
+            ColorPickerDialog
+                .Builder(requireContext())
+                .setTitle("Select a Color")
+                .setColorShape(ColorShape.SQAURE)
+                .setDefaultColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
+                .setColorListener(object : ColorListener {
+                    override fun onColorSelected(color: Int, colorHex: String) {
+                        selectedColor = colorHex
+                        binding.btnSelectColor.setBackgroundColor(color)
+                    }
+                })
+                .show()
+        }
+
         binding.createWalletButton.setOnClickListener {
             val walletName = binding.walletNameEditText.text.toString().trim()
             val currency = binding.currencySpinner.text.toString().trim()
