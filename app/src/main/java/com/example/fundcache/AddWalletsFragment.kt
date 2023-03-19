@@ -10,7 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.fundcache.databinding.FragmentAddWalletsBinding
@@ -18,8 +20,6 @@ import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.core.content.ContextCompat
-import com.github.dhaval2404.colorpicker.ColorPickerView
-import com.github.dhaval2404.colorpicker.util.setVisibility
 import com.github.dhaval2404.colorpicker.listener.ColorListener
 import com.github.dhaval2404.colorpicker.model.ColorShape
 
@@ -43,31 +43,28 @@ class AddWalletsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Find the EditText view
+        val currencyEditText = view.findViewById<EditText>(R.id.currency_spinner)
+
         // Set up currency spinner
         val currencies = arrayOf("USD", "EUR", "GBP", "JPY")
-        val adapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, currencies)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, currencies)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.currencySpinner.adapter = adapter
 
-        binding.btnSelectColor.setOnClickListener {
-            ColorPickerDialog
-                .Builder(requireContext())
-                .setTitle("Select a Color")
-                .setColorShape(ColorShape.SQAURE)
-                .setDefaultColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
-                .setColorListener(object : ColorListener {
-                    override fun onColorSelected(color: Int, colorHex: String) {
-                        selectedColor = colorHex
-                        binding.btnSelectColor.setBackgroundColor(color)
-                    }
-                })
-                .show()
+        // Set the adapter for the spinner
+        currencyEditText.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Select a currency")
+            builder.setAdapter(adapter) { _, position ->
+                // Set the selected currency in the EditText
+                currencyEditText.setText(currencies[position])
+            }
+            builder.create().show()
         }
 
         binding.createWalletButton.setOnClickListener {
             val walletName = binding.walletNameEditText.text.toString().trim()
-            val currency = binding.currencySpinner.selectedItem.toString().trim()
+            val currency = binding.currencySpinner.text.toString().trim()
             val amount = binding.amountEditText.text.toString().toDoubleOrNull() ?: 0.0
 
             if (walletName.isNotEmpty() && currency.isNotEmpty() && currentUser != null) {
