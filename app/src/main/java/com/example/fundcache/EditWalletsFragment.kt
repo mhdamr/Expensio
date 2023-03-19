@@ -2,6 +2,7 @@ package com.example.fundcache
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.ContentValues.TAG
 import android.content.DialogInterface
@@ -18,18 +19,19 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.setFragmentResult
-import com.example.fundcache.databinding.FragmentEditWalletsDialogBinding
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.fundcache.databinding.FragmentAddWalletsBinding
+import com.example.fundcache.databinding.FragmentEditWalletsBinding
 import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.github.dhaval2404.colorpicker.listener.ColorListener
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class EditWalletsDialogFragment : DialogFragment() {
+class EditWalletsFragment : Fragment() {
 
+    private lateinit var binding: FragmentEditWalletsBinding
     private lateinit var walletId: String
     private lateinit var walletNameEditText: EditText
     private lateinit var currencyEditText: EditText
@@ -41,26 +43,46 @@ class EditWalletsDialogFragment : DialogFragment() {
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
 
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentEditWalletsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     @SuppressLint("ResourceType")
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
-        val dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.fragment_edit_wallets_dialog)
-        dialog.setCancelable(false)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         walletId = arguments?.getString("walletId") ?: ""
 
-        walletNameEditText = dialog.findViewById(R.id.wallet_name_edittext)
-        currencyEditText = dialog.findViewById(R.id.currency_edittext)
-        amountEditText = dialog.findViewById(R.id.amount_edittext)
-        colorButton = dialog.findViewById(R.id.color_button)
+        // Find the EditText view
+        val currencyEditText = view.findViewById<EditText>(R.id.currency_edittext)
 
-        val cancelButton = dialog.findViewById<Button>(R.id.cancel_button)
-        val saveButton = dialog.findViewById<Button>(R.id.save_button)
+        // Set up currency spinner
+        val currencies = arrayOf("USD", "EUR", "GBP", "JPY")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, currencies)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        // Set the dialog title
-        dialog?.setTitle("Edit Wallet")
+        // Set the adapter for the spinner
+        currencyEditText.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Select a currency")
+            builder.setAdapter(adapter) { _, position ->
+                // Set the selected currency in the EditText
+                currencyEditText.setText(currencies[position])
+            }
+            builder.create().show()
+        }
+
+        walletNameEditText = view.findViewById(R.id.wallet_name_edittext)
+        amountEditText = view.findViewById(R.id.amount_edittext)
+        colorButton = view.findViewById(R.id.color_button)
+
+        val saveButton = view.findViewById<Button>(R.id.save_button)
 
         // Set the current values of the wallet in the EditTexts
         if (currentUser != null) {
@@ -98,11 +120,6 @@ class EditWalletsDialogFragment : DialogFragment() {
                 .show()
         }
 
-        // Set up the cancel button
-        cancelButton.setOnClickListener {
-            dismiss()
-        }
-
         // Set up the save button
         saveButton.setOnClickListener {
             val walletName = walletNameEditText.text.toString().trim()
@@ -128,27 +145,17 @@ class EditWalletsDialogFragment : DialogFragment() {
                             "Wallet updated successfully!",
                             Toast.LENGTH_SHORT
                         ).show()
-                        dismiss()
+                        findNavController().navigate(R.id.walletsFragment)
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error updating wallet", e)
                         Toast.makeText(
                             requireContext(),
-                            "Failed to update wallet.Please try again.",
+                            "Failed to update wallet. Please try again.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
             }
         }
-
-        return dialog
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        parentFragmentManager.setFragmentResult(
-            "refreshWallets",
-            bundleOf("refresh" to true)
-        )
     }
 }

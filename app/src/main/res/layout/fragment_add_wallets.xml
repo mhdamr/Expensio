@@ -14,62 +14,44 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/wallet_name_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:textSize="15dp"
-                android:text="Wallet" />
 
             <EditText
                 android:id="@+id/wallet_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/rounded_edit_text"
-                android:hint="@string/wallet_name_hint"
-                android:paddingStart="15dp"
-                android:inputType="text"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/currency_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:textSize="15dp"
-                android:text="Currency" />
+                android:hint="@string/wallet_name_hint"
+                android:inputType="text"
+                android:drawableStart="@drawable/icon_wallet"
+                android:drawableTint="@color/colorAccent" />
 
-            <Spinner
+            <EditText
                 android:id="@+id/currency_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:paddingStart="7dp"
-                android:background="@drawable/rounded_edit_text"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/amount_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:textSize="15dp"
-                android:text="Amount" />
+                android:hint="Select a currency"
+                android:inputType="none"
+                android:drawableStart="@drawable/icon_currency"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/colorAccent"
+                android:focusable="false"/>
+
 
             <EditText
                 android:id="@+id/amount_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="15dp"
                 android:hint="@string/amount_hint"
-                android:paddingStart="15dp"
-                android:background="@drawable/rounded_edit_text"
                 android:inputType="numberDecimal"
-                android:layout_marginTop="10dp"/>
+                android:drawableStart="@drawable/icon_balance"
+                android:drawableTint="@color/colorAccent"/>
 
             <Button
                 android:id="@+id/btnSelectColor"
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="15dp"
                 android:backgroundTint="#FFA500"
                 android:text="Select a Color" />
@@ -79,7 +61,7 @@
                 android:id="@+id/create_wallet_button"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/login_button"
                 android:text="Create Wallet" />
 

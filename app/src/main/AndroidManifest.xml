@@ -22,10 +22,13 @@
         <activity android:name=".SettingsFragment" />
         <activity android:name=".WalletsFragment" />
         <activity android:name=".AddWalletsFragment" />
+        <activity android:name=".EditWalletsFragment" />
 
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

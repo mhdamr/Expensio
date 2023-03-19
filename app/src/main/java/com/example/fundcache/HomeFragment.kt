@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
 
         // Set up any UI or functionality for the fragment here
         binding.createWalletButton.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_walletsFragment)
+            findNavController().navigate(R.id.action_walletsFragment)
         }
     }
 
