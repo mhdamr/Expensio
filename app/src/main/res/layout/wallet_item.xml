@@ -15,7 +15,7 @@
             android:id="@+id/wallet_symbol_imageview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_account_balance_wallet_24" />
+            android:src="@drawable/icon_wallet" />
 
         <TextView
             android:id="@+id/wallet_name_textview"
@@ -24,7 +24,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginStart="16dp"
-            android:textColor="@color/textPrimary"/>
+            android:textColor="@color/colorTextPrimary"/>
 
         <View
             android:layout_width="0dp"
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@color/textPrimary"/>
+            android:textColor="@color/colorTextPrimary"/>
 
     </LinearLayout>
 

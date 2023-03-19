@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/windowBackground"
+    android:background="@color/colorPageBackground"
     android:padding="16dp">
 
     <ImageView
@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:textColorHint="@color/textPrimary"
+        android:textColorHint="@color/colorTextPrimary"
         android:paddingTop="16dp"
         app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +32,8 @@
         app:boxStrokeWidthFocused="0dp"
         app:boxStrokeWidth="0dp"
         android:hint="@string/email"
-        app:startIconDrawable="@drawable/ic_baseline_email_24"
-        app:startIconTint="@color/textPrimary"
+        app:startIconDrawable="@drawable/icon_email"
+        app:startIconTint="@color/colorTextPrimary"
         app:startIconContentDescription="@string/email"
         app:startIconCheckable="true">
 
@@ -53,14 +53,14 @@
         android:hint="@string/password"
         android:paddingTop="16dp"
     app:hintEnabled="true"
-        android:textColorHint="@color/textPrimary"
+        android:textColorHint="@color/colorTextPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout"
     app:boxStrokeWidthFocused="0dp"
         app:boxStrokeWidth="0dp"
-        app:startIconDrawable="@drawable/ic_baseline_vpn_key_24"
-        app:startIconTint="@color/textPrimary"
+        app:startIconDrawable="@drawable/icon_key"
+        app:startIconTint="@color/colorTextPrimary"
         app:startIconContentDescription="@string/email"
         app:startIconCheckable="true">
 
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:text="@string/forgot_password"
-        android:textColor="@color/textPrimary"
+        android:textColor="@color/colorTextPrimary"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout" />
@@ -91,7 +91,7 @@
         android:layout_marginTop="40dp"
         android:background="@drawable/login_button"
         android:text="@string/login"
-        android:textColor="@color/buttonSecondary"
+        android:textColor="@color/colorPageBackground"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +105,7 @@
         android:gravity="center"
         android:text="or"
         android:textAlignment="center"
-        android:textColor="@color/textPrimary"
+        android:textColor="@color/colorTextPrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +118,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/register_button"
         android:text="@string/register"
-        android:textColor="@color/textSecondary"
+        android:textColor="@color/colorAccent"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

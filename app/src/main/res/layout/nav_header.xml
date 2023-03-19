@@ -3,21 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/textBoxBackground"
+    android:background="@color/colorBoxBackground"
     android:id="@+id/profile_box">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginStart="10dp"
-        android:orientation="horizontal">
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:background="@drawable/rounded_box">
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
 
-            android:src="@drawable/ic_baseline_account_circle_24"/>
+            android:src="@drawable/icon_account"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,14 +34,14 @@
                 android:id="@+id/user_name"
                 android:paddingTop="5dp"
                 android:textSize="16dp"
-                android:textColor="@color/textPrimary"
+                android:textColor="@color/colorTextPrimary"
                 android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_email"
-                android:textColor="@color/textPrimary"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="12dp"/>
         </LinearLayout>
     </LinearLayout>
@@ -46,6 +49,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>
