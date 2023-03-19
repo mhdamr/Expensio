@@ -1,14 +1,12 @@
 package com.example.fundcache
 
 import android.os.*
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.fundcache.databinding.FragmentHomeBinding
 import androidx.navigation.fragment.findNavController
-import com.example.fundcache.R.id.action_homeFragment_to_walletsFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -39,7 +37,7 @@ class HomeFragment : Fragment() {
 
         // Set up any UI or functionality for the fragment here
         binding.createWalletButton.setOnClickListener {
-            findNavController().navigate(action_homeFragment_to_walletsFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_walletsFragment)
         }
     }
 

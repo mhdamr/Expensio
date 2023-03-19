@@ -3,6 +3,7 @@ package com.example.fundcache
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -38,7 +39,7 @@ class CreateProfileDialogFragment : DialogFragment() {
         db = FirebaseFirestore.getInstance()
 
         val dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.dialog_choose_name)
+        dialog.setContentView(R.layout.dialog_create_profile)
         dialog.setCancelable(false)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -57,8 +58,10 @@ class CreateProfileDialogFragment : DialogFragment() {
                 requestPermissionLauncher.launch(permission)
             } else {
                 // Permission is granted, open the image picker
-                val intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/*"
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "image/*"
+                }
                 pickImageLauncher.launch(intent)
             }
         }
@@ -96,9 +99,11 @@ class CreateProfileDialogFragment : DialogFragment() {
     ) { isGranted: Boolean ->
         if (isGranted) {
             // Permission is granted, open the image picker
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, REQUEST_IMAGE_PICK)
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "image/*"
+            }
+            pickImageLauncher.launch(intent)
         } else {
             // Permission is not granted, show a message to the user
             Toast.makeText(requireContext(), "Permission to access storage is required", Toast.LENGTH_SHORT).show()
@@ -110,8 +115,12 @@ class CreateProfileDialogFragment : DialogFragment() {
     ) { result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
+            Log.d(TAG, "Received intent: $data")
             selectedProfilePictureUri = data?.data
+            Log.d("CreateProfileDialog", "Selected image URI: $selectedProfilePictureUri")
             dialog?.findViewById<ImageView>(R.id.selectProfilePictureButton)?.setImageURI(selectedProfilePictureUri)
+        }else {
+            Log.w(TAG, "Image picking cancelled or failed with result code ${result.resultCode}")
         }
     }
 

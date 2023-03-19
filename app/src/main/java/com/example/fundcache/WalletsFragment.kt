@@ -4,15 +4,11 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import com.example.fundcache.databinding.ActivityMainBinding
 import com.example.fundcache.databinding.FragmentWalletsBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
@@ -27,6 +23,8 @@ class WalletsFragment : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
+    private val EDIT_DIALOG_TAG = "EditWalletsDialogFragment"
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +35,7 @@ class WalletsFragment : Fragment() {
         walletList = binding.walletsList
         totalAmountText = binding.totalAmountText
         return binding.root
+
 
     }
 
@@ -49,10 +48,18 @@ class WalletsFragment : Fragment() {
         fab?.setOnClickListener {
             // Navigate to the AddWalletsFragment
             if (isVisible) {
-                findNavController().navigate(R.id.action_walletsFragment_to_addWalletsFragment)
+                findNavController().navigate(R.id.addWalletsFragment)
             }
         }
 
+        refreshWalletsList()
+
+        childFragmentManager.setFragmentResultListener("refreshWallets", this) { _, _ ->
+            refreshWalletsList()
+        }
+    }
+
+    private fun refreshWalletsList() {
         if (currentUser != null) {
             // Query the wallets collection for the current user
             db.collection("users").document(currentUser.uid).collection("wallets")
@@ -72,23 +79,33 @@ class WalletsFragment : Fragment() {
                         val walletColor = wallet["color"] as String
                         val walletColorInt = Color.parseColor(walletColor)
 
-                        val walletBox =
-                            layoutInflater.inflate(R.layout.wallet_item, walletList, false)
+                        val walletBox = layoutInflater.inflate(R.layout.wallet_item, walletList, false)
                         walletBox.findViewById<TextView>(R.id.wallet_name_textview).text = walletName
                         walletBox.findViewById<TextView>(R.id.wallet_amount_textview).text =
                             String.format("%.2f %s", walletAmount, walletCurrency)
 
-                        // Create a gradient drawable with rounded corners and set its color to walletColorInt
+                        // Set the background of the walletBox to the gradient drawable
                         val shape = GradientDrawable()
                         shape.shape = GradientDrawable.RECTANGLE
                         shape.cornerRadius = resources.getDimension(R.dimen.wallet_item_corner_radius)
                         shape.setColor(walletColorInt)
-
-                        // Set the background of the walletBox to the gradient drawable
                         walletBox.background = shape
 
-                        walletList.addView(walletBox)
 
+                        // Set up click listener for the wallet item
+                        walletBox.setOnClickListener {
+                            val args = Bundle()
+                            args.putString("walletId", document.id)
+
+                            val editDialog = EditWalletsDialogFragment()
+                            editDialog.arguments = args
+                            childFragmentManager.setFragmentResultListener("refreshWallets", viewLifecycleOwner) { _, _ ->
+                                refreshWalletsList()
+                            }
+                            editDialog.show(childFragmentManager, EDIT_DIALOG_TAG)
+                        }
+
+                        walletList.addView(walletBox)
 
 
                         totalAmount += walletAmount
@@ -99,5 +116,7 @@ class WalletsFragment : Fragment() {
                 }
         }
     }
+
+
 
 }

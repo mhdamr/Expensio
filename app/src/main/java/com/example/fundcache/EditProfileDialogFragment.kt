@@ -25,7 +25,7 @@ class EditProfileDialogFragment : DialogFragment() {
         db = FirebaseFirestore.getInstance()
 
         val dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.edit_profile_dialog)
+        dialog.setContentView(R.layout.dialog_edit_profile)
         dialog.setCancelable(false)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -34,6 +34,7 @@ class EditProfileDialogFragment : DialogFragment() {
         val emailEditText = dialog.findViewById<EditText>(R.id.edit_email)
         val changeEmailButton = dialog.findViewById<Button>(R.id.change_email_btn)
         val verifyEmailButton = dialog.findViewById<Button>(R.id.verify_email_btn)
+        val cancelButton = dialog.findViewById<Button>(R.id.cancel_button)
 
 
         val headerView = (requireActivity() as MainActivity).findViewById<NavigationView>(R.id.nav_view).getHeaderView(0)
@@ -41,10 +42,15 @@ class EditProfileDialogFragment : DialogFragment() {
         userNameTextView = headerView.findViewById(R.id.user_name)
         userEmailTextView = headerView.findViewById(R.id.user_email)
 
-
         // Set the current user name and email to the EditText fields
         nameEditText.setText(userNameTextView.text)
         emailEditText.setText(userEmailTextView.text)
+
+
+        // Set up the cancel button
+        cancelButton.setOnClickListener {
+            dismiss()
+        }
 
         // Disable the verify email button
         verifyEmailButton.isEnabled = false
