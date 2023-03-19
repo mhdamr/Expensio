@@ -7,12 +7,12 @@
             android:key="account_name"
             android:title="@string/name"
             android:summary="%s"
-            android:icon="@drawable/ic_baseline_account_circle_24" />
+            android:icon="@drawable/icon_account" />
         <Preference
             android:key="account_email"
             android:title="@string/email"
             android:summary="%s"
-            android:icon="@drawable/ic_baseline_email_24" />
+            android:icon="@drawable/icon_email" />
 
         <Preference
             android:key="account_logout"

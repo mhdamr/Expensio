@@ -1,9 +1,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-        <!-- Add any necessary data bindings here -->
-    </data>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="?attr/actionBarSize"
+    android:background="@color/colorPageBackground"
+    android:theme="@style/Theme.FundCache">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,48 +14,55 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/wallet_name_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Wallet" />
 
             <EditText
                 android:id="@+id/wallet_name_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
                 android:hint="@string/wallet_name_hint"
-                android:inputType="text" />
+                android:inputType="text"
+                android:drawableStart="@drawable/icon_wallet"
+                android:drawableTint="@color/colorAccent" />
 
-            <TextView
-                android:id="@+id/currency_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Currency" />
-
-            <Spinner
+            <EditText
                 android:id="@+id/currency_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:hint="Select a currency"
+                android:inputType="none"
+                android:drawableStart="@drawable/icon_currency"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/colorAccent"
+                android:focusable="false"/>
 
-            <TextView
-                android:id="@+id/amount_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Amount" />
 
             <EditText
                 android:id="@+id/amount_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
                 android:hint="@string/amount_hint"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:drawableStart="@drawable/icon_balance"
+                android:drawableTint="@color/colorAccent"/>
+
+            <Button
+                android:id="@+id/btnSelectColor"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="#FFA500"
+                android:text="Select a Color" />
 
 
             <Button
                 android:id="@+id/create_wallet_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/login_button"
                 android:text="Create Wallet" />
 
         </LinearLayout>

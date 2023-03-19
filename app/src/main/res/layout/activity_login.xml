@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPageBackground"
     android:padding="16dp">
 
     <ImageView
@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:textColorHint="@color/gray"
+        android:textColorHint="@color/colorTextPrimary"
         android:paddingTop="16dp"
         app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +32,8 @@
         app:boxStrokeWidthFocused="0dp"
         app:boxStrokeWidth="0dp"
         android:hint="@string/email"
-        app:startIconDrawable="@drawable/ic_baseline_email_24"
-        app:startIconTint="@color/gray"
+        app:startIconDrawable="@drawable/icon_email"
+        app:startIconTint="@color/colorTextPrimary"
         app:startIconContentDescription="@string/email"
         app:startIconCheckable="true">
 
@@ -42,9 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edit_text"
-            android:inputType="textEmailAddress"
-            android:textColor="#000000"
-            android:textColorHint="#000000"/>
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,15 +52,15 @@
         android:layout_height="wrap_content"
         android:hint="@string/password"
         android:paddingTop="16dp"
-        app:hintEnabled="true"
-        android:textColorHint="@color/gray"
+    app:hintEnabled="true"
+        android:textColorHint="@color/colorTextPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout"
-        app:boxStrokeWidthFocused="0dp"
+    app:boxStrokeWidthFocused="0dp"
         app:boxStrokeWidth="0dp"
-        app:startIconDrawable="@drawable/ic_baseline_key_24"
-        app:startIconTint="@color/gray"
+        app:startIconDrawable="@drawable/icon_key"
+        app:startIconTint="@color/colorTextPrimary"
         app:startIconContentDescription="@string/email"
         app:startIconCheckable="true">
 
@@ -71,9 +69,7 @@
             android:layout_width="match_parent"
             android:background="@drawable/rounded_edit_text"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="#000000"
-            android:textColorHint="#000000"/>
+            android:inputType="textPassword"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,7 +79,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:text="@string/forgot_password"
-        android:textColor="@color/colorLightGray"
+        android:textColor="@color/colorTextPrimary"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout" />
@@ -91,11 +87,11 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonLogin"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/login_button"
         android:text="@string/login"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorPageBackground"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +105,7 @@
         android:gravity="center"
         android:text="or"
         android:textAlignment="center"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorTextPrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
