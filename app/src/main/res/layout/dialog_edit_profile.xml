@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Edit Profile"
         android:textSize="18dp"
-        android:textColor="@color/textPrimary" />
+        android:textColor="@color/colorTextPrimary" />
 
     <EditText
         android:id="@+id/edit_name"
@@ -34,31 +34,13 @@
         android:background="@drawable/rounded_edit_text"
         android:paddingStart="15dp" />
 
-<!--    <EditText-->
-<!--        android:id="@+id/new_email_edit_text"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:hint="Email"-->
-<!--        android:inputType="textEmailAddress"-->
-<!--        android:background="@drawable/rounded_edit_text"-->
-<!--        android:paddingStart="15dp" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/email_verification_status_text"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Edit Profile"-->
-<!--        android:textSize="18dp"-->
-<!--        android:textColor="@color/textPrimary" />-->
-
     <Button
         android:id="@+id/change_email_btn"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="end"
         android:text="Change Email"
-        android:textColor="@color/buttonSecondary"
+        android:textColor="@color/colorPageBackground"
         android:background="@drawable/login_button"
         android:layout_marginTop="16dp" />
 
@@ -68,18 +50,36 @@
         android:layout_height="40dp"
         android:layout_gravity="end"
         android:text="Verify Email"
-        android:textColor="@color/buttonSecondary"
+        android:textColor="@color/colorPageBackground"
         android:background="@drawable/login_button"
         android:layout_marginTop="16dp" />
 
-    <Button
-        android:id="@+id/save_changes_btn"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="end"
-        android:text="Save"
-        android:textColor="@color/buttonSecondary"
-        android:background="@drawable/login_button"
-        android:layout_marginTop="16dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/register_button"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/save_changes_btn"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/colorPageBackground"
+            android:background="@drawable/login_button"
+            android:text="Save" />
+
+    </LinearLayout>
 
 </LinearLayout>
