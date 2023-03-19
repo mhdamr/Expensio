@@ -9,64 +9,33 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.fundcache.HomeFragment"
-        android:label="@string/home_fragment_label"
-        tools:layout="@layout/fragment_home" />
+        android:label="@string/home_fragment_label">
+
+        <action
+            android:id="@+id/action_homeFragment_to_walletsFragment"
+            app:destination="@id/walletsFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            />
+
+    </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.fundcache.SettingsFragment"
-        android:label="Settings"
-        tools:layout="@xml/preferences" />
+        android:label="Settings">
+    </fragment>
 
     <fragment
         android:id="@+id/walletsFragment"
         android:name="com.example.fundcache.WalletsFragment"
-        android:label="Wallets"
-        tools:layout="@layout/fragment_wallets" />
+        android:label="Wallets">
+    </fragment>
 
     <fragment
         android:id="@+id/addWalletsFragment"
         android:name="com.example.fundcache.AddWalletsFragment"
-        android:label="Add Wallets"
-        tools:layout="@layout/fragment_add_wallets" />
+        android:label="Add Wallets">
+    </fragment>
 
-    <action
-        android:id="@+id/action_homeFragment_to_walletsFragment"
-        app:destination="@id/walletsFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-
-    <action
-        android:id="@+id/action_walletsFragment_to_addWalletsFragment"
-        app:destination="@id/addWalletsFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-
-    <action
-        android:id="@+id/action_addWalletsFragment_to_walletsFragment"
-        app:destination="@id/walletsFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-
-    <action
-        android:id="@+id/action_walletsFragment_to_homeFragment"
-        app:destination="@id/homeFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-
-    <action
-        android:id="@+id/action_homeFragment"
-        app:destination="@id/homeFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
 </navigation>

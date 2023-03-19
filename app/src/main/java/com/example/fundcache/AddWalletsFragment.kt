@@ -3,6 +3,7 @@ package com.example.fundcache
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -54,7 +55,7 @@ class AddWalletsFragment : Fragment() {
                 .Builder(requireContext())
                 .setTitle("Select a Color")
                 .setColorShape(ColorShape.SQAURE)
-                .setDefaultColor(ContextCompat.getColor(requireContext(), R.color.colorOrange))
+                .setDefaultColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
                 .setColorListener(object : ColorListener {
                     override fun onColorSelected(color: Int, colorHex: String) {
                         selectedColor = colorHex
@@ -88,7 +89,7 @@ class AddWalletsFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                         // Navigate back to the wallet list fragment
-                        findNavController().navigate(R.id.action_addWalletsFragment_to_walletsFragment)
+                        findNavController().navigate(R.id.walletsFragment)
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding wallet", e)
