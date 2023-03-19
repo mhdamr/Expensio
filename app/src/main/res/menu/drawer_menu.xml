@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <item
+        android:id="@+id/drawer_bank_sync"
+        android:icon="@drawable/icon_bank"
+        android:title="Bank Sync" />
+    <item
+        android:id="@+id/drawer_log_out"
+        android:icon="@drawable/icon_logout"
+        android:title="Log Out"/>
+
+    <item
+        android:id="@+id/drawer_dark_mode_switch"
+        android:title="@string/drawer_dark_mode_title"
+        android:icon="@drawable/icon_dark_mode"
+        app:actionViewClass="android.widget.Switch"
+        app:showAsAction="always" />
+</menu>

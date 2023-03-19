@@ -12,6 +12,8 @@
     <!--Placeholder for Forgot Password text input-->
     <string name="forgot_password">Forgot Password?</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="settings">Settings</string>
     <string name="location_enabled">Location Enabled</string>
     <string name="notifications_enabled">Notifications Enabled</string>
@@ -40,4 +42,14 @@
 
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+
+    <string name="drawer_item_home">Home</string>
+    <string name="drawer_item_settings">Settings</string>
+    <string name="drawer_dark_mode_title">Dark Mode</string>
+    <string name="drawer_light_mode_title">Light Mode</string>
+
 </resources>
