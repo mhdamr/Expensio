@@ -83,6 +83,7 @@ class EditWalletsFragment : Fragment() {
         colorButton = view.findViewById(R.id.color_button)
 
         val saveButton = view.findViewById<Button>(R.id.save_button)
+        val deleteButton = view.findViewById<Button>(R.id.delete_button)
 
         // Set the current values of the wallet in the EditTexts
         if (currentUser != null) {
@@ -157,5 +158,41 @@ class EditWalletsFragment : Fragment() {
                     }
             }
         }
+        deleteButton.setOnClickListener {
+            if (currentUser != null) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Delete Wallet")
+                    .setMessage("Are you sure you want to delete this wallet?")
+                    .setPositiveButton("Delete") { dialog, _ ->
+                        db.collection("users").document(currentUser.uid)
+                            .collection("wallets")
+                            .document(walletId)
+                            .delete()
+                            .addOnSuccessListener {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Wallet deleted successfully!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                findNavController().navigate(R.id.walletsFragment)
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(TAG, "Error deleting wallet", e)
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Failed to delete wallet. Please try again.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .create()
+                    .show()
+            }
+        }
+
     }
 }
