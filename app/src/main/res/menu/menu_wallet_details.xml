@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/edit_wallet_dots"
+        android:icon="@drawable/menu_lines"
+        android:title="@string/edit_wallet_dots"
+        android:iconTint="@color/colorTextPrimary"
+        app:showAsAction="always"/>
+</menu>
