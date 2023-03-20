@@ -6,4 +6,7 @@
     <color name="colorPageBackground">#222831</color>
     <color name="colorBoxBackground">#393E46</color>
     <color name="colorTextPrimary">#EEEEEE</color>
+
+    <!--For delete button-->
+    <color name="colorRed">#A10101</color>
 </resources>
