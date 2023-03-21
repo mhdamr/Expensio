@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.fundcache.databinding.FragmentHomeBinding
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -39,6 +41,7 @@ class HomeFragment : Fragment() {
         binding.createWalletButton.setOnClickListener {
             findNavController().navigate(R.id.action_walletsFragment)
         }
+
     }
 
 

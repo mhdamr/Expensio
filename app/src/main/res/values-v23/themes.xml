@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.FundCache" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryVariant">@color/colorAccent</item>
+        <item name="colorOnPrimary">@color/colorTextPrimary</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="colorSecondaryVariant">@color/colorAccent</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/colorPageBackground</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Action bar style. -->
+        <item name="toolbarStyle">@style/ToolBarStyle</item>
+        <item name="titleTextColor">@color/colorTextPrimary</item>
+
+        <!-- Bottom app bar style. -->
+        <item name="bottomAppBarStyle">@style/BottomAppBarStyle</item>
+
+        <item name="fontFamily">@font/open_sans_variable_font</item>
+
+        <item name="editTextStyle">@style/EditTextStyle</item>
+
+        <item name="textAppearanceButton">@style/TextAppearanceButton</item>
+
+    </style>
+</resources>
