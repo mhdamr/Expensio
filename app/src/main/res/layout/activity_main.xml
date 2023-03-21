@@ -45,7 +45,7 @@
                     android:id="@+id/bottomNav"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginHorizontal="40dp"
                     app:itemTextColor="@drawable/bottom_nav_item_color"
                     app:itemIconTint="@drawable/bottom_nav_item_color"
                     android:background="@color/colorTransparent"
@@ -62,7 +62,7 @@
             app:layout_anchor="@id/bottomAppBar"
             app:tint="@color/colorTextPrimary"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"

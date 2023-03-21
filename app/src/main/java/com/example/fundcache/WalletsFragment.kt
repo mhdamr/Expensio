@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.example.fundcache.databinding.FragmentWalletsBinding
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -110,7 +111,5 @@ class WalletsFragment : Fragment() {
         }
 
     }
-
-
 
 }

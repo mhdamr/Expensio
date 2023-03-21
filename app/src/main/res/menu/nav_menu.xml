@@ -13,4 +13,5 @@
         android:id="@+id/wallets"
         android:icon="@drawable/icon_wallet"
         android:title="Wallets" />
+
 </menu>

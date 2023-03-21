@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.Switch
 import android.widget.TextView
@@ -17,11 +18,14 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.fundcache.databinding.ActivityMainBinding
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -138,6 +142,36 @@ class MainActivity : AppCompatActivity() {
             R.id.homeFragment, R.id.walletsFragment, R.id.settingsFragment)),drawerLayout)
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
+        val fab = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        val bottomAppBar = findViewById<BottomAppBar>(R.id.bottomAppBar)
+
+
+        // here is the part where you hide and show FAB
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+
+
+            when ((destination as FragmentNavigator.Destination).className) {
+                // show fab in recipe fragment
+                WalletsFragment::class.qualifiedName -> {
+
+                    fab.visibility = View.VISIBLE
+
+                    bottomAppBar.fabCradleMargin = 30f
+                    bottomAppBar.fabCradleRoundedCornerRadius = 30f
+                    bottomAppBar.cradleVerticalOffset = 30f
+
+                }
+                // hide on other fragments
+                else -> {
+                    fab.visibility = View.GONE
+
+                    bottomAppBar.fabCradleMargin = 0f
+                    bottomAppBar.fabCradleRoundedCornerRadius = 0f
+                    bottomAppBar.cradleVerticalOffset = 0f
+
+                }
+            }
+        }
 
         // Find the Bottom Navigation View
         val bottomNav : BottomNavigationView = findViewById(R.id.bottomNav)
@@ -212,7 +246,6 @@ class MainActivity : AppCompatActivity() {
             showEditProfileDialog()
         }
 
-
     }
 
     // Activates the function which shows CreateProfileDialogFragment
@@ -227,25 +260,26 @@ class MainActivity : AppCompatActivity() {
         editProfileDialogFragment.show(supportFragmentManager, "EditProfileDialog")
     }
 
-    // Activates the function which inflates the menu and adds items to the action bar
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(toggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return when (item.itemId) {
-            R.id.action_settings -> {
-                // Navigate to the settings page
-                navController.navigate(R.id.settingsFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    // Activates the function which inflates the menu and adds items to the action bar
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//        return true
+//
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if(toggle.onOptionsItemSelected(item)) {
+//            return true
+//        }
+//        return when (item.itemId) {
+//            R.id.action_settings -> {
+//                // Navigate to the settings page
+//                navController.navigate(R.id.settingsFragment)
+//                true
+//            }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 
     override fun onBackPressed() {
         // Get the current fragment
