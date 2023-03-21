@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'com.example.fundcache'
-    compileSdk 33
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.example.fundcache"
         minSdk 21
-        targetSdk 33
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -50,9 +50,9 @@ repositories {
 
 dependencies {
 // Core AndroidX libraries
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
 
 // Navigation
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
@@ -60,34 +60,33 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
 
 // Firebase
-    implementation platform('com.google.firebase:firebase-bom:31.2.2')
-    implementation 'com.google.firebase:firebase-analytics-ktx:21.2.0'
-    implementation 'com.google.firebase:firebase-core:21.1.1'
-    implementation 'com.google.firebase:firebase-auth:21.1.0'
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.4'
-    implementation 'com.google.firebase:firebase-firestore:24.4.4'
+    implementation platform('com.google.firebase:firebase-bom:28.3.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx:19.0.2'
+    implementation 'com.google.firebase:firebase-core:19.0.2'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx:23.0.4'
+    implementation 'com.google.firebase:firebase-firestore:23.0.4'
 
 // UI Libraries
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.github.Dhaval2404:ColorPicker:2.3'
 
 // Testing libraries
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
 // Preferences library
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
+    implementation 'androidx.preference:preference:1.1.1'
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.6.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     implementation("com.mikepenz:materialdrawer:9.0.1")
-    implementation 'androidx.recyclerview:recyclerview:1.3.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation "com.mikepenz:materialdrawer-iconics:9.0.1"
     implementation "com.mikepenz:materialdrawer-nav:9.0.1"
-    implementation "androidx.annotation:annotation:1.6.0"
+    implementation "androidx.annotation:annotation:1.2.0"
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-
 }
