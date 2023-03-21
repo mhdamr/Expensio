@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorTransparent">@android:color/transparent</color>
-    <color name="colorAccent">#00ADB5</color>
+    <color name="colorAccent">#1CD6CE</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorPageBackground">#222831</color>
     <color name="colorBoxBackground">#393E46</color>
