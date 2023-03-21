@@ -1,19 +1,12 @@
 package com.example.fundcache
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.ContentValues.TAG
-import android.content.DialogInterface
-import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -21,7 +14,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.fundcache.databinding.FragmentAddWalletsBinding
 import com.example.fundcache.databinding.FragmentEditWalletsBinding
 import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.github.dhaval2404.colorpicker.listener.ColorListener
@@ -83,7 +75,6 @@ class EditWalletsFragment : Fragment() {
         colorButton = view.findViewById(R.id.color_button)
 
         val saveButton = view.findViewById<Button>(R.id.save_button)
-        val deleteButton = view.findViewById<Button>(R.id.delete_button)
 
         // Set the current values of the wallet in the EditTexts
         if (currentUser != null) {
@@ -158,41 +149,64 @@ class EditWalletsFragment : Fragment() {
                     }
             }
         }
-        deleteButton.setOnClickListener {
-            if (currentUser != null) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Delete Wallet")
-                    .setMessage("Are you sure you want to delete this wallet?")
-                    .setPositiveButton("Delete") { dialog, _ ->
-                        db.collection("users").document(currentUser.uid)
-                            .collection("wallets")
-                            .document(walletId)
-                            .delete()
-                            .addOnSuccessListener {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Wallet deleted successfully!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                findNavController().navigate(R.id.walletsFragment)
-                            }
-                            .addOnFailureListener { e ->
-                                Log.w(TAG, "Error deleting wallet", e)
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Failed to delete wallet. Please try again.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton("Cancel") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
-            }
-        }
 
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_delete_wallet -> {
+                showDeleteWalletDialog()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showDeleteWalletDialog() {
+        if (currentUser != null) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Delete Wallet")
+                .setMessage("Are you sure you want to delete this wallet?")
+                .setPositiveButton("Delete") { dialog, _ ->
+                    db.collection("users").document(currentUser.uid)
+                        .collection("wallets")
+                        .document(walletId)
+                        .delete()
+                        .addOnSuccessListener {
+                            Toast.makeText(
+                                requireContext(),
+                                "Wallet deleted successfully!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            findNavController().navigate(R.id.walletsFragment)
+                        }
+                        .addOnFailureListener { e ->
+                            Log.w(TAG, "Error deleting wallet", e)
+                            Toast.makeText(
+                                requireContext(),
+                                "Failed to delete wallet. Please try again.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+        }
+    }
+
 }

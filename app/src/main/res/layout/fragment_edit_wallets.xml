@@ -66,13 +66,6 @@
                 android:background="@drawable/login_button"
                 android:text="Update Wallet" />
 
-        <Button
-            android:id="@+id/delete_button"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorRed"
-            android:layout_marginTop="15dp"
-            android:text="Delete Wallet" />
 
     </LinearLayout>
     </ScrollView>
