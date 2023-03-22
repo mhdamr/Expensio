@@ -40,7 +40,6 @@
 
     <style name="ToolBar.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title" >
         <item name="android:textColor">@color/colorTextPrimary</item>
-        <item name="android:textFontWeight">700</item>
     </style>
 
     <style name="BottomAppBarStyle" parent="Widget.MaterialComponents.BottomAppBar">
@@ -57,7 +56,6 @@
 
     <style name="TextAppearanceButton" parent="TextAppearance.AppCompat.Button">
         <item name="android:textAllCaps">false</item>
-        <item name="android:textFontWeight">700</item>
         <item name="android:textColor">@color/colorPageBackground</item>
         <item name="android:color">@color/colorPageBackground</item>
     </style>

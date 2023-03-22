@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -49,6 +50,8 @@ class EditWalletsFragment : Fragment() {
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
+
         walletId = arguments?.getString("walletId") ?: ""
 
         // Find the EditText view
@@ -152,25 +155,19 @@ class EditWalletsFragment : Fragment() {
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_main, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_delete_wallet -> {
-                showDeleteWalletDialog()
-                return true
+    private fun setupToolbar() {
+        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+        toolbar.menu.clear() // Clear any existing menu items
+        toolbar.inflateMenu(R.menu.menu_main)
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_delete_wallet -> {
+                    showDeleteWalletDialog()
+                    true
+                }
+                else -> false
             }
         }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun showDeleteWalletDialog() {

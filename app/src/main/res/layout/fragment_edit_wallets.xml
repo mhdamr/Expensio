@@ -53,19 +53,22 @@
             android:id="@+id/color_button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textColor="@color/colorPageBackground"
             android:layout_marginTop="15dp"
-            android:text="Select a Color" />
+            android:text="Select a Color"
+            android:textColor="@color/colorPageBackground"
+            android:textFontWeight="700"/>
 
 
         <Button
-                android:id="@+id/save_button"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/login_button"
-                android:text="Update Wallet" />
-
+            android:id="@+id/save_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_button"
+            android:text="Update Wallet"
+            android:textColor="@color/colorPageBackground"
+            android:textFontWeight="700"
+            android:textSize="15dp"/>
 
     </LinearLayout>
     </ScrollView>

@@ -2,8 +2,6 @@ package com.example.fundcache
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater

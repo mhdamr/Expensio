@@ -40,9 +40,11 @@
         android:layout_height="40dp"
         android:layout_gravity="end"
         android:text="Change Email"
-        android:textColor="@color/colorPageBackground"
         android:background="@drawable/login_button"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:textColor="@color/colorPageBackground"
+        android:textFontWeight="700"
+        android:textSize="15dp"/>
 
     <Button
         android:id="@+id/verify_email_btn"
@@ -50,9 +52,11 @@
         android:layout_height="40dp"
         android:layout_gravity="end"
         android:text="Verify Email"
-        android:textColor="@color/colorPageBackground"
         android:background="@drawable/login_button"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:textColor="@color/colorPageBackground"
+        android:textFontWeight="700"
+        android:textSize="15dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,7 +72,9 @@
             android:layout_marginEnd="4dp"
             android:textColor="@color/colorAccent"
             android:background="@drawable/register_button"
-            android:text="@string/cancel" />
+            android:text="@string/cancel"
+            android:textFontWeight="700"
+            android:textSize="15dp"/>
 
         <Button
             android:id="@+id/save_changes_btn"
@@ -76,9 +82,11 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_marginStart="4dp"
-            android:textColor="@color/colorPageBackground"
             android:background="@drawable/login_button"
-            android:text="Save" />
+            android:text="Save"
+            android:textColor="@color/colorPageBackground"
+            android:textFontWeight="700"
+            android:textSize="15dp"/>
 
     </LinearLayout>
 

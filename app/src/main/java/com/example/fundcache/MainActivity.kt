@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private val db = FirebaseFirestore.getInstance()
     lateinit var toggle : ActionBarDrawerToggle
+    private lateinit var fab: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -142,37 +143,6 @@ class MainActivity : AppCompatActivity() {
             R.id.homeFragment, R.id.walletsFragment, R.id.settingsFragment)),drawerLayout)
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
-        val fab = findViewById<FloatingActionButton>(R.id.floatingActionButton)
-        val bottomAppBar = findViewById<BottomAppBar>(R.id.bottomAppBar)
-
-
-        // here is the part where you hide and show FAB
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-
-
-            when ((destination as FragmentNavigator.Destination).className) {
-                // show fab in recipe fragment
-                WalletsFragment::class.qualifiedName -> {
-
-                    fab.visibility = View.VISIBLE
-
-                    bottomAppBar.fabCradleMargin = 30f
-                    bottomAppBar.fabCradleRoundedCornerRadius = 30f
-                    bottomAppBar.cradleVerticalOffset = 30f
-
-                }
-                // hide on other fragments
-                else -> {
-                    fab.visibility = View.GONE
-
-                    bottomAppBar.fabCradleMargin = 0f
-                    bottomAppBar.fabCradleRoundedCornerRadius = 0f
-                    bottomAppBar.cradleVerticalOffset = 0f
-
-                }
-            }
-        }
-
         // Find the Bottom Navigation View
         val bottomNav : BottomNavigationView = findViewById(R.id.bottomNav)
 
@@ -194,6 +164,21 @@ class MainActivity : AppCompatActivity() {
         }
         bottomNav.background = null
         bottomNav.menu.getItem(1).isEnabled = false
+
+
+        fab = findViewById(R.id.floatingActionButton)
+
+        // Add the destination change listener
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.walletsFragment -> {
+                    fab.show()
+                }
+                else -> {
+                    fab.hide()
+                }
+            }
+        }
 
 
         // Show the Create Profile Dialog if the user does not have a display name
@@ -260,26 +245,7 @@ class MainActivity : AppCompatActivity() {
         editProfileDialogFragment.show(supportFragmentManager, "EditProfileDialog")
     }
 
-//    // Activates the function which inflates the menu and adds items to the action bar
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        menuInflater.inflate(R.menu.menu_main, menu)
-//        return true
-//
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if(toggle.onOptionsItemSelected(item)) {
-//            return true
-//        }
-//        return when (item.itemId) {
-//            R.id.action_settings -> {
-//                // Navigate to the settings page
-//                navController.navigate(R.id.settingsFragment)
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
+
 
     override fun onBackPressed() {
         // Get the current fragment
@@ -292,7 +258,7 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
         } else {
             // Navigate back if the user is not on the HomeFragment
-            navHostFragment?.childFragmentManager?.popBackStack()
+            navController.navigateUp()
         }
     }
 }
