@@ -26,11 +26,8 @@ class CreateProfileDialogFragment : DialogFragment() {
     private var selectedProfilePictureUri: Uri? =   null
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private val REQUEST_IMAGE_PICK = 1
     private val PERMISSION_REQUEST_CODE = 1001
     private lateinit var userNameTextView: TextView
-
-
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
