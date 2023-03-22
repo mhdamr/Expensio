@@ -3,15 +3,12 @@ package com.example.fundcache
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.Preference
-import androidx.preference.PreferenceScreen
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.widget.Toast
-import com.example.fundcache.R
 import android.content.Intent
-
 class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var auth: FirebaseAuth

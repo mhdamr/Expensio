@@ -9,13 +9,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import com.example.fundcache.databinding.FragmentWalletsBinding
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.android.material.bottomappbar.BottomAppBar
 
 class WalletsFragment : Fragment() {
 
@@ -25,9 +24,6 @@ class WalletsFragment : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
-    private val EDIT_DIALOG_TAG = "EditWalletsDialogFragment"
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -110,6 +106,39 @@ class WalletsFragment : Fragment() {
                 }
         }
 
+    }
+
+    // Add the following code inside WalletsFragment class
+    override fun onResume() {
+        super.onResume()
+        showFAB()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        hideFAB()
+    }
+
+    private fun showFAB() {
+        val fab = requireActivity().findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        val bottomAppBar = requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar)
+
+        fab.visibility = View.VISIBLE
+
+        bottomAppBar.fabCradleMargin = 30f
+        bottomAppBar.fabCradleRoundedCornerRadius = 30f
+        bottomAppBar.cradleVerticalOffset = 30f
+    }
+
+    private fun hideFAB() {
+        val fab = requireActivity().findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        val bottomAppBar = requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar)
+
+        fab.visibility = View.GONE
+
+        bottomAppBar.fabCradleMargin = 0f
+        bottomAppBar.fabCradleRoundedCornerRadius = 0f
+        bottomAppBar.cradleVerticalOffset = 0f
     }
 
 }
