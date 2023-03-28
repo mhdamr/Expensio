@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -60,5 +62,17 @@ class WalletDetailFragment : Fragment() {
                     totalBalanceText.text = String.format("%.2f", totalBalance)
                 }
         }
+
+        // Add click listener to income_button
+        view.findViewById<FloatingActionButton>(R.id.income_button).setOnClickListener {
+            // Create a bundle to pass arguments to IncomeFragment
+            val bundle = Bundle()
+            bundle.putString("walletId", walletId)
+            // Navigate to IncomeFragment with the walletId argument
+            findNavController().navigate(R.id.incomeFragment, bundle)
+
+        }
+
+
     }
 }

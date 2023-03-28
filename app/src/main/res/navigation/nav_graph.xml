@@ -43,6 +43,12 @@
         android:label="Wallet Details">
     </fragment>
 
+    <fragment
+        android:id="@+id/incomeFragment"
+        android:name="com.example.fundcache.IncomeFragment"
+        android:label="Income">
+
+    </fragment>
 
     <action
         android:id="@+id/action_homeFragment"
