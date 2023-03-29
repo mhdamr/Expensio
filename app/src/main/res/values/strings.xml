@@ -53,4 +53,17 @@
     <string name="drawer_dark_mode_title">Dark Mode</string>
     <string name="drawer_light_mode_title">Light Mode</string>
 
+
+    <!--Income Page-->
+    <string-array name="recurrence_options">
+        <item>Never</item>
+        <item>Every day</item>
+        <item>Every 2 days</item>
+        <item>Every week</item>
+        <item>Every month</item>
+        <item>Every year</item>
+    </string-array>
+    <string name="recurrence_prompt">Select recurrence</string>
+
+
 </resources>

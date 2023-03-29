@@ -5,9 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -22,6 +20,10 @@ class IncomeFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
     private lateinit var walletId: String
+
+    private lateinit var recurrenceSpinner: Spinner
+    private lateinit var recurrenceOption: String
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +50,17 @@ class IncomeFragment : Fragment() {
             saveIncome()
         }
 
+        recurrenceSpinner = view.findViewById(R.id.recurrence_spinner)
+        recurrenceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                recurrenceOption = parent?.getItemAtPosition(position).toString()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                recurrenceOption = "Never"
+            }
+        }
+
+
         Log.d("MyApp", "Wallet ID: $walletId")
         return view
     }
@@ -67,8 +80,10 @@ class IncomeFragment : Fragment() {
             "amount" to amount,
             "description" to description,
             "type" to "income",
-            "timestamp" to FieldValue.serverTimestamp()
+            "timestamp" to FieldValue.serverTimestamp(),
+            "recurrence" to recurrenceOption
         )
+
 
         // Add the income to the selected wallet's transactions collection
         db.collection("users").document(currentUser.uid)
