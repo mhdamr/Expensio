@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
 import com.example.fundcache.databinding.FragmentWalletsBinding
@@ -40,6 +41,7 @@ class WalletsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
 
         val fab = activity?.findViewById<FloatingActionButton>(R.id.floatingActionButton)
 
@@ -139,6 +141,11 @@ class WalletsFragment : Fragment() {
         bottomAppBar.fabCradleMargin = 0f
         bottomAppBar.fabCradleRoundedCornerRadius = 0f
         bottomAppBar.cradleVerticalOffset = 0f
+    }
+
+    private fun setupToolbar() {
+        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+        toolbar.menu.clear()
     }
 
 }

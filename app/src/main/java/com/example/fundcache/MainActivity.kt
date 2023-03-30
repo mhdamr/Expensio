@@ -245,8 +245,6 @@ class MainActivity : AppCompatActivity() {
         editProfileDialogFragment.show(supportFragmentManager, "EditProfileDialog")
     }
 
-
-
     override fun onBackPressed() {
         // Get the current fragment
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
