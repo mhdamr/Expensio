@@ -89,10 +89,11 @@ class WalletsFragment : Fragment() {
                         walletBox.setOnClickListener {
                             val args = Bundle()
                             args.putString("walletId", document.id)
+                            args.putString("walletName", walletName)
 
-                            // Navigate to the EditWalletsFragment
+                            // Navigate to the WalletDetailFragment
                             findNavController().navigate(
-                                R.id.action_editWalletsFragment,
+                                R.id.action_WalletDetailFragment,
                                 args
                             )
                         }
