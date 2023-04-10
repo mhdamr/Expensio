@@ -44,13 +44,13 @@ class EditWalletsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditWalletsBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupToolbar()
 
         walletId = arguments?.getString("walletId") ?: ""
 
@@ -153,22 +153,9 @@ class EditWalletsFragment : Fragment() {
             }
         }
 
+
     }
 
-    private fun setupToolbar() {
-        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-        toolbar.menu.clear() // Clear any existing menu items
-        toolbar.inflateMenu(R.menu.menu_main)
-        toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_delete_wallet -> {
-                    showDeleteWalletDialog()
-                    true
-                }
-                else -> false
-            }
-        }
-    }
 
     private fun showDeleteWalletDialog() {
         if (currentUser != null) {
@@ -203,6 +190,17 @@ class EditWalletsFragment : Fragment() {
                 }
                 .create()
                 .show()
+        }
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_delete_wallet -> {
+                showDeleteWalletDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
