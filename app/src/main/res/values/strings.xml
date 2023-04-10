@@ -59,9 +59,9 @@
         <item>Never</item>
         <item>Every day</item>
         <item>Every 2 days</item>
-        <item>Every week</item>
-        <item>Every month</item>
-        <item>Every year</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Yearly</item>
     </string-array>
     <string name="recurrence_prompt">Select recurrence</string>
 
