@@ -117,6 +117,15 @@ class WalletDetailFragment : Fragment() {
                 }
         }
 
+        fab1.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("walletId", walletId)
+            val incomeFragment = IncomeFragment()
+            incomeFragment.arguments = bundle
+            findNavController().navigate(R.id.incomeFragment, bundle)
+            animateFAB()
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

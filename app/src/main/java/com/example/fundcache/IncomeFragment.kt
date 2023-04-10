@@ -81,7 +81,6 @@ class IncomeFragment : Fragment() {
             "description" to description,
             "type" to "income",
             "timestamp" to FieldValue.serverTimestamp(),
-            "recurrence" to recurrenceOption
         )
 
 
@@ -93,11 +92,49 @@ class IncomeFragment : Fragment() {
             .add(income)
             .addOnSuccessListener {
                 Toast.makeText(context, "Income added successfully.", Toast.LENGTH_SHORT).show()
+                if (recurrenceOption != "Never") {
+                    saveRecurrence()
+                }
                 activity?.onBackPressed()
             }
             .addOnFailureListener {
                 Toast.makeText(context, "Error adding income.", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun saveRecurrence() {
+        val amount = amountEditText.text.toString().toDoubleOrNull()
+        val description = descriptionEditText.text.toString()
+
+        // Validate the input
+        if (amount == null || description.isEmpty()) {
+            Toast.makeText(context, "Please enter valid income data.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Create a new income object
+        val income = hashMapOf(
+            "amount" to amount,
+            "description" to description,
+            "type" to "income",
+            "timestamp" to FieldValue.serverTimestamp(),
+            "recurrence" to recurrenceOption
+        )
+
+
+        // Add the income to the selected wallet's transactions collection
+        db.collection("users").document(currentUser.uid)
+            .collection("wallets")
+            .document(walletId)
+            .collection("recurrence")
+            .add(income)
+/*            .addOnSuccessListener {
+                Toast.makeText(context, "Income added successfully.", Toast.LENGTH_SHORT).show()
+                activity?.onBackPressed()
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "Error adding income.", Toast.LENGTH_SHORT).show()
+            }*/
     }
 
 }
