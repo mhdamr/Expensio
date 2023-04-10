@@ -38,6 +38,11 @@ class MainActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     lateinit var toggle : ActionBarDrawerToggle
     private lateinit var fab: FloatingActionButton
+    private lateinit var fab1: FloatingActionButton
+    private lateinit var fab2: FloatingActionButton
+    private lateinit var fab3: FloatingActionButton
+    private var menuMain: Menu? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,7 +145,7 @@ class MainActivity : AppCompatActivity() {
 
         // Set up the navigation with the NavController and AppBarConfiguration
         val appBarConfiguration = AppBarConfiguration((setOf(
-            R.id.homeFragment, R.id.walletsFragment, R.id.settingsFragment)),drawerLayout)
+            R.id.homeFragment, R.id.walletsFragment)),drawerLayout)
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
         // Find the Bottom Navigation View
@@ -163,19 +168,46 @@ class MainActivity : AppCompatActivity() {
             }
         }
         bottomNav.background = null
-        bottomNav.menu.getItem(1).isEnabled = false
+        bottomNav.menu.getItem(2).isEnabled = false
 
+        val bottomAppBar : BottomAppBar = findViewById(R.id.bottomAppBar)
 
         fab = findViewById(R.id.floatingActionButton)
+        fab1 = findViewById(R.id.fab1)
+        fab2 = findViewById(R.id.fab2)
+        fab3 = findViewById(R.id.fab3)
 
         // Add the destination change listener
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.walletsFragment -> {
                     fab.show()
+                    fab1.hide()
+                    fab2.hide()
+                    fab3.hide()
+                    fab.setImageResource(R.drawable.icon_add)
+                    fab1.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
+                    fab2.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
+                    fab3.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
+                    bottomNav.menu.findItem(R.id.placeholder).isVisible = true
+                }
+                R.id.walletDetailFragment -> {
+                    fab.show()
+                    bottomNav.menu.findItem(R.id.placeholder).isVisible = true
                 }
                 else -> {
                     fab.hide()
+                    fab1.hide()
+                    fab2.hide()
+                    fab3.hide()
+                    fab.setImageResource(R.drawable.icon_add)
+                    fab1.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
+                    fab2.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
+                    fab3.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
+                    bottomNav.menu.findItem(R.id.placeholder).isVisible = false
+                    bottomAppBar.fabCradleMargin = 0f
+                    bottomAppBar.fabCradleRoundedCornerRadius = 0f
+                    bottomAppBar.cradleVerticalOffset = 0f
                 }
             }
         }
@@ -259,4 +291,33 @@ class MainActivity : AppCompatActivity() {
             navController.navigateUp()
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        menuMain = menu
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val currentDestination = navController.currentDestination?.id
+
+        when (currentDestination) {
+            R.id.walletDetailFragment -> {
+                menu.findItem(R.id.edit_wallet).isVisible = true
+                menu.findItem(R.id.action_delete_wallet).isVisible = false
+            }
+
+            R.id.editWalletsFragment -> {
+                menu.findItem(R.id.edit_wallet).isVisible = false
+                menu.findItem(R.id.action_delete_wallet).isVisible = true
+            }
+
+            else -> {
+                menu.findItem(R.id.edit_wallet).isVisible = false
+                menu.findItem(R.id.action_delete_wallet).isVisible = false
+            }
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
 }

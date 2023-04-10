@@ -4,4 +4,11 @@
     <dimen name="default_fabCradleMargin">10dp</dimen>
     <dimen name="default_fabCradleRoundedCornerRadius">10dp</dimen>
     <dimen name="default_fabCradleVerticalOffset">10dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="standard_55">55dp</dimen>
+    <dimen name="standard_105">105dp</dimen>
+    <dimen name="standard_155">155dp</dimen>
+    <dimen name="standard_90">155dp</dimen>
+    <dimen name="standard_125">125dp</dimen>
+
 </resources>

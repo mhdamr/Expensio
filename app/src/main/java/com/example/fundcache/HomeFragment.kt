@@ -37,10 +37,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Set up any UI or functionality for the fragment here
-        binding.createWalletButton.setOnClickListener {
-            findNavController().navigate(R.id.action_walletsFragment)
-        }
 
     }
 

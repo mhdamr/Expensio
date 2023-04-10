@@ -14,12 +14,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.fundcache.SettingsFragment"
-        android:label="Settings">
-    </fragment>
-
-    <fragment
         android:id="@+id/walletsFragment"
         android:name="com.example.fundcache.WalletsFragment"
         android:label="Wallets">
@@ -38,7 +32,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/WalletDetailFragment"
+        android:id="@+id/walletDetailFragment"
         android:name="com.example.fundcache.WalletDetailFragment"
         android:label="Wallet Details">
     </fragment>
@@ -79,8 +73,8 @@
         />
 
     <action
-        android:id="@+id/action_WalletDetailFragment"
-        app:destination="@id/WalletDetailFragment"
+        android:id="@+id/action_walletDetailFragment"
+        app:destination="@id/walletDetailFragment"
         app:enterAnim="@anim/fade_in"
         app:exitAnim="@anim/fade_out"
         />
