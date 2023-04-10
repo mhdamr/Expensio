@@ -3,6 +3,7 @@ package com.example.fundcache
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -11,6 +12,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.firebase.firestore.FieldValue
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class WalletDetailFragment : Fragment() {
 
@@ -88,6 +92,8 @@ class WalletDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        checkAndUpdateRecurrence()
 
         fab = requireActivity().findViewById(R.id.floatingActionButton)
         fab1 = requireActivity().findViewById(R.id.fab1)
@@ -203,4 +209,75 @@ class WalletDetailFragment : Fragment() {
         }
     }
 
+
+    private fun calculatePeriodsPassed(timeDifference: Long, currentTime: Long, latestTimestamp: Long): Long {
+        val timeDifferenceMillis = TimeUnit.MILLISECONDS.convert(timeDifference, TimeUnit.MILLISECONDS)
+        return (currentTime - latestTimestamp) / timeDifferenceMillis
+    }
+
+    private fun checkAndUpdateRecurrence() {
+        val currentTime = Calendar.getInstance().timeInMillis
+        if (currentUser != null) {
+            val walletRef = db.collection("users").document(currentUser.uid)
+                .collection("wallets")
+                .document(walletId)
+                .collection("recurrence")
+
+        // Get all income transactions with a recurrence
+        walletRef.whereEqualTo("type", "income")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (income in documents) {
+                    val latestTimestamp = income.getDate("timestamp")?.time ?: continue
+                    val recurrenceOption = income.getString("recurrence") ?: continue
+
+                    // Calculate the time difference based on the recurrence option
+                    val timeDifference = when (recurrenceOption) {
+                        "Every day" -> TimeUnit.SECONDS.toMillis(10)
+                        "Every 2 days" -> TimeUnit.DAYS.toMillis(2)
+                        "Weekly" -> TimeUnit.DAYS.toMillis(7)
+                        "Monthly" -> TimeUnit.DAYS.toMillis(30) // Approximation
+                        "Yearly" -> TimeUnit.DAYS.toMillis(365) // Approximation
+                        else -> 0L
+                    }
+
+                    // Calculate the number of periods passed
+                    val periodsPassed = calculatePeriodsPassed(timeDifference, currentTime, latestTimestamp)
+
+                    // If at least one period has passed, add new transactions
+                    if (periodsPassed > 0) {
+                        val newIncome = hashMapOf(
+                            "amount" to income.getDouble("amount"),
+                            "description" to income.getString("description"),
+                            "type" to "income",
+                            "timestamp" to FieldValue.serverTimestamp()
+                        )
+
+                        // Add the appropriate number of transactions
+                        for (i in 1..periodsPassed) {
+                            val transactionsRef = db.collection("users").document(currentUser.uid)
+                                .collection("wallets")
+                                .document(walletId)
+                                .collection("transactions")
+
+                            transactionsRef.add(newIncome)
+                                .addOnSuccessListener {
+                                    // Update the timestamp of the recurrence document
+                                    walletRef.document(income.id)
+                                        .update("timestamp", FieldValue.serverTimestamp())
+
+                                    Log.d("IncomeFragment", "New income added successfully based on recurrence")
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.w("IncomeFragment", "Error adding new income based on recurrence", e)
+                                }
+                        }
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("IncomeFragment", "Error getting income transactions with recurrence", exception)
+            }
+    }
+    }
 }
