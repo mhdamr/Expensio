@@ -131,6 +131,14 @@ class WalletDetailFragment : Fragment() {
             findNavController().navigate(R.id.incomeFragment, bundle)
             animateFAB()
         }
+        fab3.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("walletId", walletId)
+            val expenseFragment = ExpenseFragment()
+            expenseFragment.arguments = bundle
+            findNavController().navigate(R.id.expenseFragment, bundle)
+            animateFAB()
+        }
 
     }
 
@@ -275,9 +283,61 @@ class WalletDetailFragment : Fragment() {
                     }
                 }
             }
-            .addOnFailureListener { exception ->
+            // Get all expense transactions with a recurrence
+            walletRef.whereEqualTo("type", "expense")
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (expense in documents) {
+                        val latestTimestamp = expense.getDate("timestamp")?.time ?: continue
+                        val recurrenceOption = expense.getString("recurrence") ?: continue
+
+                        // Calculate the time difference based on the recurrence option
+                        val timeDifference = when (recurrenceOption) {
+                            "Every day" -> TimeUnit.SECONDS.toMillis(10)
+                            "Every 2 days" -> TimeUnit.DAYS.toMillis(2)
+                            "Weekly" -> TimeUnit.DAYS.toMillis(7)
+                            "Monthly" -> TimeUnit.DAYS.toMillis(30) // Approximation
+                            "Yearly" -> TimeUnit.DAYS.toMillis(365) // Approximation
+                            else -> 0L
+                        }
+
+                        // Calculate the number of periods passed
+                        val periodsPassed = calculatePeriodsPassed(timeDifference, currentTime, latestTimestamp)
+
+                        // If at least one period has passed, add new transactions
+                        if (periodsPassed > 0) {
+                            val newExpense = hashMapOf(
+                                "amount" to expense.getDouble("amount"),
+                                "description" to expense.getString("description"),
+                                "type" to "expense",
+                                "timestamp" to FieldValue.serverTimestamp()
+                            )
+
+                            // Add the appropriate number of transactions
+                            for (i in 1..periodsPassed) {
+                                val transactionsRef = db.collection("users").document(currentUser.uid)
+                                    .collection("wallets")
+                                    .document(walletId)
+                                    .collection("transactions")
+
+                                transactionsRef.add(newExpense)
+                                    .addOnSuccessListener {
+                                        // Update the timestamp of the recurrence document
+                                        walletRef.document(expense.id)
+                                            .update("timestamp", FieldValue.serverTimestamp())
+
+                                        Log.d("ExpenseFragment", "New expense added successfully based on recurrence")
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.w("ExpenseFragment", "Error adding new expense based on recurrence", e)
+                                    }
+                            }
+                        }
+                    }
+                }
+           /* .addOnFailureListener { exception ->
                 Log.w("IncomeFragment", "Error getting income transactions with recurrence", exception)
-            }
+            }*/
     }
     }
 }
