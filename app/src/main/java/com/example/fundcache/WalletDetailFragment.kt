@@ -1,11 +1,13 @@
 package com.example.fundcache
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -20,12 +22,13 @@ class WalletDetailFragment : Fragment() {
 
     private lateinit var walletId: String
     private lateinit var walletName: String
-    private lateinit var totalBalanceText: TextView
+    private lateinit var walletCurrency: String
+    private lateinit var walletColor: String
+    private lateinit var walletAmount: String
+
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
-    private lateinit var walletCurrency: String
-    private lateinit var walletColor: String
 
     private lateinit var fab: FloatingActionButton
     private lateinit var fab1: FloatingActionButton
@@ -51,6 +54,7 @@ class WalletDetailFragment : Fragment() {
         // Get the walletId, walletName, walletCurrency, and walletColor arguments passed from WalletsFragment
         walletId = arguments?.getString("walletId") ?: ""
         walletName = arguments?.getString("walletName") ?: ""
+        walletAmount = arguments?.getString("walletAmount") ?: ""
         walletCurrency = arguments?.getString("walletCurrency") ?: ""
         walletColor = arguments?.getString("walletColor") ?: ""
 
@@ -71,21 +75,23 @@ class WalletDetailFragment : Fragment() {
         walletNameTextView.text = walletName
 
         // Set up the total balance text view
-        totalBalanceText = view.findViewById(R.id.total_balance_textview)
-        db.collection("users").document(currentUser?.uid ?: "").collection("wallets").document(walletId)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                var totalBalance = 0.0
-                if (querySnapshot != null) {
-                    val amount = querySnapshot.getDouble("amount")
-                    if (amount != null) {
-                        totalBalance += amount
-                    }
-                }
+        val totalBalanceTextView = view.findViewById<TextView>(R.id.total_balance_textview)
+        totalBalanceTextView.text = walletAmount
 
-                // Set the total balance text
-                totalBalanceText.text = String.format("%.2f", totalBalance)
-            }
+//        db.collection("users").document(currentUser?.uid ?: "").collection("wallets").document(walletId)
+//            .get()
+//            .addOnSuccessListener { querySnapshot ->
+//                var totalBalance = 0.0
+//                if (querySnapshot != null) {
+//                    val amount = querySnapshot.getDouble("amount")
+//                    if (amount != null) {
+//                        totalBalance += amount
+//                    }
+//                }
+//
+//                // Set the total balance text
+//                totalBalanceText.text = String.format("%.2f", totalBalance)
+//            }
 
         return view
     }
@@ -105,23 +111,23 @@ class WalletDetailFragment : Fragment() {
             animateFAB()
         }
 
-        if (currentUser != null) {
-            // Query the transactions collection for the selected wallet
-            db.collection("users").document(currentUser.uid).collection("wallets").document(walletId)
-                .get()
-                .addOnSuccessListener { querySnapshot ->
-                    var totalBalance = 0.0
-                    if (querySnapshot != null) {
-                        val amount = querySnapshot.getDouble("amount")
-                        if (amount != null) {
-                            totalBalance += amount
-                        }
-                    }
-
-                    // Set the total balance text
-                    totalBalanceText.text = String.format("%.2f", totalBalance)
-                }
-        }
+//        if (currentUser != null) {
+//            // Query the transactions collection for the selected wallet
+//            db.collection("users").document(currentUser.uid).collection("wallets").document(walletId)
+//                .get()
+//                .addOnSuccessListener { querySnapshot ->
+//                    var totalBalance = 0.0
+//                    if (querySnapshot != null) {
+//                        val amount = querySnapshot.getDouble("amount")
+//                        if (amount != null) {
+//                            totalBalance += amount
+//                        }
+//                    }
+//
+//                    // Set the total balance text
+//                    totalBalanceText.text = String.format("%.2f", totalBalance)
+//                }
+//        }
 
         fab1.setOnClickListener {
             val bundle = Bundle()
@@ -184,6 +190,8 @@ class WalletDetailFragment : Fragment() {
     private fun animateFAB() {
         if (isFABOpen) {
             // Close the FABs
+            fab.animate().rotation(0f).setDuration(200).start()
+            fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorAccent))
             fab.setImageResource(R.drawable.icon_add)
             fab1.animate().translationX(0f).translationY(0f).alpha(alphaHide).scaleX(scaleHide).scaleY(scaleHide)
             fab2.animate().translationX(0f).translationY(0f).alpha(alphaHide).scaleX(scaleHide).scaleY(scaleHide)
@@ -192,7 +200,9 @@ class WalletDetailFragment : Fragment() {
 
         } else {
             // Open the FABs
-            fab.setImageResource(R.drawable.icon_light_mode)
+            fab.animate().rotation(45f).setDuration(200).start()
+            fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorBoxBackground))
+            fab.setImageResource(R.drawable.icon_add)
             val distance = resources.getDimension(R.dimen.standard_125)
             val angle = 80f // Angle between FABs (in degrees)
 
