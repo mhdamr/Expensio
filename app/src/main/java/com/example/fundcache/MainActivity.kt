@@ -2,7 +2,9 @@ package com.example.fundcache
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -86,16 +88,12 @@ class MainActivity : AppCompatActivity() {
 
         // Find the Toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-
         // Set the Toolbar as the support Action Bar
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(false);
 
         // Set the function of the hamburger menu to open/close the Navigation Drawer
         toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close)
         drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-        toggle.setDrawerIndicatorEnabled(true)
 
 
         // Set the items in the Navigation Drawer
@@ -180,19 +178,44 @@ class MainActivity : AppCompatActivity() {
         // Add the destination change listener
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
+                R.id.homeFragment, R.id.walletsFragment -> {
+                    toggle.setDrawerIndicatorEnabled(true)
+                    toolbar.setNavigationIcon(R.drawable.icon_ham_menu)
+                }
+                else -> {
+                    toggle.setDrawerIndicatorEnabled(false)
+                    toolbar.setNavigationIcon(R.drawable.icon_back)
+                }
+            }
+
+            when (destination.id) {
                 R.id.walletsFragment -> {
                     fab.show()
                     fab1.hide()
                     fab2.hide()
                     fab3.hide()
+
                     fab.setImageResource(R.drawable.icon_add)
+                    fab1.setImageResource(R.drawable.icon_expense)
+                    fab2.setImageResource(R.drawable.icon_add)
+                    fab3.setImageResource(R.drawable.icon_income)
+
+                    fab.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1CD6CE"))
+                    fab.animate().rotation(0f).setDuration(200).start()
+
                     fab1.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
                     fab2.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
                     fab3.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
+
                     bottomNav.menu.findItem(R.id.placeholder).isVisible = true
                 }
                 R.id.walletDetailFragment -> {
                     fab.show()
+
+                    fab1.setImageResource(R.drawable.icon_expense)
+                    fab2.setImageResource(R.drawable.icon_add)
+                    fab3.setImageResource(R.drawable.icon_income)
+
                     bottomNav.menu.findItem(R.id.placeholder).isVisible = true
                 }
                 else -> {
@@ -200,7 +223,15 @@ class MainActivity : AppCompatActivity() {
                     fab1.hide()
                     fab2.hide()
                     fab3.hide()
+
                     fab.setImageResource(R.drawable.icon_add)
+                    fab1.setImageResource(R.drawable.icon_expense)
+                    fab2.setImageResource(R.drawable.icon_add)
+                    fab3.setImageResource(R.drawable.icon_income)
+
+                    fab.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1CD6CE"))
+                    fab.animate().rotation(0f).setDuration(200).start()
+
                     fab1.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
                     fab2.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
                     fab3.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)

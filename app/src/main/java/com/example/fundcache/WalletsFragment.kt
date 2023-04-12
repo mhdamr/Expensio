@@ -97,6 +97,7 @@ class WalletsFragment : Fragment() {
                         val args = Bundle()
                         args.putString("walletId", document.id)
                         args.putString("walletName", walletName)
+                        args.putString("walletAmount", String.format("%.2f", walletAmount))
                         args.putString("walletCurrency", walletCurrency)
                         args.putString("walletColor", walletColor)
 
