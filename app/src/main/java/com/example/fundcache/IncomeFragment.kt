@@ -1,5 +1,6 @@
 package com.example.fundcache
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,7 +21,7 @@ class IncomeFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
     private lateinit var walletId: String
-
+    private var walletBalance: Double = 0.0
     private lateinit var recurrenceSpinner: Spinner
     private lateinit var recurrenceOption: String
 
@@ -39,6 +40,7 @@ class IncomeFragment : Fragment() {
 
         // Get the walletId argument passed from WalletDetailFragment
         walletId = arguments?.getString("walletId") ?: ""
+        walletBalance = arguments?.getDouble("walletBalance") ?: 0.0
 
         // Get references to the UI components
         amountEditText = view.findViewById(R.id.amount_edittext)
@@ -67,6 +69,7 @@ class IncomeFragment : Fragment() {
 
     private fun saveIncome() {
         val amount = amountEditText.text.toString().toDoubleOrNull()
+
         val description = descriptionEditText.text.toString()
 
         // Validate the input
@@ -95,11 +98,29 @@ class IncomeFragment : Fragment() {
                 if (recurrenceOption != "Never") {
                     saveRecurrence()
                 }
+
+                // Get the wallet balance from the document snapshot and update the UI
+                db.collection("users").document(currentUser.uid)
+                    .collection("wallets")
+                    .document(walletId)
+                    .get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        val walletAmount = documentSnapshot.getDouble("amount")
+                        walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
+
+                        db.collection("users").document(currentUser.uid)
+                            .collection("wallets")
+                            .document(walletId)
+                            .update("amount", (walletBalance + amount))
+                    }
+
                 activity?.onBackPressed()
+
             }
             .addOnFailureListener {
                 Toast.makeText(context, "Error adding income.", Toast.LENGTH_SHORT).show()
             }
+
     }
 
     private fun saveRecurrence() {
