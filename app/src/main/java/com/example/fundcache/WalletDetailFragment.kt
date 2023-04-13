@@ -26,6 +26,7 @@ class WalletDetailFragment : Fragment() {
     private val currentUser = auth.currentUser
     private lateinit var walletCurrency: String
     private lateinit var walletColor: String
+    private var walletBalance: Double = 0.0
 
     private lateinit var fab: FloatingActionButton
     private lateinit var fab1: FloatingActionButton
@@ -126,6 +127,19 @@ class WalletDetailFragment : Fragment() {
         fab1.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("walletId", walletId)
+
+            db.collection("users").document(currentUser?.uid ?: "").collection("wallets").document(walletId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    if (querySnapshot != null) {
+                        val amount = querySnapshot.getDouble("amount")
+                        if (amount != null) {
+                            bundle.putDouble("walletBalance", amount)
+                        }
+                    }
+
+                }
+
             val incomeFragment = IncomeFragment()
             incomeFragment.arguments = bundle
             findNavController().navigate(R.id.incomeFragment, bundle)
@@ -134,6 +148,19 @@ class WalletDetailFragment : Fragment() {
         fab3.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("walletId", walletId)
+
+            db.collection("users").document(currentUser?.uid ?: "").collection("wallets").document(walletId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    if (querySnapshot != null) {
+                        val amount = querySnapshot.getDouble("amount")
+                        if (amount != null) {
+                            bundle.putDouble("walletBalance", amount)
+                        }
+                    }
+
+                }
+
             val expenseFragment = ExpenseFragment()
             expenseFragment.arguments = bundle
             findNavController().navigate(R.id.expenseFragment, bundle)
@@ -223,6 +250,10 @@ class WalletDetailFragment : Fragment() {
         return (currentTime - latestTimestamp) / timeDifferenceMillis
     }
 
+    private fun addTimeDifferenceToTimestamp(timestamp: Long, timeDifference: Long, periods: Long): Long {
+        return timestamp + (timeDifference * periods)
+    }
+
     private fun checkAndUpdateRecurrence() {
         val currentTime = Calendar.getInstance().timeInMillis
         if (currentUser != null) {
@@ -242,44 +273,70 @@ class WalletDetailFragment : Fragment() {
                     // Calculate the time difference based on the recurrence option
                     val timeDifference = when (recurrenceOption) {
                         "Every day" -> TimeUnit.SECONDS.toMillis(10)
-                        "Every 2 days" -> TimeUnit.DAYS.toMillis(2)
+                        "Every 2 days" -> TimeUnit.SECONDS.toMillis(20)
                         "Weekly" -> TimeUnit.DAYS.toMillis(7)
                         "Monthly" -> TimeUnit.DAYS.toMillis(30) // Approximation
                         "Yearly" -> TimeUnit.DAYS.toMillis(365) // Approximation
                         else -> 0L
                     }
 
+
                     // Calculate the number of periods passed
                     val periodsPassed = calculatePeriodsPassed(timeDifference, currentTime, latestTimestamp)
 
                     // If at least one period has passed, add new transactions
                     if (periodsPassed > 0) {
-                        val newIncome = hashMapOf(
-                            "amount" to income.getDouble("amount"),
-                            "description" to income.getString("description"),
-                            "type" to "income",
-                            "timestamp" to FieldValue.serverTimestamp()
-                        )
-
                         // Add the appropriate number of transactions
                         for (i in 1..periodsPassed) {
+                            val newTimestamp = addTimeDifferenceToTimestamp(latestTimestamp, timeDifference, i)
+                            val abc = income.getDouble("amount") ?: continue
+
+                            val newIncome = hashMapOf(
+                                "amount" to income.getDouble("amount"),
+                                "description" to income.getString("description"),
+                                "type" to "income",
+                                "timestamp" to Date(newTimestamp)
+                            )
+
                             val transactionsRef = db.collection("users").document(currentUser.uid)
                                 .collection("wallets")
                                 .document(walletId)
                                 .collection("transactions")
 
                             transactionsRef.add(newIncome)
+                            // Get the wallet balance from the document snapshot and update the UI
+                            db.collection("users").document(currentUser.uid)
+                                .collection("wallets")
+                                .document(walletId)
+                                .get()
+                                .addOnSuccessListener { documentSnapshot ->
+                                    val walletAmount = documentSnapshot.getDouble("amount")
+                                    walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
+
+//                                            val totalabc =+ abc
+                                    db.collection("users").document(currentUser.uid)
+                                        .collection("wallets")
+                                        .document(walletId)
+                                        .update("amount", (walletBalance + abc))
+                                }
+
                                 .addOnSuccessListener {
                                     // Update the timestamp of the recurrence document
                                     walletRef.document(income.id)
-                                        .update("timestamp", FieldValue.serverTimestamp())
+                                        .update("timestamp", Date(newTimestamp))
+
+
 
                                     Log.d("IncomeFragment", "New income added successfully based on recurrence")
                                 }
                                 .addOnFailureListener { e ->
                                     Log.w("IncomeFragment", "Error adding new income based on recurrence", e)
                                 }
+
+
                         }
+
+
                     }
                 }
             }
@@ -290,6 +347,7 @@ class WalletDetailFragment : Fragment() {
                     for (expense in documents) {
                         val latestTimestamp = expense.getDate("timestamp")?.time ?: continue
                         val recurrenceOption = expense.getString("recurrence") ?: continue
+                        val abc = expense.getDouble("amount") ?: continue
 
                         // Calculate the time difference based on the recurrence option
                         val timeDifference = when (recurrenceOption) {
@@ -306,15 +364,17 @@ class WalletDetailFragment : Fragment() {
 
                         // If at least one period has passed, add new transactions
                         if (periodsPassed > 0) {
-                            val newExpense = hashMapOf(
-                                "amount" to expense.getDouble("amount"),
-                                "description" to expense.getString("description"),
-                                "type" to "expense",
-                                "timestamp" to FieldValue.serverTimestamp()
-                            )
-
                             // Add the appropriate number of transactions
                             for (i in 1..periodsPassed) {
+                                val newTimestamp = addTimeDifferenceToTimestamp(latestTimestamp, timeDifference, i)
+
+                                val newExpense = hashMapOf(
+                                    "amount" to expense.getDouble("amount"),
+                                    "description" to expense.getString("description"),
+                                    "type" to "expense",
+                                    "timestamp" to Date(newTimestamp)
+                                )
+
                                 val transactionsRef = db.collection("users").document(currentUser.uid)
                                     .collection("wallets")
                                     .document(walletId)
@@ -324,7 +384,7 @@ class WalletDetailFragment : Fragment() {
                                     .addOnSuccessListener {
                                         // Update the timestamp of the recurrence document
                                         walletRef.document(expense.id)
-                                            .update("timestamp", FieldValue.serverTimestamp())
+                                            .update("timestamp", Date(newTimestamp))
 
                                         Log.d("ExpenseFragment", "New expense added successfully based on recurrence")
                                     }
@@ -332,6 +392,22 @@ class WalletDetailFragment : Fragment() {
                                         Log.w("ExpenseFragment", "Error adding new expense based on recurrence", e)
                                     }
                             }
+
+                            // Get the wallet balance from the document snapshot and update the UI
+                            db.collection("users").document(currentUser.uid)
+                                .collection("wallets")
+                                .document(walletId)
+                                .get()
+                                .addOnSuccessListener { documentSnapshot ->
+                                    val walletAmount = documentSnapshot.getDouble("amount")
+                                    walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
+
+                                    val totalabc = abc * periodsPassed
+                                    db.collection("users").document(currentUser.uid)
+                                        .collection("wallets")
+                                        .document(walletId)
+                                        .update("amount", (walletBalance - totalabc))
+                                }
                         }
                     }
                 }
@@ -340,4 +416,5 @@ class WalletDetailFragment : Fragment() {
             }*/
     }
     }
+
 }

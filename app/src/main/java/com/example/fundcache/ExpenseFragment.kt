@@ -20,7 +20,7 @@ class ExpenseFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
     private lateinit var walletId: String
-
+    private var walletBalance: Double = 0.0
     private lateinit var recurrenceSpinner: Spinner
     private lateinit var recurrenceOption: String
 
@@ -39,6 +39,7 @@ class ExpenseFragment : Fragment() {
 
         // Get the walletId argument passed from WalletDetailFragment
         walletId = arguments?.getString("walletId") ?: ""
+        walletBalance = arguments?.getDouble("walletBalance") ?: 0.0
 
         // Get references to the UI components
         amountEditText = view.findViewById(R.id.amount_edittext)
@@ -95,6 +96,22 @@ class ExpenseFragment : Fragment() {
                 if (recurrenceOption != "Never") {
                     saveRecurrence()
                 }
+
+                // Get the wallet balance from the document snapshot and update the UI
+                db.collection("users").document(currentUser.uid)
+                    .collection("wallets")
+                    .document(walletId)
+                    .get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        val walletAmount = documentSnapshot.getDouble("amount")
+                        walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
+
+                        db.collection("users").document(currentUser.uid)
+                            .collection("wallets")
+                            .document(walletId)
+                            .update("amount", (walletBalance - amount))
+                    }
+
                 activity?.onBackPressed()
             }
             .addOnFailureListener {
