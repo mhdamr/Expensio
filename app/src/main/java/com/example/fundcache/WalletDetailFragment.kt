@@ -262,11 +262,14 @@ class WalletDetailFragment : Fragment() {
                 .document(walletId)
                 .collection("recurrence")
 
+            // Declare the variable before the loop
+            var totalAmountAdded = 0.0
+
         // Get all income transactions with a recurrence
         walletRef.whereEqualTo("type", "income")
             .get()
             .addOnSuccessListener { documents ->
-                for (income in documents) {
+                    for (income in documents) {
                     val latestTimestamp = income.getDate("timestamp")?.time ?: continue
                     val recurrenceOption = income.getString("recurrence") ?: continue
 
@@ -289,7 +292,10 @@ class WalletDetailFragment : Fragment() {
                         // Add the appropriate number of transactions
                         for (i in 1..periodsPassed) {
                             val newTimestamp = addTimeDifferenceToTimestamp(latestTimestamp, timeDifference, i)
-                            val abc = income.getDouble("amount") ?: continue
+                            val amountIncome = income.getDouble("amount") ?: continue
+
+                            totalAmountAdded += amountIncome
+                            Log.d("MyApp", "Wallet BALEEENCE: $totalAmountAdded")
 
                             val newIncome = hashMapOf(
                                 "amount" to income.getDouble("amount"),
@@ -304,22 +310,6 @@ class WalletDetailFragment : Fragment() {
                                 .collection("transactions")
 
                             transactionsRef.add(newIncome)
-                            // Get the wallet balance from the document snapshot and update the UI
-                            db.collection("users").document(currentUser.uid)
-                                .collection("wallets")
-                                .document(walletId)
-                                .get()
-                                .addOnSuccessListener { documentSnapshot ->
-                                    val walletAmount = documentSnapshot.getDouble("amount")
-                                    walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
-
-//                                            val totalabc =+ abc
-                                    db.collection("users").document(currentUser.uid)
-                                        .collection("wallets")
-                                        .document(walletId)
-                                        .update("amount", (walletBalance + abc))
-                                }
-
                                 .addOnSuccessListener {
                                     // Update the timestamp of the recurrence document
                                     walletRef.document(income.id)
@@ -335,7 +325,21 @@ class WalletDetailFragment : Fragment() {
 
 
                         }
+// Get the wallet balance from the document snapshot and update the walletBalance
+                        db.collection("users").document(currentUser.uid)
+                            .collection("wallets")
+                            .document(walletId)
+                            .get()
+                            .addOnSuccessListener { documentSnapshot ->
+                                val walletAmount = documentSnapshot.getDouble("amount")
+                                walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
+                                walletBalance += totalAmountAdded
 
+                                db.collection("users").document(currentUser.uid)
+                                    .collection("wallets")
+                                    .document(walletId)
+                                    .update("amount", (walletBalance))
+                            }
 
                     }
                 }
@@ -393,7 +397,7 @@ class WalletDetailFragment : Fragment() {
                                     }
                             }
 
-                            // Get the wallet balance from the document snapshot and update the UI
+                            // Get the wallet balance from the document snapshot and update the walletBalance
                             db.collection("users").document(currentUser.uid)
                                 .collection("wallets")
                                 .document(walletId)
