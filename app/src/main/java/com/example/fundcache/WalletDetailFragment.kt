@@ -359,7 +359,6 @@ class WalletDetailFragment : Fragment() {
                     for (expense in documents) {
                         val latestTimestamp = expense.getDate("timestamp")?.time ?: continue
                         val recurrenceOption = expense.getString("recurrence") ?: continue
-                        val abc = expense.getDouble("amount") ?: continue
 
                         // Calculate the time difference based on the recurrence option
                         val timeDifference = when (recurrenceOption) {
