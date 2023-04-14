@@ -245,6 +245,28 @@ class WalletDetailFragment : Fragment() {
     }
 
 
+    private fun updateWalletBalance(totalAmountAdded: Double, totalAmountDeducted: Double) {
+        if ((totalAmountAdded != 0.0) || (totalAmountDeducted != 0.0)){
+            // Get the wallet balance from the document snapshot and update the walletBalance
+            db.collection("users").document(currentUser!!.uid)
+                .collection("wallets")
+                .document(walletId)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    val walletAmount = documentSnapshot.getDouble("amount")
+                    walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
+                    walletBalance += totalAmountAdded
+                    walletBalance -= totalAmountDeducted
+
+                    db.collection("users").document(currentUser.uid)
+                        .collection("wallets")
+                        .document(walletId)
+                        .update("amount", (walletBalance))
+                }
+        }
+    }
+
+
     private fun calculatePeriodsPassed(timeDifference: Long, currentTime: Long, latestTimestamp: Long): Long {
         val timeDifferenceMillis = TimeUnit.MILLISECONDS.convert(timeDifference, TimeUnit.MILLISECONDS)
         return (currentTime - latestTimestamp) / timeDifferenceMillis
@@ -314,7 +336,7 @@ class WalletDetailFragment : Fragment() {
                                     // Update the timestamp of the recurrence document
                                     walletRef.document(income.id)
                                         .update("timestamp", Date(newTimestamp))
-
+                                        updateWalletBalance(totalAmountAdded, totalAmountDeducted)
 
 
                                     Log.d("IncomeFragment", "New income added successfully based on recurrence")
@@ -323,11 +345,13 @@ class WalletDetailFragment : Fragment() {
                                     Log.w("IncomeFragment", "Error adding new income based on recurrence", e)
                                 }
 
-
                         }
                     }
                 }
             }
+
+
+
             // Get all expense transactions with a recurrence
             walletRef.whereEqualTo("type", "expense")
                 .get()
@@ -376,68 +400,19 @@ class WalletDetailFragment : Fragment() {
                                         // Update the timestamp of the recurrence document
                                         walletRef.document(expense.id)
                                             .update("timestamp", Date(newTimestamp))
+                                            updateWalletBalance(totalAmountAdded, totalAmountDeducted)
 
                                         Log.d("ExpenseFragment", "New expense added successfully based on recurrence")
                                     }
                                     .addOnFailureListener { e ->
                                         Log.w("ExpenseFragment", "Error adding new expense based on recurrence", e)
                                     }
+
                             }
                         }
                     }
                 }
 
-
-            if ((totalAmountAdded != 0.0) && (totalAmountDeducted != 0.0)){
-                // Get the wallet balance from the document snapshot and update the walletBalance
-                db.collection("users").document(currentUser.uid)
-                    .collection("wallets")
-                    .document(walletId)
-                    .get()
-                    .addOnSuccessListener { documentSnapshot ->
-                        val walletAmount = documentSnapshot.getDouble("amount")
-                        walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
-                        walletBalance += totalAmountAdded
-                        walletBalance -= totalAmountDeducted
-
-                        db.collection("users").document(currentUser.uid)
-                            .collection("wallets")
-                            .document(walletId)
-                            .update("amount", (walletBalance))
-                    }
-            }else if (totalAmountAdded != 0.0){
-                // Get the wallet balance from the document snapshot and update the walletBalance
-                db.collection("users").document(currentUser.uid)
-                    .collection("wallets")
-                    .document(walletId)
-                    .get()
-                    .addOnSuccessListener { documentSnapshot ->
-                        val walletAmount = documentSnapshot.getDouble("amount")
-                        walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
-                        walletBalance += totalAmountAdded
-
-                        db.collection("users").document(currentUser.uid)
-                            .collection("wallets")
-                            .document(walletId)
-                            .update("amount", (walletBalance))
-                    }
-            }else if (totalAmountDeducted != 0.0){
-                // Get the wallet balance from the document snapshot and update the walletBalance
-                db.collection("users").document(currentUser.uid)
-                    .collection("wallets")
-                    .document(walletId)
-                    .get()
-                    .addOnSuccessListener { documentSnapshot ->
-                        val walletAmount = documentSnapshot.getDouble("amount")
-                        walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
-                        walletBalance -= totalAmountDeducted
-
-                        db.collection("users").document(currentUser.uid)
-                            .collection("wallets")
-                            .document(walletId)
-                            .update("amount", (walletBalance))
-                    }
-            }
     }
     }
 
