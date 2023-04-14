@@ -325,22 +325,6 @@ class WalletDetailFragment : Fragment() {
 
 
                         }
-// Get the wallet balance from the document snapshot and update the walletBalance
-                        db.collection("users").document(currentUser.uid)
-                            .collection("wallets")
-                            .document(walletId)
-                            .get()
-                            .addOnSuccessListener { documentSnapshot ->
-                                val walletAmount = documentSnapshot.getDouble("amount")
-                                walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
-                                walletBalance += totalAmountAdded
-
-                                db.collection("users").document(currentUser.uid)
-                                    .collection("wallets")
-                                    .document(walletId)
-                                    .update("amount", (walletBalance))
-                            }
-
                     }
                 }
             }
@@ -400,26 +384,60 @@ class WalletDetailFragment : Fragment() {
                                     }
                             }
                         }
-                        // Get the wallet balance from the document snapshot and update the walletBalance
+                    }
+                }
+
+
+            if ((totalAmountAdded != 0.0) && (totalAmountDeducted != 0.0)){
+                // Get the wallet balance from the document snapshot and update the walletBalance
+                db.collection("users").document(currentUser.uid)
+                    .collection("wallets")
+                    .document(walletId)
+                    .get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        val walletAmount = documentSnapshot.getDouble("amount")
+                        walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
+                        walletBalance += totalAmountAdded
+                        walletBalance -= totalAmountDeducted
+
                         db.collection("users").document(currentUser.uid)
                             .collection("wallets")
                             .document(walletId)
-                            .get()
-                            .addOnSuccessListener { documentSnapshot ->
-                                val walletAmount = documentSnapshot.getDouble("amount")
-                                walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
-                                walletBalance -= totalAmountDeducted
-
-                                db.collection("users").document(currentUser.uid)
-                                    .collection("wallets")
-                                    .document(walletId)
-                                    .update("amount", (walletBalance))
-                            }
+                            .update("amount", (walletBalance))
                     }
-                }
-           /* .addOnFailureListener { exception ->
-                Log.w("IncomeFragment", "Error getting income transactions with recurrence", exception)
-            }*/
+            }else if (totalAmountAdded != 0.0){
+                // Get the wallet balance from the document snapshot and update the walletBalance
+                db.collection("users").document(currentUser.uid)
+                    .collection("wallets")
+                    .document(walletId)
+                    .get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        val walletAmount = documentSnapshot.getDouble("amount")
+                        walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
+                        walletBalance += totalAmountAdded
+
+                        db.collection("users").document(currentUser.uid)
+                            .collection("wallets")
+                            .document(walletId)
+                            .update("amount", (walletBalance))
+                    }
+            }else if (totalAmountDeducted != 0.0){
+                // Get the wallet balance from the document snapshot and update the walletBalance
+                db.collection("users").document(currentUser.uid)
+                    .collection("wallets")
+                    .document(walletId)
+                    .get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        val walletAmount = documentSnapshot.getDouble("amount")
+                        walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
+                        walletBalance -= totalAmountDeducted
+
+                        db.collection("users").document(currentUser.uid)
+                            .collection("wallets")
+                            .document(walletId)
+                            .update("amount", (walletBalance))
+                    }
+            }
     }
     }
 
