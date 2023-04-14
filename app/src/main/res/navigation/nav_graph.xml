@@ -44,6 +44,14 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/expenseFragment"
+        android:name="com.example.fundcache.ExpenseFragment"
+        android:label="Expense">
+
+    </fragment>
+
+
     <action
         android:id="@+id/action_homeFragment"
         app:destination="@id/homeFragment"
