@@ -196,9 +196,9 @@ class MainActivity : AppCompatActivity() {
                     fab3.hide()
 
                     fab.setImageResource(R.drawable.icon_add)
-                    fab1.setImageResource(R.drawable.icon_expense)
+                    fab1.setImageResource(R.drawable.icon_income)
                     fab2.setImageResource(R.drawable.icon_add)
-                    fab3.setImageResource(R.drawable.icon_income)
+                    fab3.setImageResource(R.drawable.icon_expense)
 
                     fab.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1CD6CE"))
                     fab.animate().rotation(0f).setDuration(200).start()
@@ -212,9 +212,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.walletDetailFragment -> {
                     fab.show()
 
-                    fab1.setImageResource(R.drawable.icon_expense)
+                    fab1.setImageResource(R.drawable.icon_income)
                     fab2.setImageResource(R.drawable.icon_add)
-                    fab3.setImageResource(R.drawable.icon_income)
+                    fab3.setImageResource(R.drawable.icon_expense)
 
                     bottomNav.menu.findItem(R.id.placeholder).isVisible = true
                 }
@@ -225,9 +225,9 @@ class MainActivity : AppCompatActivity() {
                     fab3.hide()
 
                     fab.setImageResource(R.drawable.icon_add)
-                    fab1.setImageResource(R.drawable.icon_expense)
+                    fab1.setImageResource(R.drawable.icon_income)
                     fab2.setImageResource(R.drawable.icon_add)
-                    fab3.setImageResource(R.drawable.icon_income)
+                    fab3.setImageResource(R.drawable.icon_expense)
 
                     fab.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1CD6CE"))
                     fab.animate().rotation(0f).setDuration(200).start()

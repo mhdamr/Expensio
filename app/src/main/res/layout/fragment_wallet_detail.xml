@@ -2,11 +2,12 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingTop="?attr/actionBarSize"
     android:background="@color/colorPageBackground"
     android:theme="@style/Theme.FundCache">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -23,9 +24,20 @@
                 android:layout_marginTop="16dp"
                 android:padding="16dp"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/transactions_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/wallet_detail_box"
+                android:clipToPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/transaction_item" />
+
 
         </LinearLayout>
 
-    </ScrollView>
+    </LinearLayout>
 
 </layout>
