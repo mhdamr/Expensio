@@ -1,57 +1,40 @@
 package com.example.fundcache
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.ListAdapter
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
 import java.util.*
 import java.util.concurrent.TimeUnit
-import retrofit2.Call
-import retrofit2.http.GET
-import com.google.gson.annotations.SerializedName
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.time.Instant
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
-interface WorldTimeApiService {
-    @GET("/api/ip")
-    fun getTimeAndZone(): Call<WorldTimeApiResponse>
-}
-
-data class WorldTimeApiResponse(
-    @SerializedName("unixtime") val unixTime: Long,
-    @SerializedName("timezone") val timezone: String
-)
 
 class WalletDetailFragment : Fragment() {
 
     private lateinit var walletId: String
     private lateinit var walletName: String
-    private lateinit var walletCurrency: String
-    private lateinit var walletColor: String
-    private lateinit var walletAmount: String
-
+    private lateinit var totalBalanceText: TextView
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
+    private lateinit var walletCurrency: String
+    private lateinit var walletColor: String
+    private var walletBalance: Double = 0.0
 
     private lateinit var fab: FloatingActionButton
     private lateinit var fab1: FloatingActionButton
@@ -62,6 +45,9 @@ class WalletDetailFragment : Fragment() {
     private val alphaShow = 1f
     private val scaleHide = 0f
     private val scaleShow = 1f
+
+    private lateinit var transactionsRecyclerView: RecyclerView
+    private lateinit var transactionsAdapter: TransactionsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,7 +63,6 @@ class WalletDetailFragment : Fragment() {
         // Get the walletId, walletName, walletCurrency, and walletColor arguments passed from WalletsFragment
         walletId = arguments?.getString("walletId") ?: ""
         walletName = arguments?.getString("walletName") ?: ""
-        walletAmount = arguments?.getString("walletAmount") ?: ""
         walletCurrency = arguments?.getString("walletCurrency") ?: ""
         walletColor = arguments?.getString("walletColor") ?: ""
 
@@ -98,8 +83,8 @@ class WalletDetailFragment : Fragment() {
         walletNameTextView.text = walletName
 
         // Set up the total balance text view
-        val totalBalanceTextView = view.findViewById<TextView>(R.id.total_balance_textview)
-        totalBalanceTextView.text = walletAmount
+        totalBalanceText = view.findViewById(R.id.total_balance_textview)
+        updateTotalBalanceTextView()
 
         return view
     }
@@ -122,12 +107,87 @@ class WalletDetailFragment : Fragment() {
         fab1.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("walletId", walletId)
+
+            db.collection("users").document(currentUser?.uid ?: "").collection("wallets").document(walletId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    if (querySnapshot != null) {
+                        val amount = querySnapshot.getDouble("amount")
+                        if (amount != null) {
+                            bundle.putDouble("walletBalance", amount)
+                        }
+                    }
+
+                }
+
             val incomeFragment = IncomeFragment()
             incomeFragment.arguments = bundle
             findNavController().navigate(R.id.incomeFragment, bundle)
             animateFAB()
         }
 
+        fab3.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("walletId", walletId)
+
+            db.collection("users").document(currentUser?.uid ?: "").collection("wallets").document(walletId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    if (querySnapshot != null) {
+                        val amount = querySnapshot.getDouble("amount")
+                        if (amount != null) {
+                            bundle.putDouble("walletBalance", amount)
+                        }
+                    }
+
+                }
+
+            val expenseFragment = ExpenseFragment()
+            expenseFragment.arguments = bundle
+            findNavController().navigate(R.id.expenseFragment, bundle)
+            animateFAB()
+        }
+
+        // Set up the transactions RecyclerView and adapter
+        transactionsRecyclerView = view.findViewById(R.id.transactions_recyclerview)
+        transactionsAdapter = TransactionsAdapter(requireContext())
+        transactionsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        transactionsRecyclerView.adapter = transactionsAdapter
+
+        // Load the transactions for the current month
+        loadTransactionsForCurrentMonth()
+
+
+    }
+
+    private fun loadTransactionsForCurrentMonth() {
+        val calendar = Calendar.getInstance()
+        val currentYear = calendar.get(Calendar.YEAR)
+        val currentMonth = calendar.get(Calendar.MONTH)
+        calendar.set(currentYear, currentMonth, 1, 0, 0, 0)
+        val monthStartDate = calendar.time
+        calendar.set(currentYear, currentMonth + 1, 1, 0, 0, 0)
+        val monthEndDate = calendar.time
+
+        val transactionsRef = db.collection("users").document(currentUser?.uid ?: "")
+            .collection("wallets").document(walletId)
+            .collection("transactions")
+
+        transactionsRef.whereGreaterThanOrEqualTo("timestamp", monthStartDate)
+            .whereLessThan("timestamp", monthEndDate)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val transactions = mutableListOf<TransactionItem>()
+                for (document in querySnapshot.documents) {
+                    val transaction = document.toObject(TransactionItem::class.java)
+                    if (transaction != null) {
+                        transaction.id = document.id
+                        transactions.add(transaction)
+                    }
+                }
+                transactionsAdapter.submitList(transactions)
+            }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -209,116 +269,197 @@ class WalletDetailFragment : Fragment() {
         }
     }
 
+
+    private fun updateTotalBalanceTextView() {
+
+        db.collection("users").document(currentUser?.uid ?: "").collection("wallets").document(walletId)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                var totalBalance = 0.0
+                if (querySnapshot != null) {
+                    val amount = querySnapshot.getDouble("amount")
+                    if (amount != null) {
+                        totalBalance += amount
+                    }
+                }
+
+                // Set the total balance text
+                totalBalanceText.text = String.format("%.2f", totalBalance)
+            }
+    }
+
+    private fun updateWalletBalance(totalAmountAdded: Double, totalAmountDeducted: Double) {
+        if ((totalAmountAdded != 0.0) || (totalAmountDeducted != 0.0)){
+            // Get the wallet balance from the document snapshot and update the walletBalance
+            db.collection("users").document(currentUser!!.uid)
+                .collection("wallets")
+                .document(walletId)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    val walletAmount = documentSnapshot.getDouble("amount")
+                    walletBalance = walletAmount ?: 0.0 // Update the wallet balance property with the retrieved value
+                    walletBalance += totalAmountAdded
+                    walletBalance -= totalAmountDeducted
+
+                    db.collection("users").document(currentUser.uid)
+                        .collection("wallets")
+                        .document(walletId)
+                        .update("amount", (walletBalance))
+                        .addOnSuccessListener {
+                            updateTotalBalanceTextView()
+                        }
+                }
+        }
+    }
+
+
     private fun calculatePeriodsPassed(timeDifference: Long, currentTime: Long, latestTimestamp: Long): Long {
         val timeDifferenceMillis = TimeUnit.MILLISECONDS.convert(timeDifference, TimeUnit.MILLISECONDS)
         return (currentTime - latestTimestamp) / timeDifferenceMillis
     }
 
+    private fun addTimeDifferenceToTimestamp(timestamp: Long, timeDifference: Long, periods: Long): Long {
+        return timestamp + (timeDifference * periods)
+    }
+
     private fun checkAndUpdateRecurrence() {
+        val currentTime = Calendar.getInstance().timeInMillis
         if (currentUser != null) {
             val walletRef = db.collection("users").document(currentUser.uid)
                 .collection("wallets")
                 .document(walletId)
                 .collection("recurrence")
 
-            // Create a Retrofit instance for the World Time API
-            val retrofit = Retrofit.Builder()
-                .baseUrl("https://worldtimeapi.org/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+            // Declare the variable before the loop
+            var totalAmountAdded = 0.0
+            var totalAmountDeducted = 0.0
 
-            // Create the API service
-            val worldTimeApiService = retrofit.create(WorldTimeApiService::class.java)
+            // Get all income transactions with a recurrence
+            walletRef.whereEqualTo("type", "income")
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (income in documents) {
+                        val latestTimestamp = income.getDate("timestamp")?.time ?: continue
+                        val recurrenceOption = income.getString("recurrence") ?: continue
 
-            // Get the current UTC time and timezone from the API
-            worldTimeApiService.getTimeAndZone().enqueue(object : Callback<WorldTimeApiResponse> {
-                override fun onResponse(call: Call<WorldTimeApiResponse>, response: Response<WorldTimeApiResponse>) {
-                    if (response.isSuccessful) {
-                        val utcTimeMillis = response.body()?.unixTime?.times(1000) ?: return
-                        val userTimeZoneId = response.body()?.timezone ?: return
+                        // Calculate the time difference based on the recurrence option
+                        val timeDifference = when (recurrenceOption) {
+                            "Every day" -> TimeUnit.DAYS.toMillis(1)
+                            "Every 2 days" -> TimeUnit.DAYS.toMillis(2)
+                            "Weekly" -> TimeUnit.DAYS.toMillis(7)
+                            "Monthly" -> TimeUnit.DAYS.toMillis(30) // Approximation
+                            "Yearly" -> TimeUnit.DAYS.toMillis(365) // Approximation
+                            else -> 0L
+                        }
 
-                        // Convert UTC time to the user's local time
-                        val utcDateTime = ZonedDateTime.ofInstant(
-                            Instant.ofEpochMilli(utcTimeMillis),
-                            ZoneId.of("Etc/UTC")
-                        )
 
-                        val userTimeZone = ZoneId.of(userTimeZoneId)
-                        val localDateTime = utcDateTime.withZoneSameInstant(userTimeZone)
-                        val currentTime = localDateTime.toInstant().toEpochMilli()
+                        // Calculate the number of periods passed
+                        val periodsPassed = calculatePeriodsPassed(timeDifference, currentTime, latestTimestamp)
 
-                        // Get all income transactions with a recurrence
-                        walletRef.whereEqualTo("type", "income")
-                            .get()
-                            .addOnSuccessListener { documents ->
-                                for (income in documents) {
-                                    val latestTimestamp = income.getDate("timestamp")?.time ?: continue
-                                    val recurrenceOption = income.getString("recurrence") ?: continue
+                        // If at least one period has passed, add new transactions
+                        if (periodsPassed > 0) {
+                            // Add the appropriate number of transactions
+                            for (i in 1..periodsPassed) {
+                                val newTimestamp = addTimeDifferenceToTimestamp(latestTimestamp, timeDifference, i)
+                                val amountIncome = income.getDouble("amount") ?: continue
 
-                                    // Calculate the time difference based on the recurrence option
-                                    val timeDifference = when (recurrenceOption) {
-                                        "Every day" -> TimeUnit.SECONDS.toMillis(10)
-                                        "Every 2 days" -> TimeUnit.DAYS.toMillis(2)
-                                        "Weekly" -> TimeUnit.DAYS.toMillis(7)
-                                        "Monthly" -> TimeUnit.DAYS.toMillis(30) // Approximation
-                                        "Yearly" -> TimeUnit.DAYS.toMillis(365) // Approximation
-                                        else -> 0L
+                                totalAmountAdded += amountIncome
+
+                                val newIncome = hashMapOf(
+                                    "amount" to income.getDouble("amount"),
+                                    "description" to income.getString("description"),
+                                    "type" to "income",
+                                    "timestamp" to Date(newTimestamp)
+                                )
+
+                                val transactionsRef = db.collection("users").document(currentUser.uid)
+                                    .collection("wallets")
+                                    .document(walletId)
+                                    .collection("transactions")
+
+                                transactionsRef.add(newIncome)
+                                    .addOnSuccessListener {
+                                        // Update the timestamp of the recurrence document
+                                        walletRef.document(income.id)
+                                            .update("timestamp", Date(newTimestamp))
+
+
+                                        Log.d("IncomeFragment", "New income added successfully based on recurrence")
                                     }
-
-                                    // Calculate the number of periods passed
-                                    val periodsPassed = calculatePeriodsPassed(timeDifference, currentTime, latestTimestamp)
-
-                                    // If at least one period has passed, add new transactions
-                                    if (periodsPassed > 0) {
-                                        for (i in 1..periodsPassed) {
-                                            val newTransactionTimestampUTC = Date(latestTimestamp + i * timeDifference)
-
-                                            // Convert the new transaction timestamp to the user's local time
-                                            val utcTransactionDateTime = ZonedDateTime.ofInstant(
-                                                Instant.ofEpochMilli(newTransactionTimestampUTC.time),
-                                                ZoneId.of("Etc/UTC")
-                                            )
-
-                                            val localTransactionDateTime = utcTransactionDateTime.withZoneSameInstant(userTimeZone)
-                                            val newTransactionTimestampLocal = Date.from(localTransactionDateTime.toInstant())
-
-                                            val newIncome = hashMapOf(
-                                                "amount" to income.getDouble("amount"),
-                                                "description" to income.getString("description"),
-                                                "type" to "income",
-                                                "timestamp" to newTransactionTimestampLocal
-                                            )
-
-                                            val transactionsRef = db.collection("users").document(currentUser.uid)
-                                                .collection("wallets")
-                                                .document(walletId)
-                                                .collection("transactions")
-
-                                            transactionsRef.add(newIncome)
-                                                .addOnSuccessListener {
-                                                    // Update the timestamp of the recurrence document
-                                                    walletRef.document(income.id)
-                                                        .update("timestamp", newTransactionTimestampUTC)
-
-                                                    Log.d("IncomeFragment", "New income added successfully based on recurrence")
-                                                }
-                                                .addOnFailureListener { e ->
-                                                    Log.w("IncomeFragment", "Error adding new income based on recurrence", e)
-                                                }
-                                        }
+                                    .addOnFailureListener { e ->
+                                        Log.w("IncomeFragment", "Error adding new income based on recurrence", e)
                                     }
-                                }
                             }
-                            .addOnFailureListener { exception ->
-                                Log.w("IncomeFragment", "Error getting income transactions with recurrence", exception)
-                            }
+                            // Call updateWalletBalance() after the for loop
+                            updateWalletBalance(totalAmountAdded, totalAmountDeducted)
+                        }
                     }
                 }
 
-                override fun onFailure(call: Call<WorldTimeApiResponse>, t: Throwable) {
-                    Log.e("IncomeFragment", "Error fetching UTC time from World Time API", t)
+
+
+            // Get all expense transactions with a recurrence
+            walletRef.whereEqualTo("type", "expense")
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (expense in documents) {
+                        val latestTimestamp = expense.getDate("timestamp")?.time ?: continue
+                        val recurrenceOption = expense.getString("recurrence") ?: continue
+
+                        // Calculate the time difference based on the recurrence option
+                        val timeDifference = when (recurrenceOption) {
+                            "Every day" -> TimeUnit.DAYS.toMillis(1)
+                            "Every 2 days" -> TimeUnit.DAYS.toMillis(2)
+                            "Weekly" -> TimeUnit.DAYS.toMillis(7)
+                            "Monthly" -> TimeUnit.DAYS.toMillis(30) // Approximation
+                            "Yearly" -> TimeUnit.DAYS.toMillis(365) // Approximation
+                            else -> 0L
+                        }
+
+                        // Calculate the number of periods passed
+                        val periodsPassed = calculatePeriodsPassed(timeDifference, currentTime, latestTimestamp)
+
+                        // If at least one period has passed, add new transactions
+                        if (periodsPassed > 0) {
+                            // Add the appropriate number of transactions
+                            for (i in 1..periodsPassed) {
+                                val newTimestamp = addTimeDifferenceToTimestamp(latestTimestamp, timeDifference, i)
+                                val amountExpense = expense.getDouble("amount") ?: continue
+
+                                totalAmountDeducted += amountExpense
+
+                                val newExpense = hashMapOf(
+                                    "amount" to expense.getDouble("amount"),
+                                    "description" to expense.getString("description"),
+                                    "type" to "expense",
+                                    "timestamp" to Date(newTimestamp)
+                                )
+
+                                val transactionsRef = db.collection("users").document(currentUser.uid)
+                                    .collection("wallets")
+                                    .document(walletId)
+                                    .collection("transactions")
+
+                                transactionsRef.add(newExpense)
+                                    .addOnSuccessListener {
+                                        // Update the timestamp of the recurrence document
+                                        walletRef.document(expense.id)
+                                            .update("timestamp", Date(newTimestamp))
+
+
+                                        Log.d("ExpenseFragment", "New expense added successfully based on recurrence")
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.w("ExpenseFragment", "Error adding new expense based on recurrence", e)
+                                    }
+
+                            }
+                            // Call updateWalletBalance() after the for loop
+                            updateWalletBalance(totalAmountAdded, totalAmountDeducted)
+                        }
+                    }
                 }
-            })
+
         }
     }
 }
