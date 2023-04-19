@@ -19,6 +19,7 @@ import com.example.fundcache.databinding.FragmentEditWalletsBinding
 import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.github.dhaval2404.colorpicker.listener.ColorListener
 import com.github.dhaval2404.colorpicker.model.ColorShape
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -51,6 +52,9 @@ class EditWalletsFragment : Fragment() {
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Hide the bottom app bar
+        requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.GONE
 
         walletId = arguments?.getString("walletId") ?: ""
 
@@ -202,6 +206,13 @@ class EditWalletsFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        // Show the bottom app bar when leaving the fragment
+        requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.VISIBLE
     }
 
 }

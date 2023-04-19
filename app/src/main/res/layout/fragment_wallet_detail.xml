@@ -13,8 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
             <include
                 android:id="@+id/wallet_detail_box"
@@ -22,18 +21,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:padding="16dp"/>
+                android:padding="16dp"
+                android:layout_marginHorizontal="16dp"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/transactions_recyclerview"
+
+            <TextView
+                android:id="@+id/month_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginBottom="15dp"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:paddingHorizontal="16dp"
+                android:layout_marginTop="30dp" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/transactions_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/wallet_detail_box"
-                android:clipToPadding="false"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/transaction_item" />
+                android:layout_below="@id/wallet_detail_box"/>
 
 
         </LinearLayout>

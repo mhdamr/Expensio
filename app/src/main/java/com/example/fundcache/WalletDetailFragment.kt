@@ -15,11 +15,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.firebase.firestore.Query
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -48,6 +50,8 @@ class WalletDetailFragment : Fragment() {
 
     private lateinit var transactionsRecyclerView: RecyclerView
     private lateinit var transactionsAdapter: TransactionsAdapter
+
+    private lateinit var monthLabel: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,6 +95,13 @@ class WalletDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        monthLabel = view.findViewById(R.id.month_label)
+
+        // Initialize the ViewPager2 with TransactionsPagerAdapter
+        val viewPager = view.findViewById<ViewPager2>(R.id.transactions_viewpager)
+        viewPager.adapter = TransactionsPagerAdapter(this, walletId, currentUser)
+        viewPager.setCurrentItem(Int.MAX_VALUE / 2, false)
 
         checkAndUpdateRecurrence()
 
@@ -148,47 +159,22 @@ class WalletDetailFragment : Fragment() {
             animateFAB()
         }
 
-        // Set up the transactions RecyclerView and adapter
-        transactionsRecyclerView = view.findViewById(R.id.transactions_recyclerview)
-        transactionsAdapter = TransactionsAdapter(requireContext())
-        transactionsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        transactionsRecyclerView.adapter = transactionsAdapter
 
-        // Load the transactions for the current month
-        loadTransactionsForCurrentMonth()
-
-
-    }
-
-    private fun loadTransactionsForCurrentMonth() {
-        val calendar = Calendar.getInstance()
-        val currentYear = calendar.get(Calendar.YEAR)
-        val currentMonth = calendar.get(Calendar.MONTH)
-        calendar.set(currentYear, currentMonth, 1, 0, 0, 0)
-        val monthStartDate = calendar.time
-        calendar.set(currentYear, currentMonth + 1, 1, 0, 0, 0)
-        val monthEndDate = calendar.time
-
-        val transactionsRef = db.collection("users").document(currentUser?.uid ?: "")
-            .collection("wallets").document(walletId)
-            .collection("transactions")
-
-        transactionsRef.whereGreaterThanOrEqualTo("timestamp", monthStartDate)
-            .whereLessThan("timestamp", monthEndDate)
-            .orderBy("timestamp", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                val transactions = mutableListOf<TransactionItem>()
-                for (document in querySnapshot.documents) {
-                    val transaction = document.toObject(TransactionItem::class.java)
-                    if (transaction != null) {
-                        transaction.id = document.id
-                        transactions.add(transaction)
-                    }
-                }
-                transactionsAdapter.submitList(transactions)
+        // Set the onPageChangeCallback
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val calendar = Calendar.getInstance()
+                calendar.add(Calendar.MONTH, position - Int.MAX_VALUE / 2)
+                monthLabel.text = SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(calendar.time)
             }
+        })
+
+        // Set the initial month label
+        monthLabel.text = SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(Date())
+
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
