@@ -57,9 +57,11 @@ class TransactionsAdapter(private val context: Context) : ListAdapter<Transactio
                     transactionAmount.text = String.format("%.2f", transaction.amount)
 
                     if (transaction.type == "expense") {
-                        transactionAmount.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+                        transactionAmount.setTextColor(ContextCompat.getColor(context, R.color.Expense))
+                        transactionType.text = "-"
                     } else {
-                        transactionAmount.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+                        transactionAmount.setTextColor(ContextCompat.getColor(context, R.color.Income))
+                        transactionType.text = "+"
                     }
                 }
             }
