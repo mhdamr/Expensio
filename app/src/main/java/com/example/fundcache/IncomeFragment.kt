@@ -112,9 +112,11 @@ class IncomeFragment : Fragment() {
                             .collection("wallets")
                             .document(walletId)
                             .update("amount", (walletBalance + amount))
+                    }.addOnSuccessListener {
+                        activity?.onBackPressed()
                     }
 
-                activity?.onBackPressed()
+
 
             }
             .addOnFailureListener {

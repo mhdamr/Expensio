@@ -110,9 +110,11 @@ class ExpenseFragment : Fragment() {
                             .collection("wallets")
                             .document(walletId)
                             .update("amount", (walletBalance - amount))
+                    }.addOnSuccessListener {
+                        activity?.onBackPressed()
                     }
 
-                activity?.onBackPressed()
+
             }
             .addOnFailureListener {
                 Toast.makeText(context, "Error adding expense.", Toast.LENGTH_SHORT).show()
