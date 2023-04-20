@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import androidx.core.content.ContextCompat
 import com.github.dhaval2404.colorpicker.listener.ColorListener
 import com.github.dhaval2404.colorpicker.model.ColorShape
+import com.google.android.material.bottomappbar.BottomAppBar
 
 class AddWalletsFragment : Fragment() {
     private lateinit var binding: FragmentAddWalletsBinding
@@ -41,8 +42,12 @@ class AddWalletsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Hide the bottom app bar
+        requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.GONE
+
         // Find the EditText view
         val currencyEditText = view.findViewById<EditText>(R.id.currency_spinner)
+
 
         // Set up currency spinner
         val currencies = arrayOf("USD", "EUR", "GBP", "JPY")
@@ -111,5 +116,12 @@ class AddWalletsFragment : Fragment() {
                     }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        // Show the bottom app bar when leaving the fragment
+        requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.VISIBLE
     }
 }

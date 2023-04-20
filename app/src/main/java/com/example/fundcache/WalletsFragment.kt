@@ -7,14 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.coroutines.*
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.fundcache.databinding.FragmentWalletsBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.android.material.bottomappbar.BottomAppBar
+import kotlinx.coroutines.tasks.await
 
 class WalletsFragment : Fragment() {
 
@@ -52,60 +56,71 @@ class WalletsFragment : Fragment() {
         }
 
         if (currentUser != null) {
-            // Query the wallets collection for the current user
-            db.collection("users").document(currentUser.uid).collection("wallets")
-                .orderBy("name", Query.Direction.ASCENDING)
-                .get()
-                .addOnSuccessListener { querySnapshot ->
-                    // Clear any existing wallets from the list
-                    walletList.removeAllViews()
+            // Load the wallets using Kotlin Coroutines
+            viewLifecycleOwner.lifecycleScope.launch {
+                // Show a progress bar while the wallets are loading
+                binding.progressBar.visibility = View.VISIBLE
 
-                    // Loop through the query results and add a box for each wallet
-                    var totalAmount = 0.0
-                    for (document in querySnapshot) {
-                        val wallet = document.data
-                        val walletName = wallet["name"] as String
-                        val walletCurrency = wallet["currency"] as String
-                        val walletAmount = wallet["amount"] as Double
-                        val walletColor = wallet["color"] as String
-                        val walletColorInt = Color.parseColor(walletColor)
+                // Load the wallets from Firestore
+                val querySnapshot = db.collection("users").document(currentUser.uid).collection("wallets")
+                    .orderBy("name", Query.Direction.ASCENDING)
+                    .get().await()
 
-                        val walletBox = layoutInflater.inflate(R.layout.wallet_item, walletList, false)
-                        walletBox.findViewById<TextView>(R.id.wallet_name_textview).text = walletName
-                        walletBox.findViewById<TextView>(R.id.wallet_amount_textview).text =
-                            String.format("%.2f %s", walletAmount, walletCurrency)
+                // Clear any existing wallets from the list
+                walletList.removeAllViews()
 
-                        // Set the background of the walletBox to the gradient drawable
-                        val shape = GradientDrawable()
-                        shape.shape = GradientDrawable.RECTANGLE
-                        shape.cornerRadius = resources.getDimension(R.dimen.wallet_item_corner_radius)
-                        shape.setColor(walletColorInt)
-                        walletBox.background = shape
+                // Loop through the query results and add a box for each wallet
+                var totalAmount = 0.0
+                for (document in querySnapshot) {
+                    val wallet = document.data
+                    val walletName = wallet["name"] as String
+                    val walletCurrency = wallet["currency"] as String
+                    val walletAmount = wallet["amount"] as Double
+                    val walletColor = wallet["color"] as String
+                    val walletColorInt = Color.parseColor(walletColor)
 
+                    val walletBox = layoutInflater.inflate(R.layout.wallet_item, walletList, false)
+                    walletBox.findViewById<TextView>(R.id.wallet_name_textview).text = walletName
+                    walletBox.findViewById<TextView>(R.id.wallet_amount_textview).text =
+                        String.format("%.2f %s", walletAmount, walletCurrency)
 
-                        // Set up click listener for the wallet item
-                        walletBox.setOnClickListener {
-                            val args = Bundle()
-                            args.putString("walletId", document.id)
-
-                            // Navigate to the EditWalletsFragment
-                            findNavController().navigate(
-                                R.id.action_editWalletsFragment,
-                                args
-                            )
-                        }
-
-                        walletList.addView(walletBox)
+                    // Set the background of the walletBox to the gradient drawable
+                    val shape = GradientDrawable()
+                    shape.shape = GradientDrawable.RECTANGLE
+                    shape.cornerRadius = resources.getDimension(R.dimen.wallet_item_corner_radius)
+                    shape.setColor(walletColorInt)
+                    walletBox.background = shape
 
 
-                        totalAmount += walletAmount
+                    // Set up click listener for the wallet item
+                    walletBox.setOnClickListener {
+                        val args = Bundle()
+                        args.putString("walletId", document.id)
+                        args.putString("walletName", walletName)
+                        args.putString("walletAmount", String.format("%.2f", walletAmount))
+                        args.putString("walletCurrency", walletCurrency)
+                        args.putString("walletColor", walletColor)
+
+                        // Navigate to the WalletDetailFragment
+                        findNavController().navigate(
+                            R.id.action_walletDetailFragment,
+                            args
+                        )
                     }
 
-                    // Set the total amount text
-                    totalAmountText.text = String.format("Total: $%.2f", totalAmount)
-                }
-        }
+                    walletList.addView(walletBox)
 
+
+                    totalAmount += walletAmount
+                }
+
+                // Set the total amount text
+                totalAmountText.text = String.format("Total: $%.2f", totalAmount)
+
+                // Hide the progress bar
+                binding.progressBar.visibility = View.GONE
+            }
+        }
     }
 
     // Add the following code inside WalletsFragment class
