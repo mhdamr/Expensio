@@ -330,7 +330,7 @@ class WalletDetailFragment : Fragment() {
 
                         // Calculate the time difference based on the recurrence option
                         val timeDifference = when (recurrenceOption) {
-                            "Every day" -> TimeUnit.DAYS.toMillis(1)
+                            "Every day" -> TimeUnit.SECONDS.toMillis(10)
                             "Every 2 days" -> TimeUnit.DAYS.toMillis(2)
                             "Weekly" -> TimeUnit.DAYS.toMillis(7)
                             "Monthly" -> TimeUnit.DAYS.toMillis(30) // Approximation
@@ -394,7 +394,7 @@ class WalletDetailFragment : Fragment() {
 
                         // Calculate the time difference based on the recurrence option
                         val timeDifference = when (recurrenceOption) {
-                            "Every day" -> TimeUnit.DAYS.toMillis(1)
+                            "Every day" -> TimeUnit.SECONDS.toMillis(10)
                             "Every 2 days" -> TimeUnit.DAYS.toMillis(2)
                             "Weekly" -> TimeUnit.DAYS.toMillis(7)
                             "Monthly" -> TimeUnit.DAYS.toMillis(30) // Approximation
