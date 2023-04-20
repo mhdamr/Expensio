@@ -9,4 +9,8 @@
 
     <!--For delete button-->
     <color name="colorRed">#A10101</color>
+
+    <!--For Income and Expense text-->
+    <color name="Income">#39FA41</color>
+    <color name="Expense">#EE3434</color>
 </resources>
