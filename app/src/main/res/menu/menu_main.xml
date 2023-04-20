@@ -9,4 +9,11 @@
         android:iconTint="@color/colorTextPrimary"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/edit_wallet"
+        android:icon="@drawable/icon_edit"
+        android:title="Edit"
+        android:iconTint="@color/colorTextPrimary"
+        app:showAsAction="always" />
+
 </menu>

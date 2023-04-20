@@ -14,12 +14,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.fundcache.SettingsFragment"
-        android:label="Settings">
-    </fragment>
-
-    <fragment
         android:id="@+id/walletsFragment"
         android:name="com.example.fundcache.WalletsFragment"
         android:label="Wallets">
@@ -35,6 +29,26 @@
         android:id="@+id/editWalletsFragment"
         android:name="com.example.fundcache.EditWalletsFragment"
         android:label="Edit Wallet">
+    </fragment>
+
+    <fragment
+        android:id="@+id/walletDetailFragment"
+        android:name="com.example.fundcache.WalletDetailFragment"
+        android:label="Wallet Details">
+    </fragment>
+
+    <fragment
+        android:id="@+id/incomeFragment"
+        android:name="com.example.fundcache.IncomeFragment"
+        android:label="Income">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/expenseFragment"
+        android:name="com.example.fundcache.ExpenseFragment"
+        android:label="Expense">
+
     </fragment>
 
 
@@ -62,6 +76,13 @@
     <action
         android:id="@+id/action_editWalletsFragment"
         app:destination="@id/editWalletsFragment"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        />
+
+    <action
+        android:id="@+id/action_walletDetailFragment"
+        app:destination="@id/walletDetailFragment"
         app:enterAnim="@anim/fade_in"
         app:exitAnim="@anim/fade_out"
         />

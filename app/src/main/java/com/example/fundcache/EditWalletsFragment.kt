@@ -19,6 +19,7 @@ import com.example.fundcache.databinding.FragmentEditWalletsBinding
 import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.github.dhaval2404.colorpicker.listener.ColorListener
 import com.github.dhaval2404.colorpicker.model.ColorShape
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -44,13 +45,16 @@ class EditWalletsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditWalletsBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupToolbar()
+
+        // Hide the bottom app bar
+        requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.GONE
 
         walletId = arguments?.getString("walletId") ?: ""
 
@@ -153,22 +157,9 @@ class EditWalletsFragment : Fragment() {
             }
         }
 
+
     }
 
-    private fun setupToolbar() {
-        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-        toolbar.menu.clear() // Clear any existing menu items
-        toolbar.inflateMenu(R.menu.menu_main)
-        toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_delete_wallet -> {
-                    showDeleteWalletDialog()
-                    true
-                }
-                else -> false
-            }
-        }
-    }
 
     private fun showDeleteWalletDialog() {
         if (currentUser != null) {
@@ -204,6 +195,24 @@ class EditWalletsFragment : Fragment() {
                 .create()
                 .show()
         }
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_delete_wallet -> {
+                showDeleteWalletDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        // Show the bottom app bar when leaving the fragment
+        requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.VISIBLE
     }
 
 }
