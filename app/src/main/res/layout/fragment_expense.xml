@@ -27,6 +27,14 @@
         android:hint="Description"
         android:padding="16dp"/>
 
+    <TextView
+        android:id="@+id/date_time_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Current Date and Time"
+        android:padding="16dp"/>
+
+
     <Spinner
         android:id="@+id/recurrence_spinner"
         android:layout_width="match_parent"
