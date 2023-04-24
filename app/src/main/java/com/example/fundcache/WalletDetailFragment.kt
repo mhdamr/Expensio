@@ -10,6 +10,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
 import android.widget.ListAdapter
 import android.widget.NumberPicker
 import android.widget.TextView
@@ -97,7 +98,12 @@ class WalletDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val icon = view.findViewById<ImageView>(R.id.icon)
+        icon.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("walletId", walletId)
+            findNavController().navigate(R.id.action_walletDetailFragment_to_recurrenceListFragment, bundle)
+        }
         monthLabel = view.findViewById(R.id.month_label)
 
         // Initialize the ViewPager2 with TransactionsPagerAdapter

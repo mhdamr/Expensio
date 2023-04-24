@@ -44,11 +44,24 @@
                     android:textFontWeight="700"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:paddingHorizontal="16dp"
-                    android:drawableStart="@drawable/icon_calendar"
                     android:drawablePadding="10dp"
                     android:textColor="@color/colorTextPrimary"/>
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_edit"
+                    android:paddingHorizontal="10dp"
+                    android:layout_gravity="right"/>
+
             </LinearLayout>
+
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/transactions_viewpager"
