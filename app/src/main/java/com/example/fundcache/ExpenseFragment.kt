@@ -194,6 +194,7 @@ class ExpenseFragment : Fragment() {
     private fun saveRecurrence() {
         val amount = amountEditText.text.toString().toDoubleOrNull()
         val description = descriptionEditText.text.toString()
+        val timestamp = dateTimeText.text.toString()
 
         // Validate the input
         if (amount == null || description.isEmpty()) {
@@ -206,7 +207,7 @@ class ExpenseFragment : Fragment() {
             "amount" to amount,
             "description" to description,
             "type" to "expense",
-            "timestamp" to FieldValue.serverTimestamp(),
+            "timestamp" to Date(timestamp),
             "recurrence" to recurrenceOption
         )
 
