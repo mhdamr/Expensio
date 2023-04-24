@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue
@@ -65,6 +66,13 @@ class IncomeFragment : Fragment() {
 
         Log.d("MyApp", "Wallet ID: $walletId")
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Hide the bottom app bar
+        requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.GONE
     }
 
     private fun saveIncome() {
@@ -158,6 +166,13 @@ class IncomeFragment : Fragment() {
             .addOnFailureListener {
                 Toast.makeText(context, "Error adding income.", Toast.LENGTH_SHORT).show()
             }*/
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        // Show the bottom app bar when leaving the fragment
+        requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.VISIBLE
     }
 
 }

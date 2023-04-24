@@ -1,13 +1,17 @@
 package com.example.fundcache
 
+import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ListAdapter
+import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -48,10 +52,8 @@ class WalletDetailFragment : Fragment() {
     private val scaleHide = 0f
     private val scaleShow = 1f
 
-    private lateinit var transactionsRecyclerView: RecyclerView
-    private lateinit var transactionsAdapter: TransactionsAdapter
-
     private lateinit var monthLabel: TextView
+    private lateinit var viewPager: ViewPager2
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -99,7 +101,7 @@ class WalletDetailFragment : Fragment() {
         monthLabel = view.findViewById(R.id.month_label)
 
         // Initialize the ViewPager2 with TransactionsPagerAdapter
-        val viewPager = view.findViewById<ViewPager2>(R.id.transactions_viewpager)
+        viewPager = view.findViewById<ViewPager2>(R.id.transactions_viewpager)
         viewPager.adapter = TransactionsPagerAdapter(this, walletId, currentUser)
         viewPager.setCurrentItem(Int.MAX_VALUE / 2, false)
 
@@ -173,6 +175,62 @@ class WalletDetailFragment : Fragment() {
         // Set the initial month label
         monthLabel.text = SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(Date())
 
+        monthLabel.setOnClickListener {
+            showMonthYearPicker()
+        }
+
+    }
+
+    private fun showMonthYearPicker() {
+        val calendar = Calendar.getInstance()
+        val currentYear = calendar.get(Calendar.YEAR)
+        val currentMonth = calendar.get(Calendar.MONTH)
+
+        val inflater = requireActivity().layoutInflater
+        val view = inflater.inflate(R.layout.month_year_picker_dialog, null)
+
+        val monthPicker: NumberPicker = view.findViewById(R.id.month_picker)
+        val yearPicker: NumberPicker = view.findViewById(R.id.year_picker)
+
+        monthPicker.minValue = 0
+        monthPicker.maxValue = 11
+        monthPicker.value = currentMonth
+        monthPicker.displayedValues = arrayOf(
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        )
+
+        val minYear = currentYear - 100
+        val maxYear = currentYear + 100
+        yearPicker.minValue = minYear
+        yearPicker.maxValue = maxYear
+        yearPicker.value = currentYear
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setView(view)
+            .setPositiveButton("OK") { _, _ ->
+                val selectedYear = yearPicker.value
+                val selectedMonth = monthPicker.value
+                updateSelectedMonthYear(selectedYear, selectedMonth)
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+        builder.create().show()
+    }
+
+    private fun updateSelectedMonthYear(year: Int, month: Int) {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+
+        val currentPosition = viewPager.currentItem
+        val currentCalendar = Calendar.getInstance()
+        currentCalendar.add(Calendar.MONTH, currentPosition - Int.MAX_VALUE / 2)
+
+        val differenceInMonths = ((calendar.get(Calendar.YEAR) - currentCalendar.get(Calendar.YEAR)) * 12) + (calendar.get(Calendar.MONTH) - currentCalendar.get(Calendar.MONTH))
+        viewPager.currentItem = currentPosition + differenceInMonths
     }
 
 
