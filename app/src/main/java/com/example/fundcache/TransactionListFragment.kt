@@ -64,6 +64,8 @@ class TransactionListFragment : Fragment(R.layout.fragment_transaction_list) {
 
         // Load the transactions for the specified month
         loadTransactionsForMonth(year, month)
+
+
     }
 
     private fun loadTransactionsForMonth(year: Int, month: Int) {
@@ -104,7 +106,15 @@ class TransactionListFragment : Fragment(R.layout.fragment_transaction_list) {
                         transactions.add(TransactionListItem.Transaction(transaction))
                     }
                 }
+
+                if (transactions.isEmpty()) {
+                    binding.emptyView.visibility = View.VISIBLE
+                } else {
+                    binding.emptyView.visibility = View.GONE
+                }
+
                 transactionsAdapter.submitList(transactions)
+
             }
     }
 
