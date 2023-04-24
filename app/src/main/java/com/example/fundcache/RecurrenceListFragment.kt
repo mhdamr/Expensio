@@ -71,19 +71,27 @@ class RecurrenceListFragment : Fragment() {
     }
 
     private fun deleteTransaction(transactionId: String) {
-        db.collection("users")
-            .document(currentUser.uid)
-            .collection("wallets")
-            .document(walletId)
-            .collection("recurrence")
-            .document(transactionId)
-            .delete()
-            .addOnSuccessListener {
-                Toast.makeText(context, "Transaction deleted.", Toast.LENGTH_SHORT).show()
-                fetchRecurrenceTransactions()
-            }
-            .addOnFailureListener {
-                Toast.makeText(context, "Error deleting transaction.", Toast.LENGTH_SHORT).show()
-            }
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Delete Recurring Transaction")
+        builder.setMessage("Are you sure you want to delete this transaction?")
+        builder.setPositiveButton("Delete") { _, _ ->
+            db.collection("users")
+                .document(currentUser.uid)
+                .collection("wallets")
+                .document(walletId)
+                .collection("recurrence")
+                .document(transactionId)
+                .delete()
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Transaction deleted.", Toast.LENGTH_SHORT).show()
+                    fetchRecurrenceTransactions()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(context, "Error deleting transaction.", Toast.LENGTH_SHORT).show()
+                }
+        }
+        builder.setNegativeButton("Cancel", null)
+        builder.show()
     }
+
 }
