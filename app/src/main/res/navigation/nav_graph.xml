@@ -86,4 +86,14 @@
         app:enterAnim="@anim/fade_in"
         app:exitAnim="@anim/fade_out"
         />
+    <fragment
+        android:id="@+id/recurrenceListFragment"
+        android:name="com.example.fundcache.RecurrenceListFragment"
+        android:label="Recurrence List"
+        tools:layout="@layout/fragment_recurrence_list">
+    </fragment>
+
+    <action
+        android:id="@+id/action_walletDetailFragment_to_recurrenceListFragment"
+        app:destination="@id/recurrenceListFragment"/>
 </navigation>
