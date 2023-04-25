@@ -45,7 +45,6 @@ class WalletDetailFragment : Fragment() {
 
     private lateinit var fab: FloatingActionButton
     private lateinit var fab1: FloatingActionButton
-    private lateinit var fab2: FloatingActionButton
     private lateinit var fab3: FloatingActionButton
     private var isFABOpen = false
     private val alphaHide = 0f
@@ -115,7 +114,6 @@ class WalletDetailFragment : Fragment() {
 
         fab = requireActivity().findViewById(R.id.floatingActionButton)
         fab1 = requireActivity().findViewById(R.id.fab1)
-        fab2 = requireActivity().findViewById(R.id.fab2)
         fab3 = requireActivity().findViewById(R.id.fab3)
 
         // Set a click listener to the FloatingActionButton
@@ -304,7 +302,6 @@ class WalletDetailFragment : Fragment() {
             fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorAccent))
             fab.setImageResource(R.drawable.icon_add)
             fab1.animate().translationX(0f).translationY(0f).alpha(alphaHide).scaleX(scaleHide).scaleY(scaleHide)
-            fab2.animate().translationX(0f).translationY(0f).alpha(alphaHide).scaleX(scaleHide).scaleY(scaleHide)
             fab3.animate().translationX(0f).translationY(0f).alpha(alphaHide).scaleX(scaleHide).scaleY(scaleHide)
             isFABOpen = false
 
@@ -318,9 +315,6 @@ class WalletDetailFragment : Fragment() {
 
             fab1.animate().translationX((distance * Math.sin(Math.toRadians((180.0 - angle) / 2.0))).toFloat()).translationY(-(distance * Math.cos(Math.toRadians((180.0 - angle) / 2.0))).toFloat()).alpha(alphaShow).scaleX(scaleShow).scaleY(scaleShow)
             fab1.visibility = View.VISIBLE
-
-            fab2.animate().translationX(0f).translationY(-distance).alpha(alphaShow).scaleX(scaleShow).scaleY(scaleShow)
-            fab2.visibility = View.VISIBLE
 
             fab3.animate().translationX(-(distance * Math.sin(Math.toRadians((180.0 - angle) / 2.0))).toFloat()).translationY(-(distance * Math.cos(Math.toRadians((180.0 - angle) / 2.0))).toFloat()).alpha(alphaShow).scaleX(scaleShow).scaleY(scaleShow)
             fab3.visibility = View.VISIBLE
