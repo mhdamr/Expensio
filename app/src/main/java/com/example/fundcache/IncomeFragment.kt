@@ -69,7 +69,7 @@ class IncomeFragment : Fragment() {
                 recurrenceOption = parent?.getItemAtPosition(position).toString()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                recurrenceOption = "Never"
+                recurrenceOption = "Once off"
             }
         }
 
@@ -162,7 +162,7 @@ class IncomeFragment : Fragment() {
             .add(income)
             .addOnSuccessListener {
                 Toast.makeText(context, "Income added successfully.", Toast.LENGTH_SHORT).show()
-                if (recurrenceOption != "Never") {
+                if (recurrenceOption != "Once off") {
                     saveRecurrence()
                 }
 
