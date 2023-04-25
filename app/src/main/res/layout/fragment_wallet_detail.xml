@@ -52,16 +52,12 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-
                 <ImageView
                     android:id="@+id/icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_edit"
+                    android:src="@drawable/icon_recurrence"
+                    android:paddingHorizontal="10dp"
                     android:layout_gravity="right"/>
 
             </LinearLayout>
