@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var toggle : ActionBarDrawerToggle
     private lateinit var fab: FloatingActionButton
     private lateinit var fab1: FloatingActionButton
-    private lateinit var fab2: FloatingActionButton
     private lateinit var fab3: FloatingActionButton
     private var menuMain: Menu? = null
 
@@ -172,7 +171,6 @@ class MainActivity : AppCompatActivity() {
 
         fab = findViewById(R.id.floatingActionButton)
         fab1 = findViewById(R.id.fab1)
-        fab2 = findViewById(R.id.fab2)
         fab3 = findViewById(R.id.fab3)
 
         // Add the destination change listener
@@ -192,19 +190,16 @@ class MainActivity : AppCompatActivity() {
                 R.id.walletsFragment -> {
                     fab.show()
                     fab1.hide()
-                    fab2.hide()
                     fab3.hide()
 
                     fab.setImageResource(R.drawable.icon_add)
                     fab1.setImageResource(R.drawable.icon_income)
-                    fab2.setImageResource(R.drawable.icon_add)
                     fab3.setImageResource(R.drawable.icon_expense)
 
                     fab.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1CD6CE"))
                     fab.animate().rotation(0f).setDuration(200).start()
 
                     fab1.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
-                    fab2.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
                     fab3.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
 
                     bottomNav.menu.findItem(R.id.placeholder).isVisible = true
@@ -213,7 +208,6 @@ class MainActivity : AppCompatActivity() {
                     fab.show()
 
                     fab1.setImageResource(R.drawable.icon_income)
-                    fab2.setImageResource(R.drawable.icon_add)
                     fab3.setImageResource(R.drawable.icon_expense)
 
                     bottomNav.menu.findItem(R.id.placeholder).isVisible = true
@@ -221,19 +215,16 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     fab.hide()
                     fab1.hide()
-                    fab2.hide()
                     fab3.hide()
 
                     fab.setImageResource(R.drawable.icon_add)
                     fab1.setImageResource(R.drawable.icon_income)
-                    fab2.setImageResource(R.drawable.icon_add)
                     fab3.setImageResource(R.drawable.icon_expense)
 
                     fab.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1CD6CE"))
                     fab.animate().rotation(0f).setDuration(200).start()
 
                     fab1.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
-                    fab2.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
                     fab3.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
                     bottomNav.menu.findItem(R.id.placeholder).isVisible = false
                     bottomAppBar.fabCradleMargin = 0f

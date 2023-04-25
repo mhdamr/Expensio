@@ -75,18 +75,6 @@
             android:visibility="gone"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/icon_ham_menu"
-            app:backgroundTint="@color/colorTextPrimary"
-            app:layout_anchor="@id/bottomAppBar"
-            app:tint="@color/colorTextPrimary"
-            app:layout_anchorGravity="center|top"
-            android:visibility="gone"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
