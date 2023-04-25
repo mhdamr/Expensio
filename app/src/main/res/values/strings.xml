@@ -1,6 +1,6 @@
 <resources>
     <!--Name of App-->
-    <string name="app_name">Spendio</string>
+    <string name="app_name">Spense</string>
     <!--Placeholder for Username text input-->
     <string name="email">Email</string>
     <!--Placeholder for Password text input-->
