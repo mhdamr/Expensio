@@ -234,4 +234,5 @@ class ExpenseFragment : Fragment() {
         requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.VISIBLE
     }
 
+
 }

@@ -64,8 +64,6 @@ class TransactionListFragment : Fragment(R.layout.fragment_transaction_list) {
 
         // Load the transactions for the specified month
         loadTransactionsForMonth(year, month)
-
-
     }
 
     private fun loadTransactionsForMonth(year: Int, month: Int) {

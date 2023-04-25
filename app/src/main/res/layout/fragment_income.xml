@@ -23,17 +23,6 @@
 
 
                 <EditText
-                    android:id="@+id/title_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="15dp"
-                    android:drawableStart="@drawable/icon_wallet"
-                    android:drawableTint="@color/colorAccent"
-                    android:hint="Amount"
-                    android:inputType="numberDecimal" />
-
-
-                <EditText
                     android:id="@+id/amount_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -48,14 +37,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="15dp"
-                    android:drawableStart="@drawable/icon_wallet"
+                    android:drawableStart="@drawable/icon_description"
                     android:drawableTint="@color/colorAccent"
                     android:hint="Description"/>
+
+                <TextView
+                    android:id="@+id/date_time_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:hint="Current Date and Time"
+                    android:textSize="16dp"
+                    android:textColor="@color/colorWhite"/>
 
                 <Spinner
                     android:id="@+id/recurrence_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
                     android:entries="@array/recurrence_options"
                     android:prompt="@string/recurrence_prompt"
                     android:background="@drawable/spinner_background"
@@ -73,7 +72,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/login_button"
-            android:text="Update Wallet"
+            android:text="Add Income"
             android:textColor="@color/colorPageBackground"
             android:textFontWeight="800"
             android:textSize="16dp"
