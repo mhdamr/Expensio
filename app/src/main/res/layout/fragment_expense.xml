@@ -1,57 +1,85 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="?attr/actionBarSize"
+    android:background="@color/colorPageBackground"
+    android:theme="@style/Theme.FundCache">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Expense"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:padding="16dp"/>
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/amount_edittext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Amount"
-        android:inputType="numberDecimal"
-        android:padding="16dp"/>
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/save_button">
 
-    <EditText
-        android:id="@+id/description_edittext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Description"
-        android:padding="16dp"/>
-
-    <TextView
-        android:id="@+id/date_time_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Current Date and Time"
-        android:padding="16dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
 
-    <Spinner
-        android:id="@+id/recurrence_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:entries="@array/recurrence_options"
-        android:prompt="@string/recurrence_prompt" />
+                <EditText
+                    android:id="@+id/amount_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:drawableStart="@drawable/icon_wallet"
+                    android:drawableTint="@color/colorAccent"
+                    android:hint="Amount"
+                    android:inputType="numberDecimal" />
 
-    <Button
-        android:id="@+id/save_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:layout_gravity="end"
-        android:padding="16dp"/>
+                <EditText
+                    android:id="@+id/description_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:drawableStart="@drawable/icon_description"
+                    android:drawableTint="@color/colorAccent"
+                    android:hint="Description"/>
 
+                <TextView
+                    android:id="@+id/date_time_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:hint="Current Date and Time"
+                    android:textSize="16dp"
+                    android:textColor="@color/colorWhite"/>
 
+                <Spinner
+                    android:id="@+id/recurrence_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:entries="@array/recurrence_options"
+                    android:prompt="@string/recurrence_prompt"
+                    android:background="@drawable/spinner_background"
+                    android:text="@string/recurrence_label" />
 
+            </LinearLayout>
 
-</LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/login_button"
+            android:text="Add Expense"
+            android:textColor="@color/colorPageBackground"
+            android:textFontWeight="800"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

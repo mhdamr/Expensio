@@ -1,6 +1,5 @@
 package com.example.fundcache
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.res.ColorStateList
@@ -14,6 +13,7 @@ import android.widget.ImageView
 import android.widget.ListAdapter
 import android.widget.NumberPicker
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -222,7 +222,17 @@ class WalletDetailFragment : Fragment() {
             .setNegativeButton("Cancel") { dialog, _ ->
                 dialog.dismiss()
             }
-        builder.create().show()
+
+        val dialog = builder.create()
+        dialog.show()
+        val window = dialog.window
+        if (window != null) {
+            val layoutParams = WindowManager.LayoutParams()
+            layoutParams.copyFrom(window.attributes)
+            layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT
+            layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+            window.attributes = layoutParams
+        }
     }
 
     private fun updateSelectedMonthYear(year: Int, month: Int) {
@@ -394,7 +404,7 @@ class WalletDetailFragment : Fragment() {
 
                         // Calculate the time difference based on the recurrence option
                         val timeDifference = when (recurrenceOption) {
-                            "Every day" -> TimeUnit.SECONDS.toMillis(10)
+                            "Every day" -> TimeUnit.DAYS.toMillis(1)
                             "Every 2 days" -> TimeUnit.DAYS.toMillis(2)
                             "Weekly" -> TimeUnit.DAYS.toMillis(7)
                             "Monthly" -> TimeUnit.DAYS.toMillis(30) // Approximation
@@ -458,7 +468,7 @@ class WalletDetailFragment : Fragment() {
 
                         // Calculate the time difference based on the recurrence option
                         val timeDifference = when (recurrenceOption) {
-                            "Every day" -> TimeUnit.SECONDS.toMillis(10)
+                            "Every day" -> TimeUnit.DAYS.toMillis(1)
                             "Every 2 days" -> TimeUnit.DAYS.toMillis(2)
                             "Weekly" -> TimeUnit.DAYS.toMillis(7)
                             "Monthly" -> TimeUnit.DAYS.toMillis(30) // Approximation
