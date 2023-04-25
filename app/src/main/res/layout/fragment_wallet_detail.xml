@@ -56,7 +56,7 @@
                     android:id="@+id/icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_edit"
+                    android:src="@drawable/icon_recurrence"
                     android:paddingHorizontal="10dp"
                     android:layout_gravity="right"/>
 
