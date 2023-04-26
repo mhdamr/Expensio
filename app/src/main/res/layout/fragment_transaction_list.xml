@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:paddingHorizontal="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/transaction_item"/>
+        tools:listitem="@layout/transaction_item"
+        android:layout_marginBottom="40dp"/>
 
     <TextView
         android:id="@+id/emptyView"

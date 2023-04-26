@@ -1,14 +1,22 @@
 package com.example.fundcache
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fundcache.databinding.DateHeaderBinding
 import com.example.fundcache.databinding.TransactionItemBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,7 +25,7 @@ sealed class TransactionListItem {
     data class Transaction(val transaction: TransactionItem) : TransactionListItem()
 }
 
-class TransactionsAdapter(private val context: Context) : ListAdapter<TransactionListItem, RecyclerView.ViewHolder>(TransactionDiffCallback()) {
+class TransactionsAdapter(private val context: Context, private val walletId: String) : ListAdapter<TransactionListItem, RecyclerView.ViewHolder>(TransactionDiffCallback()) {
 
     private val HEADER_VIEW_TYPE = 1
     private val TRANSACTION_VIEW_TYPE = 2
@@ -70,7 +78,68 @@ class TransactionsAdapter(private val context: Context) : ListAdapter<Transactio
 
     inner class DateHeaderViewHolder(val binding: DateHeaderBinding) : RecyclerView.ViewHolder(binding.root)
 
-    inner class TransactionViewHolder(val binding: TransactionItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class TransactionViewHolder(val binding: TransactionItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                val transaction = (getItem(adapterPosition) as? TransactionListItem.Transaction)?.transaction
+                transaction?.let {
+                    showTransactionDetailsDialog(it)
+                }
+            }
+        }
+    }
+    private fun showTransactionDetailsDialog(transaction: TransactionItem) {
+        val builder = AlertDialog.Builder(context)
+        val inflater = LayoutInflater.from(context)
+        val dialogView = inflater.inflate(R.layout.dialog_edit_transaction, null)
+        builder.setView(dialogView)
+
+        val amountEditText = dialogView.findViewById<EditText>(R.id.edit_amount)
+        val descriptionEditText = dialogView.findViewById<EditText>(R.id.edit_description)
+        val cancelButton = dialogView.findViewById<Button>(R.id.cancel_button)
+        val saveChangesButton = dialogView.findViewById<Button>(R.id.save_changes_btn)
+
+        // Set the transaction data in the edit fields
+        amountEditText.setText(transaction.amount.toString())
+        descriptionEditText.setText(transaction.description)
+
+        val alertDialog = builder.create()
+
+        // Handle cancel button click
+        cancelButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        // Handle save changes button click
+        saveChangesButton.setOnClickListener {
+            // Save changes to the transaction
+            updateTransaction(transaction.id, amountEditText.text.toString(), descriptionEditText.text.toString())
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
+    }
+
+    private fun updateTransaction(transactionId: String, newAmount: String, newDescription: String) {
+        val updatedTransaction = mapOf(
+            "amount" to newAmount.toDouble(),
+            "description" to newDescription
+        )
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.let { user ->
+            FirebaseFirestore.getInstance().collection("users").document(user.uid)
+                .collection("wallets").document(walletId)
+                .collection("transactions").document(transactionId)
+                .update(updatedTransaction)
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Transaction updated successfully.", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(context, "Error updating transaction: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
 
     class TransactionDiffCallback : DiffUtil.ItemCallback<TransactionListItem>() {
         override fun areItemsTheSame(oldItem: TransactionListItem, newItem: TransactionListItem): Boolean {
