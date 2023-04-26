@@ -1,5 +1,6 @@
 package com.example.fundcache
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,8 +45,13 @@ class RecurrenceListAdapter(
                 val date = transaction.timestamp.toDate() // convert Firebase Timestamp to Date
                 val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()) // specify date format
                 timestamp.text = dateFormat.format(date) // set formatted date to TextView
-
-                amount.text = transaction.amount.toString()
+                if (transaction.type == "expense"){
+                    amount.setTextColor(Color.parseColor("#EE3434"))
+                    amount.text = "-" + transaction.amount.toString()
+                }else {
+                    amount.setTextColor(Color.parseColor("#39FA41"))
+                    amount.text = "+" + transaction.amount.toString()
+                }
                 deleteIcon.setOnClickListener {
                     onDeleteClick(transaction.id)
                 }
