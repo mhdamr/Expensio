@@ -14,21 +14,20 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/edit_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Edit Transaction"
+            android:text="Edit "
             android:textSize="18dp"
             android:textColor="@color/colorTextPrimary" />
-
-        <TextView
-            android:id="@+id/edit_type"
+        
+        <ImageView
+            android:id="@+id/delete_button"
+            android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Type"
-            android:textSize="18dp"
-            android:gravity="end"
-            android:textColor="@color/colorTextPrimary" />
+            android:src="@drawable/icon_trash"/>
 
     </LinearLayout>
 
@@ -71,6 +70,7 @@
             android:textSize="15dp"/>
 
         <Button
+
             android:id="@+id/save_changes_btn"
             android:layout_width="0dp"
             android:layout_height="40dp"
@@ -81,6 +81,7 @@
             android:textColor="@color/colorPageBackground"
             android:textFontWeight="700"
             android:textSize="15dp"/>
+
 
     </LinearLayout>
 

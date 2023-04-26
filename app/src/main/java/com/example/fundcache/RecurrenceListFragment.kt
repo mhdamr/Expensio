@@ -85,7 +85,7 @@ class RecurrenceListFragment : Fragment() {
     private fun deleteTransaction(transactionId: String) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Delete Recurring Transaction")
-        builder.setMessage("Are you sure you want to delete this transaction?")
+        builder.setMessage("Are you sure you want to delete this recurrence?")
         builder.setPositiveButton("Delete") { _, _ ->
             db.collection("users")
                 .document(currentUser.uid)
