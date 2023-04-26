@@ -11,7 +11,7 @@ import com.google.firebase.firestore.Query
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TransactionListFragment : Fragment(R.layout.fragment_transaction_list) {
+class TransactionListFragment : Fragment(R.layout.fragment_transaction_list), TransactionsAdapter.OnTransactionUpdatedListener {
     private var _binding: FragmentTransactionListBinding? = null
     private val binding get() = _binding!!
 
@@ -58,11 +58,15 @@ class TransactionListFragment : Fragment(R.layout.fragment_transaction_list) {
         _binding = FragmentTransactionListBinding.bind(view)
 
         // Set up the transactions RecyclerView and adapter
-        transactionsAdapter = TransactionsAdapter(requireContext(), walletId)
+        transactionsAdapter = TransactionsAdapter(requireContext(), walletId, this)
         binding.transactionsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         binding.transactionsRecyclerview.adapter = transactionsAdapter
 
         // Load the transactions for the specified month
+        loadTransactionsForMonth(year, month)
+    }
+
+    override fun onTransactionUpdated() {
         loadTransactionsForMonth(year, month)
     }
 
