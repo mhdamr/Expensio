@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="recurrence_options">
-        <item>Once off</item>
+        <item>No Recurrence</item>
         <item>Every day</item>
         <item>Every 2 days</item>
         <item>Weekly</item>
