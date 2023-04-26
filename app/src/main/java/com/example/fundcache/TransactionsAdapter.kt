@@ -81,9 +81,11 @@ class TransactionsAdapter(
 
                     if (transaction.type == "expense") {
                         transactionAmount.setTextColor(ContextCompat.getColor(context, R.color.Expense))
+                        transactionType.setTextColor(ContextCompat.getColor(context, R.color.Expense))
                         transactionType.text = "-"
                     } else {
                         transactionAmount.setTextColor(ContextCompat.getColor(context, R.color.Income))
+                        transactionType.setTextColor(ContextCompat.getColor(context, R.color.Income))
                         transactionType.text = "+"
                     }
                 }
