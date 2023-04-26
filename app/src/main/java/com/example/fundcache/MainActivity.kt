@@ -100,8 +100,8 @@ class MainActivity : AppCompatActivity() {
 
             when(it.itemId) {
 
-                R.id.drawer_bank_sync ->
-                    Toast.makeText(applicationContext,"Clicked Home", Toast.LENGTH_SHORT).show()
+                /*R.id.drawer_bank_sync ->
+                    Toast.makeText(applicationContext,"Clicked Home", Toast.LENGTH_SHORT).show()*/
                 R.id.drawer_log_out -> {
                     // Handle Log Out menu item click
                     FirebaseAuth.getInstance().signOut()
