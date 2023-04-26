@@ -141,11 +141,10 @@ class TransactionsAdapter(
         alertDialog.show()
     }
 
-    private fun updateTransaction(transactionId: String, oldAmount: Double,newAmount: String, newDescription: String, newTransactionType: String) {
+    private fun updateTransaction(transactionId: String, oldAmount: Double,newAmount: String, newDescription: String, oldTransactionType: String) {
         val updatedTransaction = mapOf(
             "amount" to newAmount.toDouble(),
             "description" to newDescription,
-            "type" to newTransactionType,
         )
 
         val currentUser = FirebaseAuth.getInstance().currentUser
@@ -168,9 +167,9 @@ class TransactionsAdapter(
                 )
 
                 // Update the wallet amount
-                val newWalletAmount = when (newTransactionType) {
-                    "income" -> currentAmount - oldAmount + newAmount.toDouble()
-                    "expense" -> currentAmount + oldAmount - newAmount.toDouble()
+                val newWalletAmount = when (oldTransactionType) {
+                    "Income" -> currentAmount - oldAmount + newAmount.toDouble()
+                    "Expense" -> currentAmount + oldAmount - newAmount.toDouble()
                     else -> currentAmount
                 }
                 transaction.update(walletRef, "amount", newWalletAmount)
