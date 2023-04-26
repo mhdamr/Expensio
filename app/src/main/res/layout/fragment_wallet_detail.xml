@@ -45,7 +45,8 @@
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:paddingHorizontal="16dp"
                     android:drawablePadding="10dp"
-                    android:textColor="@color/colorTextPrimary"/>
+                    android:textColor="@color/colorTextPrimary"
+                    android:drawableLeft="@drawable/icon_calendar"/>
 
                 <View
                     android:layout_width="0dp"

@@ -58,7 +58,7 @@ class TransactionListFragment : Fragment(R.layout.fragment_transaction_list) {
         _binding = FragmentTransactionListBinding.bind(view)
 
         // Set up the transactions RecyclerView and adapter
-        transactionsAdapter = TransactionsAdapter(requireContext())
+        transactionsAdapter = TransactionsAdapter(requireContext(), walletId)
         binding.transactionsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         binding.transactionsRecyclerview.adapter = transactionsAdapter
 

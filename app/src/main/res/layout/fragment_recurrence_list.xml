@@ -18,4 +18,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/recurrence_item" />
 
+    <TextView
+        android:id="@+id/no_recurrence_transactions_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="You do not have any recurrence transactions."
+        android:textSize="18dp"
+        android:textColor="@color/colorTextPrimary"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
