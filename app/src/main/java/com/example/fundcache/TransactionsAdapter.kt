@@ -2,11 +2,14 @@ package com.example.fundcache
 
 import android.content.Context
 import android.graphics.Color
+import android.media.Image
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -116,16 +119,17 @@ class TransactionsAdapter(
         val typeTextView = dialogView.findViewById<TextView>(R.id.edit_type)
         val cancelButton = dialogView.findViewById<Button>(R.id.cancel_button)
         val saveChangesButton = dialogView.findViewById<Button>(R.id.save_changes_btn)
+        val deleteButton = dialogView.findViewById<ImageView>(R.id.delete_button)
 
         // Set the transaction data in the edit fields
         amountEditText.setText(transaction.amount.toString())
         descriptionEditText.setText(transaction.description)
 
         if (transaction.type == "expense"){
-            typeTextView.text = "Expense"
+            typeTextView.text = "Edit Expense"
             typeTextView.setTextColor(Color.parseColor("#EE3434"))
         }else{
-            typeTextView.text = "Income"
+            typeTextView.text = "Edit Income"
             typeTextView.setTextColor(Color.parseColor("#39FA41"))
         }
 
@@ -138,6 +142,13 @@ class TransactionsAdapter(
             alertDialog.dismiss()
         }
 
+        deleteButton.setOnClickListener{
+            deleteTransaction(transaction.id, transaction.amount, amountEditText.text.toString(),typeTextView.text.toString()) {
+                alertDialog.dismiss()
+            }
+        }
+
+
         // Handle save changes button click
         saveChangesButton.setOnClickListener {
             // Save changes to the transaction
@@ -147,6 +158,68 @@ class TransactionsAdapter(
 
         alertDialog.show()
     }
+
+    private fun deleteTransaction(transactionId: String,oldAmount: Double,newAmount: String, oldTransactionType: String, callback: () -> Unit){
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.let {
+            val walletRef = FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(currentUser.uid)
+                .collection("wallets")
+                .document(walletId)
+                .collection("transactions")
+                .document(transactionId)
+
+            val alertDialogBuilder = AlertDialog.Builder(context)
+            alertDialogBuilder.setTitle("Delete Transaction")
+            alertDialogBuilder.setMessage("Are you sure you want to delete this transaction?")
+            alertDialogBuilder.setPositiveButton("Delete") { _, _ ->
+                walletRef.delete()
+                    .addOnSuccessListener {
+                        val currentUser = FirebaseAuth.getInstance().currentUser
+                        currentUser?.let { user ->
+                            val walletRef = FirebaseFirestore.getInstance()
+                                .collection("users")
+                                .document(user.uid)
+                                .collection("wallets")
+                                .document(walletId)
+
+                            FirebaseFirestore.getInstance().runTransaction { transaction ->
+                                // Get the current wallet data
+                                val walletDoc = transaction.get(walletRef)
+                                val currentAmount = walletDoc.getDouble("amount") ?: 0.0
+
+                                // Update the wallet amount
+                                val newWalletAmount = when (oldTransactionType) {
+                                    "Edit Income" -> currentAmount - oldAmount
+                                    "Edit Expense" -> currentAmount + oldAmount
+                                    else -> currentAmount
+                                }
+                                transaction.update(walletRef, "amount", newWalletAmount)
+
+                            }.addOnSuccessListener {
+                                onWalletBalanceUpdatedListener.onWalletBalanceUpdated()
+                            }
+                        }
+                        callback()
+                        Toast.makeText(context, "Transaction deleted.", Toast.LENGTH_SHORT).show()
+                        onTransactionUpdatedListener.onTransactionUpdated()
+
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(context, "Error deleting transaction.", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            alertDialogBuilder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
+        }
+
+    }
+
+
 
     private fun updateTransaction(transactionId: String, oldAmount: Double,newAmount: String, newDescription: String, oldTransactionType: String) {
         val updatedTransaction = mapOf(
@@ -175,8 +248,8 @@ class TransactionsAdapter(
 
                 // Update the wallet amount
                 val newWalletAmount = when (oldTransactionType) {
-                    "Income" -> currentAmount - oldAmount + newAmount.toDouble()
-                    "Expense" -> currentAmount + oldAmount - newAmount.toDouble()
+                    "Edit Income" -> currentAmount - oldAmount + newAmount.toDouble()
+                    "Edit Expense" -> currentAmount + oldAmount - newAmount.toDouble()
                     else -> currentAmount
                 }
                 transaction.update(walletRef, "amount", newWalletAmount)
