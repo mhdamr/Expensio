@@ -30,11 +30,16 @@ sealed class TransactionListItem {
 class TransactionsAdapter(
     private val context: Context,
     private val walletId: String,
-    private val onTransactionUpdatedListener: OnTransactionUpdatedListener
+    private val onTransactionUpdatedListener: OnTransactionUpdatedListener,
+    private val onWalletBalanceUpdatedListener: OnWalletBalanceUpdatedListener
     ) : ListAdapter<TransactionListItem, RecyclerView.ViewHolder>(TransactionDiffCallback()) {
 
     interface OnTransactionUpdatedListener {
         fun onTransactionUpdated()
+    }
+
+    interface OnWalletBalanceUpdatedListener {
+        fun onWalletBalanceUpdated()
     }
 
     private val HEADER_VIEW_TYPE = 1
@@ -177,6 +182,7 @@ class TransactionsAdapter(
                 .addOnSuccessListener {
                     Toast.makeText(context, "Transaction updated successfully.", Toast.LENGTH_SHORT).show()
                     onTransactionUpdatedListener.onTransactionUpdated()
+                    onWalletBalanceUpdatedListener.onWalletBalanceUpdated()
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(context, "Error updating transaction: ${e.message}", Toast.LENGTH_SHORT).show()

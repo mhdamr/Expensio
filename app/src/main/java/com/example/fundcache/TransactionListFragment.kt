@@ -1,5 +1,6 @@
 package com.example.fundcache
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -11,7 +12,7 @@ import com.google.firebase.firestore.Query
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TransactionListFragment : Fragment(R.layout.fragment_transaction_list), TransactionsAdapter.OnTransactionUpdatedListener {
+class TransactionListFragment : Fragment(R.layout.fragment_transaction_list), TransactionsAdapter.OnTransactionUpdatedListener, TransactionsAdapter.OnWalletBalanceUpdatedListener {
     private var _binding: FragmentTransactionListBinding? = null
     private val binding get() = _binding!!
 
@@ -21,8 +22,31 @@ class TransactionListFragment : Fragment(R.layout.fragment_transaction_list), Tr
     private var currentUser: FirebaseUser? = null
     private var year: Int = 0
     private var month: Int = 0
+    private var onTransactionListWalletBalanceUpdatedListener: OnTransactionListWalletBalanceUpdatedListener? = null
 
     private lateinit var transactionsAdapter: TransactionsAdapter
+
+    interface OnTransactionListWalletBalanceUpdatedListener {
+        fun onTransactionListWalletBalanceUpdated()
+    }
+
+    override fun onWalletBalanceUpdated() {
+        onTransactionListWalletBalanceUpdatedListener?.onTransactionListWalletBalanceUpdated()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            onTransactionListWalletBalanceUpdatedListener = parentFragment as OnTransactionListWalletBalanceUpdatedListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException(parentFragment.toString() + " must implement OnTransactionListWalletBalanceUpdatedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onTransactionListWalletBalanceUpdatedListener = null
+    }
 
     companion object {
         private const val ARG_WALLET_ID = "wallet_id"
@@ -58,7 +82,7 @@ class TransactionListFragment : Fragment(R.layout.fragment_transaction_list), Tr
         _binding = FragmentTransactionListBinding.bind(view)
 
         // Set up the transactions RecyclerView and adapter
-        transactionsAdapter = TransactionsAdapter(requireContext(), walletId, this)
+        transactionsAdapter = TransactionsAdapter(requireContext(), walletId, this, this)
         binding.transactionsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         binding.transactionsRecyclerview.adapter = transactionsAdapter
 

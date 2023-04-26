@@ -31,7 +31,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 
-class WalletDetailFragment : Fragment() {
+class WalletDetailFragment : Fragment(R.layout.fragment_wallet_detail), TransactionListFragment.OnTransactionListWalletBalanceUpdatedListener {
 
     private lateinit var walletId: String
     private lateinit var walletName: String
@@ -324,6 +324,9 @@ class WalletDetailFragment : Fragment() {
         }
     }
 
+    override fun onTransactionListWalletBalanceUpdated() {
+        updateTotalBalanceTextView()
+    }
 
     private fun updateTotalBalanceTextView() {
 
