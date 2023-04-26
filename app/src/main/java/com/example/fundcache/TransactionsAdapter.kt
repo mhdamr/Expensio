@@ -1,11 +1,13 @@
 package com.example.fundcache
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -104,12 +106,23 @@ class TransactionsAdapter(
 
         val amountEditText = dialogView.findViewById<EditText>(R.id.edit_amount)
         val descriptionEditText = dialogView.findViewById<EditText>(R.id.edit_description)
+        val typeTextView = dialogView.findViewById<TextView>(R.id.edit_type)
         val cancelButton = dialogView.findViewById<Button>(R.id.cancel_button)
         val saveChangesButton = dialogView.findViewById<Button>(R.id.save_changes_btn)
 
         // Set the transaction data in the edit fields
         amountEditText.setText(transaction.amount.toString())
         descriptionEditText.setText(transaction.description)
+
+        if (transaction.type == "expense"){
+            typeTextView.text = "Expense"
+            typeTextView.setTextColor(Color.parseColor("#EE3434"))
+        }else{
+            typeTextView.text = "Income"
+            typeTextView.setTextColor(Color.parseColor("#39FA41"))
+        }
+
+
 
         val alertDialog = builder.create()
 
@@ -121,25 +134,47 @@ class TransactionsAdapter(
         // Handle save changes button click
         saveChangesButton.setOnClickListener {
             // Save changes to the transaction
-            updateTransaction(transaction.id, amountEditText.text.toString(), descriptionEditText.text.toString())
+            updateTransaction(transaction.id,transaction.amount, amountEditText.text.toString(), descriptionEditText.text.toString(),typeTextView.text.toString())
             alertDialog.dismiss()
         }
 
         alertDialog.show()
     }
 
-    private fun updateTransaction(transactionId: String, newAmount: String, newDescription: String) {
+    private fun updateTransaction(transactionId: String, oldAmount: Double,newAmount: String, newDescription: String, newTransactionType: String) {
         val updatedTransaction = mapOf(
             "amount" to newAmount.toDouble(),
-            "description" to newDescription
+            "description" to newDescription,
+            "type" to newTransactionType,
         )
 
         val currentUser = FirebaseAuth.getInstance().currentUser
         currentUser?.let { user ->
-            FirebaseFirestore.getInstance().collection("users").document(user.uid)
-                .collection("wallets").document(walletId)
-                .collection("transactions").document(transactionId)
-                .update(updatedTransaction)
+            val walletRef = FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(user.uid)
+                .collection("wallets")
+                .document(walletId)
+
+            FirebaseFirestore.getInstance().runTransaction { transaction ->
+                // Get the current wallet data
+                val walletDoc = transaction.get(walletRef)
+                val currentAmount = walletDoc.getDouble("amount") ?: 0.0
+
+                // Update the transaction document
+                transaction.update(
+                    walletRef.collection("transactions").document(transactionId),
+                    updatedTransaction
+                )
+
+                // Update the wallet amount
+                val newWalletAmount = when (newTransactionType) {
+                    "income" -> currentAmount - oldAmount + newAmount.toDouble()
+                    "expense" -> currentAmount + oldAmount - newAmount.toDouble()
+                    else -> currentAmount
+                }
+                transaction.update(walletRef, "amount", newWalletAmount)
+            }
                 .addOnSuccessListener {
                     Toast.makeText(context, "Transaction updated successfully.", Toast.LENGTH_SHORT).show()
                     onTransactionUpdatedListener.onTransactionUpdated()
@@ -149,6 +184,7 @@ class TransactionsAdapter(
                 }
         }
     }
+
 
     class TransactionDiffCallback : DiffUtil.ItemCallback<TransactionListItem>() {
         override fun areItemsTheSame(oldItem: TransactionListItem, newItem: TransactionListItem): Boolean {
