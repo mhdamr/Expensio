@@ -123,37 +123,5 @@ class WalletsFragment : Fragment() {
         }
     }
 
-    // Add the following code inside WalletsFragment class
-    override fun onResume() {
-        super.onResume()
-        showFAB()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        hideFAB()
-    }
-
-    private fun showFAB() {
-        val fab = requireActivity().findViewById<FloatingActionButton>(R.id.floatingActionButton)
-        val bottomAppBar = requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar)
-
-        fab.visibility = View.VISIBLE
-
-        bottomAppBar.fabCradleMargin = 30f
-        bottomAppBar.fabCradleRoundedCornerRadius = 30f
-        bottomAppBar.cradleVerticalOffset = 30f
-    }
-
-    private fun hideFAB() {
-        val fab = requireActivity().findViewById<FloatingActionButton>(R.id.floatingActionButton)
-        val bottomAppBar = requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar)
-
-        fab.visibility = View.GONE
-
-        bottomAppBar.fabCradleMargin = 0f
-        bottomAppBar.fabCradleRoundedCornerRadius = 0f
-        bottomAppBar.cradleVerticalOffset = 0f
-    }
 
 }

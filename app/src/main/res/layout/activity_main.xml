@@ -13,13 +13,13 @@
         android:layout_height="match_parent">
 
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:navGraph="@navigation/nav_graph">
-        </fragment>
+        </androidx.fragment.app.FragmentContainerView>
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -47,6 +47,7 @@
                     android:layout_height="match_parent"
                     app:itemTextColor="@drawable/bottom_nav_item_color"
                     app:itemIconTint="@drawable/bottom_nav_item_color"
+                    android:layout_marginEnd="16dp"
                     android:background="@color/colorTransparent"
                     app:itemBackground="@drawable/ripple_effect"
                     app:menu="@menu/nav_menu" />

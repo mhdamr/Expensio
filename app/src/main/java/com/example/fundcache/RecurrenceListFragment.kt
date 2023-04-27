@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -42,7 +43,10 @@ class RecurrenceListFragment : Fragment() {
 
         recurrenceListRecyclerView = view.findViewById(R.id.recurrence_list_recyclerview)
 
-// Initialize the adapter for the RecyclerView
+        // Hide the bottom app bar
+        requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.GONE
+
+        // Initialize the adapter for the RecyclerView
         adapter = RecurrenceListAdapter(mutableListOf()) { transactionId ->
             deleteTransaction(transactionId)
         }
@@ -106,4 +110,10 @@ class RecurrenceListFragment : Fragment() {
         builder.show()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        // Show the bottom app bar when leaving the fragment
+        requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.VISIBLE
+    }
 }

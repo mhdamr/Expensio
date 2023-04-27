@@ -18,6 +18,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var progressBar: ProgressBar
+    private lateinit var confirmPasswordEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +32,8 @@ class RegisterActivity : AppCompatActivity() {
         emailEditText = findViewById(R.id.editTextEmail)
         passwordEditText = findViewById(R.id.editTextPassword)
         progressBar = findViewById(R.id.progressBar)
+        // Get references to UI elements
+        confirmPasswordEditText = findViewById(R.id.editTextConfirmPassword)
 
         // Set click listener for register button
         registerButton.setOnClickListener {
@@ -65,6 +68,30 @@ class RegisterActivity : AppCompatActivity() {
             passwordEditText.requestFocus()
             return
         }
+
+        // Add this after checking if password is empty
+        val confirmPassword = confirmPasswordEditText.text.toString().trim()
+
+        if (confirmPassword.isEmpty()) {
+            confirmPasswordEditText.error = "Confirm password is required"
+            confirmPasswordEditText.requestFocus()
+            return
+        }
+
+        if (password != confirmPassword) {
+            confirmPasswordEditText.error = "Passwords do not match"
+            confirmPasswordEditText.requestFocus()
+            return
+        }
+
+        // Replace the existing password length check with the following
+        if (!isValidPassword(password)) {
+            passwordEditText.error = "Password must be at least 6 characters, contain at least 1 number and 1 symbol"
+            passwordEditText.requestFocus()
+            return
+        }
+
+
 
         progressBar.visibility = View.VISIBLE
 
@@ -108,5 +135,13 @@ class RegisterActivity : AppCompatActivity() {
                     progressBar.visibility = View.GONE
                 }
     }
+    }
+
+    private fun isValidPassword(password: String): Boolean {
+        val hasNumber = password.any { it.isDigit() }
+        val hasSymbol = password.any { !it.isLetterOrDigit() }
+        val hasMinLength = password.length >= 6
+
+        return hasNumber && hasSymbol && hasMinLength
     }
 }

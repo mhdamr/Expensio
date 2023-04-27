@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         bottomNav.background = null
-        bottomNav.menu.getItem(2).isEnabled = false
+        bottomNav.menu.getItem(1).isEnabled = false
 
         val bottomAppBar : BottomAppBar = findViewById(R.id.bottomAppBar)
 
@@ -196,16 +196,45 @@ class MainActivity : AppCompatActivity() {
                     fab1.setImageResource(R.drawable.icon_income)
                     fab3.setImageResource(R.drawable.icon_expense)
 
-                    fab.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1CD6CE"))
+                    fab.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#bc00ff"))
                     fab.animate().rotation(0f).setDuration(200).start()
 
                     fab1.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
                     fab3.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
 
+                    bottomAppBar.fabCradleMargin = 30f
+                    bottomAppBar.fabCradleRoundedCornerRadius = 30f
+                    bottomAppBar.cradleVerticalOffset = 30f
+
+                    bottomNav.menu.findItem(R.id.placeholder).isVisible = true
+                }
+                R.id.homeFragment -> {
+                    fab.show()
+                    fab1.hide()
+                    fab3.hide()
+
+                    fab.setImageResource(R.drawable.icon_search)
+                    fab1.setImageResource(R.drawable.icon_income)
+                    fab3.setImageResource(R.drawable.icon_expense)
+
+                    fab.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#bc00ff"))
+                    fab.animate().rotation(0f).setDuration(200).start()
+
+                    fab1.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
+                    fab3.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
+
+                    bottomAppBar.fabCradleMargin = 30f
+                    bottomAppBar.fabCradleRoundedCornerRadius = 30f
+                    bottomAppBar.cradleVerticalOffset = 30f
+
                     bottomNav.menu.findItem(R.id.placeholder).isVisible = true
                 }
                 R.id.walletDetailFragment -> {
                     fab.show()
+
+                    bottomAppBar.fabCradleMargin = 30f
+                    bottomAppBar.fabCradleRoundedCornerRadius = 30f
+                    bottomAppBar.cradleVerticalOffset = 30f
 
                     fab1.setImageResource(R.drawable.icon_income)
                     fab3.setImageResource(R.drawable.icon_expense)
@@ -221,7 +250,7 @@ class MainActivity : AppCompatActivity() {
                     fab1.setImageResource(R.drawable.icon_income)
                     fab3.setImageResource(R.drawable.icon_expense)
 
-                    fab.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1CD6CE"))
+                    fab.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#bc00ff"))
                     fab.animate().rotation(0f).setDuration(200).start()
 
                     fab1.animate().translationX(0f).translationY(0f).alpha(0f).scaleX(0f).scaleY(0f)
