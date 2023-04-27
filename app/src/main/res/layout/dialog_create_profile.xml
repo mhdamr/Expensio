@@ -1,40 +1,27 @@
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="30dp"
-        android:minWidth="350dp"
-        android:minHeight="300dp"
-        android:background="@drawable/rounded_box">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="30dp"
+    android:minWidth="350dp"
+    android:minHeight="300dp"
+    android:background="@drawable/rounded_box">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create Profile"
+            android:text="Choose a Display Name"
             android:textSize="18dp"
             android:textAppearance="?attr/textAppearanceHeadline6" />
-
-        <ImageView
-            android:id="@+id/selectProfilePictureButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/icon_add_photo"
-            android:adjustViewBounds="true"
-            android:layout_gravity="center"
-            android:focusable="true"
-            android:contentDescription="Profile Picture"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Choose Name"
             android:textSize="18dp"
             android:textAppearance="?attr/textAppearanceHeadline6" />
-
 
         <EditText
             android:id="@+id/nameEditText"

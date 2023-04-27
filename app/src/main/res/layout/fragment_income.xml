@@ -48,7 +48,7 @@
                     android:layout_marginTop="15dp"
                     android:hint="Current Date and Time"
                     android:textSize="16dp"
-                    android:textColor="@color/colorWhite"/>
+                    android:textColor="@color/colorTextPrimary"/>
 
                 <Spinner
                     android:id="@+id/recurrence_spinner"

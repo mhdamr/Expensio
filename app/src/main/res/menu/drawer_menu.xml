@@ -3,10 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    <!--<item
-        android:id="@+id/drawer_bank_sync"
-        android:icon="@drawable/icon_bank"
-        android:title="Bank Sync" />-->
+
     <item
         android:id="@+id/drawer_log_out"
         android:icon="@drawable/icon_logout"
@@ -18,4 +15,5 @@
         android:icon="@drawable/icon_dark_mode"
         app:actionViewClass="android.widget.Switch"
         app:showAsAction="always" />
+
 </menu>
