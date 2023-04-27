@@ -176,6 +176,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun drawBarChart(data: List<BarEntry>) {
+
         val barDataSet = BarDataSet(data, "").apply {
             setColors(ContextCompat.getColor(requireContext(), R.color.Income), ContextCompat.getColor(requireContext(), R.color.Expense))
             stackLabels = arrayOf("Income", "Expense")
@@ -202,6 +203,8 @@ class HomeFragment : Fragment() {
             legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
             legend.orientation = Legend.LegendOrientation.HORIZONTAL
             legend.setDrawInside(false)
+
+            setNoDataText(if (data.isEmpty()) "This time period contains no transactions. Please select a time period that contains transactions for the selected wallet." else "")
 
             invalidate()
         }
@@ -244,6 +247,8 @@ class HomeFragment : Fragment() {
             legend.setDrawInside(false)
 
             setUsePercentValues(true)
+
+            setNoDataText(if (entries.isEmpty()) "This time period contains no transactions. Please select a time period that contains transactions for the selected wallet." else "")
 
             invalidate()
         }

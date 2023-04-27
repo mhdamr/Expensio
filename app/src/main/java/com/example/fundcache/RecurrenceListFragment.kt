@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -27,6 +28,7 @@ class RecurrenceListFragment : Fragment() {
     private lateinit var recurrenceListRecyclerView: RecyclerView
     private lateinit var adapter: RecurrenceListAdapter
     private lateinit var noRecurrenceTransactionsText: TextView
+    private lateinit var noRecurrenceTransactionsImage: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +57,7 @@ class RecurrenceListFragment : Fragment() {
 
         // Get a reference to the TextView
         noRecurrenceTransactionsText = view.findViewById(R.id.no_recurrence_transactions_text)
-
+        noRecurrenceTransactionsImage = view.findViewById(R.id.no_recurrence_transactions_image)
         fetchRecurrenceTransactions()
 
         return view
@@ -80,8 +82,10 @@ class RecurrenceListFragment : Fragment() {
                 // Update the visibility of the TextView based on the number of transactions
                 if (recurrenceTransactions.isEmpty()) {
                     noRecurrenceTransactionsText.visibility = View.VISIBLE
+                    noRecurrenceTransactionsImage.visibility = View.VISIBLE
                 } else {
                     noRecurrenceTransactionsText.visibility = View.GONE
+                    noRecurrenceTransactionsImage.visibility = View.GONE
                 }
             }
     }
