@@ -36,6 +36,7 @@ class RecurrenceListAdapter(
             /*private val infoIcon: ImageView = itemView.findViewById(R.id.info_icon)*/
             private val description: TextView = itemView.findViewById(R.id.recurrence_description)
             /*private val calendarIcon: ImageView = itemView.findViewById(R.id.calendar_icon)*/
+            private val recurrenceSelected: TextView = itemView.findViewById(R.id.recurrence_recurrence)
             private val timestamp: TextView = itemView.findViewById(R.id.recurrence_timestamp)
             private val amount: TextView = itemView.findViewById(R.id.recurrence_amount)
             private val deleteIcon: ImageView = itemView.findViewById(R.id.delete_recurrence_icon)
@@ -44,6 +45,7 @@ class RecurrenceListAdapter(
                 description.text = transaction.description
                 val date = transaction.timestamp.toDate() // convert Firebase Timestamp to Date
                 val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()) // specify date format
+                recurrenceSelected.text = transaction.recurrence
                 timestamp.text = dateFormat.format(date) // set formatted date to TextView
                 if (transaction.type == "expense"){
                     amount.setTextColor(Color.parseColor("#EE3434"))
