@@ -7,22 +7,12 @@
         android:title="Overview"  />
 
     <item
+        android:id="@+id/placeholder"
+        android:title=""/>
+
+    <item
         android:id="@+id/wallets"
         android:icon="@drawable/icon_wallet"
         android:title="Wallets" />
-
-    <item
-        android:id="@+id/placeholder"
-        android:title="" />
-
-    <item
-        android:id="@+id/budgets"
-        android:icon="@drawable/icon_budget"
-        android:title="Budgets" />
-
-    <item
-        android:id="@+id/activity"
-        android:icon="@drawable/icon_activity"
-        android:title="Activity" />
 
 </menu>

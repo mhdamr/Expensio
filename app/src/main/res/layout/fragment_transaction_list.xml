@@ -12,13 +12,13 @@
         android:layout_height="match_parent"
         android:paddingHorizontal="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/transaction_item"
-        android:layout_marginBottom="40dp"/>
+        tools:listitem="@layout/transaction_item" />
+
 
     <TextView
         android:id="@+id/emptyView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="You currently do not have any transactions for this month. Press the + button to add an income or expense transaction"
         android:textSize="16sp"
         android:textAlignment="center"

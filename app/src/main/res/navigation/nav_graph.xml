@@ -51,6 +51,13 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/searchTransactionFragment"
+        android:name="com.example.fundcache.SearchTransactionFragment"
+        android:label="Search">
+
+    </fragment>
+
 
     <action
         android:id="@+id/action_homeFragment"

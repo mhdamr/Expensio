@@ -18,19 +18,35 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/recurrence_item" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <ImageView
+        android:id="@+id/no_recurrence_transactions_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/no_recurrence_transactions_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        app:srcCompat="@drawable/image_recurrence" />
+
     <TextView
         android:id="@+id/no_recurrence_transactions_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingHorizontal="40dp"
         android:text="You do not have any recurrence transactions."
-        android:textSize="16sp"
-        android:textAlignment="center"
-        android:paddingHorizontal="18dp"
-        android:textColor="@color/colorTextPrimary"
+        android:textSize="21sp"
+        android:gravity="center_horizontal"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/no_recurrence_transactions_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

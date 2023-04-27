@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorTransparent">@android:color/transparent</color>
-    <color name="colorAccent">#1CD6CE</color>
+    <color name="colorAccent">#bc00ff</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorPageBackground">#080612</color>
-    <color name="colorBoxBackground">#25232F</color>
+    <color name="colorPageBackground">#121212</color>
+    <color name="colorBoxBackground">#1F1A24</color>
     <color name="colorTextPrimary">#FFFFFF</color>
 
     <!--For delete button-->

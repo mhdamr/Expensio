@@ -2,7 +2,7 @@
 <resources>
     <color name="colorTransparent">@android:color/transparent</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorAccent">#1CD6CE</color>
+    <color name="colorAccent">#bc00ff</color>
     <color name="colorPageBackground">#FFFFFF</color>
     <color name="colorBoxBackground">#e9e9e9</color>
     <color name="colorTextPrimary">#000000</color>
