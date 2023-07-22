@@ -53,7 +53,7 @@
         <item name="android:paddingStart">10dp</item>
         <item name="android:textSize">16dp</item>
     </style>
-s
+    s
     <style name="TextAppearanceButton" parent="TextAppearance.AppCompat.Button">
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/colorPageBackground</item>

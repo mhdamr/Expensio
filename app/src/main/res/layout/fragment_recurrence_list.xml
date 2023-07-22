@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingTop="?attr/actionBarSize"
     android:background="@color/colorPageBackground"
-    android:theme="@style/Theme.FundCache">
+    android:theme="@style/Theme.Expensio">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recurrence_list_recyclerview"

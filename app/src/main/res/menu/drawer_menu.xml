@@ -16,4 +16,11 @@
         app:actionViewClass="android.widget.Switch"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/lock_app_switch"
+        android:title="Lock App"
+        android:icon="@drawable/icon_lockapp"
+        app:actionViewClass="android.widget.Switch"
+        app:showAsAction="always" />
+
 </menu>

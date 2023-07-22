@@ -24,7 +24,7 @@
     <string name="logout">Logout</string>
 
     <string name="name">Name</string>
-    <string name="home_fragment_label">Home</string>
+    <string name="home_fragment_label">Overview</string>
     <string name="profile_fragment_label">Profile</string>
     <string name="choose_name_fragment_label">Name</string>
 

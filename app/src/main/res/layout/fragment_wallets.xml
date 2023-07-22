@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="?attr/actionBarSize"
     android:background="@color/colorPageBackground"
-    android:theme="@style/Theme.FundCache">
+    android:theme="@style/Theme.Expensio">
 
     <ScrollView
         android:layout_width="match_parent"
