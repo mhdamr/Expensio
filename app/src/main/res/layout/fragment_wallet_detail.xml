@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingTop="?attr/actionBarSize"
-    android:paddingBottom="55dp"
     android:background="@color/colorPageBackground"
     android:theme="@style/Theme.FundCache">
 
@@ -69,6 +68,7 @@
                 android:id="@+id/transactions_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="55dp"
                 android:layout_below="@id/wallet_detail_box"/>
 
 

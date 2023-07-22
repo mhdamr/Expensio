@@ -75,6 +75,17 @@
             app:layout_anchorGravity="center|top"
             android:visibility="gone"/>
 
+        <TextView
+            android:id="@+id/fab1_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Expense"
+            android:textColor="@color/colorTextPrimary"
+            app:layout_anchor="@id/bottomAppBar"
+            app:layout_anchorGravity="center|bottom"
+            android:visibility="gone" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab3"
             android:layout_width="wrap_content"
@@ -86,6 +97,16 @@
             app:tint="@color/colorTextPrimary"
             app:layout_anchorGravity="center|top"
             android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/fab3_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Income"
+            android:textColor="@color/colorTextPrimary"
+            app:layout_anchor="@id/bottomAppBar"
+            app:layout_anchorGravity="center|bottom"
+            android:visibility="gone" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
