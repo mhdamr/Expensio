@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "300992134437",
-    "project_id": "expensio-7bc39",
-    "storage_bucket": "expensio-7bc39.appspot.com"
+    "project_number": "527640515531",
+    "project_id": "expensio-7a347",
+    "storage_bucket": "expensio-7a347.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:300992134437:android:4026349a56def0c15caecc",
+        "mobilesdk_app_id": "1:527640515531:android:014ee519566745470a9c4e",
         "android_client_info": {
-          "package_name": "com.example.fundcache"
+          "package_name": "com.example.expensio"
         }
       },
       "oauth_client": [
         {
-          "client_id": "300992134437-i15rgf8kc2g5avacthsa99moisshc6pg.apps.googleusercontent.com",
+          "client_id": "527640515531-k0u1vva4udvepesltnjdtmat0k5kd0q7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAbDGE7MNv0L-tjBSKO_xLexrYNGaUW3uw"
+          "current_key": "AIzaSyAwF74-1dP3EV72qlRWbuPW-msVf47NIHs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "300992134437-i15rgf8kc2g5avacthsa99moisshc6pg.apps.googleusercontent.com",
+              "client_id": "527640515531-k0u1vva4udvepesltnjdtmat0k5kd0q7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

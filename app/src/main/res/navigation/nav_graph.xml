@@ -8,52 +8,52 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.fundcache.HomeFragment"
+        android:name="com.example.expensio.HomeFragment"
         android:label="@string/home_fragment_label">
 
     </fragment>
 
     <fragment
         android:id="@+id/walletsFragment"
-        android:name="com.example.fundcache.WalletsFragment"
+        android:name="com.example.expensio.WalletsFragment"
         android:label="Wallets">
     </fragment>
 
     <fragment
         android:id="@+id/addWalletsFragment"
-        android:name="com.example.fundcache.AddWalletsFragment"
+        android:name="com.example.expensio.AddWalletsFragment"
         android:label="Create Wallet">
     </fragment>
 
     <fragment
         android:id="@+id/editWalletsFragment"
-        android:name="com.example.fundcache.EditWalletsFragment"
+        android:name="com.example.expensio.EditWalletsFragment"
         android:label="Edit Wallet">
     </fragment>
 
     <fragment
         android:id="@+id/walletDetailFragment"
-        android:name="com.example.fundcache.WalletDetailFragment"
+        android:name="com.example.expensio.WalletDetailFragment"
         android:label="Wallet Details">
     </fragment>
 
     <fragment
         android:id="@+id/incomeFragment"
-        android:name="com.example.fundcache.IncomeFragment"
+        android:name="com.example.expensio.IncomeFragment"
         android:label="Income">
 
     </fragment>
 
     <fragment
         android:id="@+id/expenseFragment"
-        android:name="com.example.fundcache.ExpenseFragment"
+        android:name="com.example.expensio.ExpenseFragment"
         android:label="Expense">
 
     </fragment>
 
     <fragment
         android:id="@+id/searchTransactionFragment"
-        android:name="com.example.fundcache.SearchTransactionFragment"
+        android:name="com.example.expensio.SearchTransactionFragment"
         android:label="Search">
 
     </fragment>
@@ -95,7 +95,7 @@
         />
     <fragment
         android:id="@+id/recurrenceListFragment"
-        android:name="com.example.fundcache.RecurrenceListFragment"
+        android:name="com.example.expensio.RecurrenceListFragment"
         android:label="Recurrence List"
         tools:layout="@layout/fragment_recurrence_list">
     </fragment>

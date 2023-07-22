@@ -14,5 +14,5 @@ pluginManagement {
 //        maven { url 'https://jitpack.io' }
 //    }
 //}
-rootProject.name = "FundCache"
+rootProject.name = "expensio"
 include ':app'
