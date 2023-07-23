@@ -1,4 +1,4 @@
-package com.example.expensio
+package com.example.expensio.Auth
 
 import android.content.Context
 import android.content.Intent
@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.widget.*
+import com.example.expensio.MainActivity
+import com.example.expensio.R
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {

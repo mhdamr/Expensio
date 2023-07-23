@@ -1,10 +1,11 @@
-package com.example.expensio
+package com.example.expensio.Transactions
 
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.expensio.R
 import com.example.expensio.databinding.FragmentTransactionListBinding
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -12,7 +13,9 @@ import com.google.firebase.firestore.Query
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TransactionListFragment : Fragment(R.layout.fragment_transaction_list), TransactionsAdapter.OnTransactionUpdatedListener, TransactionsAdapter.OnWalletBalanceUpdatedListener {
+class TransactionListFragment : Fragment(R.layout.fragment_transaction_list),
+    TransactionsAdapter.OnTransactionUpdatedListener,
+    TransactionsAdapter.OnWalletBalanceUpdatedListener {
     private var _binding: FragmentTransactionListBinding? = null
     private val binding get() = _binding!!
 
@@ -125,7 +128,13 @@ class TransactionListFragment : Fragment(R.layout.fragment_transaction_list), Tr
                         // Check if the transaction date is different from the last transaction date
                         if (transactionDate != lastDate) {
                             // Add a DateHeader with the new date
-                            transactions.add(TransactionListItem.DateHeader(dateFormat.format(transactionDate)))
+                            transactions.add(
+                                TransactionListItem.DateHeader(
+                                    dateFormat.format(
+                                        transactionDate
+                                    )
+                                )
+                            )
                             lastDate = transactionDate
                         }
 

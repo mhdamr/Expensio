@@ -1,37 +1,34 @@
-package com.example.expensio
+package com.example.expensio.Wallets
 
-import android.app.DatePickerDialog
-import android.content.Context
 import android.content.res.ColorStateList
-import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
-import android.widget.ListAdapter
 import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.example.expensio.Transactions.ExpenseFragment
+import com.example.expensio.Transactions.IncomeFragment
+import com.example.expensio.R
+import com.example.expensio.Transactions.TransactionListFragment
+import com.example.expensio.Transactions.TransactionsPagerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.firebase.firestore.Query
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 
-class WalletDetailFragment : Fragment(R.layout.fragment_wallet_detail), TransactionListFragment.OnTransactionListWalletBalanceUpdatedListener {
+class WalletDetailFragment : Fragment(R.layout.fragment_wallet_detail),
+    TransactionListFragment.OnTransactionListWalletBalanceUpdatedListener {
 
     private lateinit var walletId: String
     private lateinit var walletName: String
@@ -271,7 +268,9 @@ class WalletDetailFragment : Fragment(R.layout.fragment_wallet_detail), Transact
         if (isFABOpen) {
             // Close the FABs
             fab.animate().rotation(0f).setDuration(200).start()
-            fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorAccent))
+            fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),
+                R.color.colorAccent
+            ))
             fab.setImageResource(R.drawable.icon_add)
             fab1.animate().translationX(0f).translationY(0f).alpha(alphaHide).scaleX(scaleHide).scaleY(scaleHide)
             fab3.animate().translationX(0f).translationY(0f).alpha(alphaHide).scaleX(scaleHide).scaleY(scaleHide)
@@ -282,7 +281,9 @@ class WalletDetailFragment : Fragment(R.layout.fragment_wallet_detail), Transact
         } else {
             // Open the FABs
             fab.animate().rotation(45f).setDuration(200).start()
-            fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorBoxBackground))
+            fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),
+                R.color.colorBoxBackground
+            ))
             fab.setImageResource(R.drawable.icon_add)
             val distance = resources.getDimension(R.dimen.standard_125)
             val angle = 80f // Angle between FABs (in degrees)

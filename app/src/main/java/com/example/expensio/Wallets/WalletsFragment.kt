@@ -1,4 +1,4 @@
-package com.example.expensio
+package com.example.expensio.Wallets
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -8,16 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import kotlinx.coroutines.*
-import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.expensio.R
 import com.example.expensio.databinding.FragmentWalletsBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.coroutines.tasks.await
 
 class WalletsFragment : Fragment() {

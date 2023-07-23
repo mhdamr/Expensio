@@ -1,4 +1,4 @@
-package com.example.expensio
+package com.example.expensio.Transactions.Recurrence
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.Timestamp
+import com.example.expensio.R
 import java.text.SimpleDateFormat
 import java.util.*
 

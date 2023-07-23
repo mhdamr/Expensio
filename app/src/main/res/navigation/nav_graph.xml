@@ -15,45 +15,45 @@
 
     <fragment
         android:id="@+id/walletsFragment"
-        android:name="com.example.expensio.WalletsFragment"
+        android:name="com.example.expensio.Wallets.WalletsFragment"
         android:label="Wallets">
     </fragment>
 
     <fragment
         android:id="@+id/addWalletsFragment"
-        android:name="com.example.expensio.AddWalletsFragment"
+        android:name="com.example.expensio.Wallets.AddWalletsFragment"
         android:label="Create Wallet">
     </fragment>
 
     <fragment
         android:id="@+id/editWalletsFragment"
-        android:name="com.example.expensio.EditWalletsFragment"
+        android:name="com.example.expensio.Wallets.EditWalletsFragment"
         android:label="Edit Wallet">
     </fragment>
 
     <fragment
         android:id="@+id/walletDetailFragment"
-        android:name="com.example.expensio.WalletDetailFragment"
+        android:name="com.example.expensio.Wallets.WalletDetailFragment"
         android:label="Wallet Details">
     </fragment>
 
     <fragment
         android:id="@+id/incomeFragment"
-        android:name="com.example.expensio.IncomeFragment"
+        android:name="com.example.expensio.Transactions.IncomeFragment"
         android:label="Income">
 
     </fragment>
 
     <fragment
         android:id="@+id/expenseFragment"
-        android:name="com.example.expensio.ExpenseFragment"
+        android:name="com.example.expensio.Transactions.ExpenseFragment"
         android:label="Expense">
 
     </fragment>
 
     <fragment
         android:id="@+id/searchTransactionFragment"
-        android:name="com.example.expensio.SearchTransactionFragment"
+        android:name="com.example.expensio.Transactions.SearchTransactionFragment"
         android:label="Search">
 
     </fragment>
@@ -95,7 +95,7 @@
         />
     <fragment
         android:id="@+id/recurrenceListFragment"
-        android:name="com.example.expensio.RecurrenceListFragment"
+        android:name="com.example.expensio.Transactions.Recurrence.RecurrenceListFragment"
         android:label="Recurrence List"
         tools:layout="@layout/fragment_recurrence_list">
     </fragment>

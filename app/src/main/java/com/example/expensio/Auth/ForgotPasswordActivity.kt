@@ -1,4 +1,4 @@
-package com.example.expensio
+package com.example.expensio.Auth
 
 import com.example.expensio.R
 import android.os.Bundle

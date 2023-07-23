@@ -1,4 +1,4 @@
-package com.example.expensio
+package com.example.expensio.Wallets
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
@@ -18,6 +18,7 @@ import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.core.content.ContextCompat
+import com.example.expensio.R
 import com.github.dhaval2404.colorpicker.listener.ColorListener
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.google.android.material.bottomappbar.BottomAppBar

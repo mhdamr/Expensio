@@ -1,4 +1,4 @@
-package com.example.expensio
+package com.example.expensio.Wallets
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -11,10 +11,10 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.expensio.R
 import com.example.expensio.databinding.FragmentEditWalletsBinding
 import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.github.dhaval2404.colorpicker.listener.ColorListener

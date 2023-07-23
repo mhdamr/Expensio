@@ -1,4 +1,4 @@
-package com.example.expensio
+package com.example.expensio.Transactions
 
 import android.os.Bundle
 import android.text.Editable

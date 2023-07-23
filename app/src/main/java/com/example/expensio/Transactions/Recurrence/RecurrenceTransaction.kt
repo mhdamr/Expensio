@@ -1,4 +1,4 @@
-package com.example.expensio
+package com.example.expensio.Transactions.Recurrence
 
 import com.google.firebase.Timestamp
 

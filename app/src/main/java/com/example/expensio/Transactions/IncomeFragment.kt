@@ -1,4 +1,4 @@
-package com.example.expensio
+package com.example.expensio.Transactions
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -9,16 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.example.expensio.R
 import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ExpenseFragment : Fragment() {
+class IncomeFragment : Fragment() {
     private lateinit var amountEditText: EditText
     private lateinit var descriptionEditText: EditText
     private lateinit var saveButton: Button
@@ -41,7 +40,7 @@ class ExpenseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_expense, container, false)
+        val view = inflater.inflate(R.layout.fragment_income, container, false)
 
         // Get a reference to the Firebase Firestore and FirebaseAuth objects
         db = FirebaseFirestore.getInstance()
@@ -60,7 +59,7 @@ class ExpenseFragment : Fragment() {
 
         // Set a click listener for the save button
         saveButton.setOnClickListener {
-            saveExpense()
+            saveIncome()
         }
 
         recurrenceSpinner = view.findViewById(R.id.recurrence_spinner)
@@ -91,6 +90,7 @@ class ExpenseFragment : Fragment() {
 
         // Hide the bottom app bar
         requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.GONE
+
     }
 
     private fun updateDateTimeText() {
@@ -133,36 +133,34 @@ class ExpenseFragment : Fragment() {
         timePickerDialog.show()
     }
 
-    private fun saveExpense() {
+    private fun saveIncome() {
         val amount = amountEditText.text.toString().toDoubleOrNull()
         val description = descriptionEditText.text.toString()
         val timestamp = dateTimeText.text.toString()
 
-
-
         // Validate the input
         if (amount == null || description.isEmpty()) {
-            Toast.makeText(context, "Please enter valid expense data.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Please enter valid income data.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Create a new expense object
-        val expense = hashMapOf(
+        // Create a new income object
+        val income = hashMapOf(
             "amount" to amount,
             "description" to description,
-            "type" to "expense",
+            "type" to "income",
             "timestamp" to Date(timestamp),
         )
 
 
-        // Add the expense to the selected wallet's transactions collection
+        // Add the income to the selected wallet's transactions collection
         db.collection("users").document(currentUser.uid)
             .collection("wallets")
             .document(walletId)
             .collection("transactions")
-            .add(expense)
+            .add(income)
             .addOnSuccessListener {
-                Toast.makeText(context, "Expense added successfully.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Income added successfully.", Toast.LENGTH_SHORT).show()
                 if (recurrenceOption != "No Recurrence") {
                     saveRecurrence()
                 }
@@ -179,16 +177,18 @@ class ExpenseFragment : Fragment() {
                         db.collection("users").document(currentUser.uid)
                             .collection("wallets")
                             .document(walletId)
-                            .update("amount", (walletBalance - amount))
+                            .update("amount", (walletBalance + amount))
                     }.addOnSuccessListener {
                         activity?.onBackPressed()
                     }
 
 
+
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Error adding expense.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Error adding income.", Toast.LENGTH_SHORT).show()
             }
+
     }
 
     private fun saveRecurrence() {
@@ -198,26 +198,33 @@ class ExpenseFragment : Fragment() {
 
         // Validate the input
         if (amount == null || description.isEmpty()) {
-            Toast.makeText(context, "Please enter valid expense data.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Please enter valid income data.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Create a new expense object
-        val expense = hashMapOf(
+        // Create a new income object
+        val income = hashMapOf(
             "amount" to amount,
             "description" to description,
-            "type" to "expense",
+            "type" to "income",
             "timestamp" to Date(timestamp),
             "recurrence" to recurrenceOption
         )
 
 
-        // Add the expense to the selected wallet's transactions collection
+        // Add the income to the selected wallet's transactions collection
         db.collection("users").document(currentUser.uid)
             .collection("wallets")
             .document(walletId)
             .collection("recurrence")
-            .add(expense)
+            .add(income)
+        /*            .addOnSuccessListener {
+                        Toast.makeText(context, "Income added successfully.", Toast.LENGTH_SHORT).show()
+                        activity?.onBackPressed()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(context, "Error adding income.", Toast.LENGTH_SHORT).show()
+                    }*/
     }
 
     override fun onDestroyView() {
@@ -226,6 +233,5 @@ class ExpenseFragment : Fragment() {
         // Show the bottom app bar when leaving the fragment
         requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).visibility = View.VISIBLE
     }
-
 
 }

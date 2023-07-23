@@ -1,4 +1,4 @@
-package com.example.expensio
+package com.example.expensio.Auth
 
 import android.app.Dialog
 import android.graphics.Color
@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Patterns
 import android.widget.*
 import androidx.fragment.app.DialogFragment
+import com.example.expensio.MainActivity
+import com.example.expensio.R
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore

@@ -1,4 +1,4 @@
-package com.example.expensio
+package com.example.expensio.Transactions
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

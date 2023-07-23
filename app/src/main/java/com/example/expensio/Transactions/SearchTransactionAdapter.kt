@@ -1,4 +1,4 @@
-package com.example.expensio
+package com.example.expensio.Transactions
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.expensio.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,13 +35,21 @@ class SearchTransactionAdapter(private val transactions: List<SearchedTransactio
             .format(transaction.timestamp)
         val transactionType = when (transaction.transactionType) {
             "income" -> {
-                holder.amountTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.Income))
-                holder.transactionTypeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.Income))
+                holder.amountTextView.setTextColor(ContextCompat.getColor(holder.itemView.context,
+                    R.color.Income
+                ))
+                holder.transactionTypeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context,
+                    R.color.Income
+                ))
                 "Income"
             }
             "expense" -> {
-                holder.amountTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.Expense))
-                holder.transactionTypeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.Expense))
+                holder.amountTextView.setTextColor(ContextCompat.getColor(holder.itemView.context,
+                    R.color.Expense
+                ))
+                holder.transactionTypeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context,
+                    R.color.Expense
+                ))
                 "Expense"
             }
             else -> ""

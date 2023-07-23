@@ -22,9 +22,9 @@
 
 
         <activity android:name=".HomeFragment" />
-        <activity android:name=".WalletsFragment" />
-        <activity android:name=".AddWalletsFragment" />
-        <activity android:name=".EditWalletsFragment" />
+        <activity android:name=".Wallets.WalletsFragment" />
+        <activity android:name=".Wallets.AddWalletsFragment" />
+        <activity android:name=".Wallets.EditWalletsFragment" />
 
         <activity
             android:name=".MainActivity"
@@ -42,10 +42,10 @@
                 android:value="" />
         </activity>
 
-        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".Auth.ForgotPasswordActivity" />
 
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Auth.RegisterActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -53,7 +53,7 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".Auth.LoginActivity"
             android:exported="false">
             <meta-data
             android:name="android.app.lib_name"

@@ -1,10 +1,7 @@
-package com.example.expensio
+package com.example.expensio.Transactions
 
 import android.content.Context
 import android.graphics.Color
-import android.media.Image
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -14,10 +11,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.expensio.R
 import com.example.expensio.databinding.DateHeaderBinding
 import com.example.expensio.databinding.TransactionItemBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -83,11 +80,17 @@ class TransactionsAdapter(
                     transactionAmount.text = String.format("%.2f", transaction.amount)
 
                     if (transaction.type == "expense") {
-                        transactionAmount.setTextColor(ContextCompat.getColor(context, R.color.Expense))
-                        transactionType.setTextColor(ContextCompat.getColor(context, R.color.Expense))
+                        transactionAmount.setTextColor(ContextCompat.getColor(context,
+                            R.color.Expense
+                        ))
+                        transactionType.setTextColor(ContextCompat.getColor(context,
+                            R.color.Expense
+                        ))
                         transactionType.text = "-"
                     } else {
-                        transactionAmount.setTextColor(ContextCompat.getColor(context, R.color.Income))
+                        transactionAmount.setTextColor(ContextCompat.getColor(context,
+                            R.color.Income
+                        ))
                         transactionType.setTextColor(ContextCompat.getColor(context, R.color.Income))
                         transactionType.text = "+"
                     }
