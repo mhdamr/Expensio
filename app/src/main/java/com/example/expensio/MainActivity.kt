@@ -1,6 +1,5 @@
 package com.example.expensio
 
-import LockActivity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -9,6 +8,7 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.ColorFilter
+import android.content.SharedPreferences
 import android.graphics.LightingColorFilter
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
@@ -62,9 +62,9 @@ class MainActivity : AppCompatActivity() {
     private var menuMain: Menu? = null
     private val alphaHide = 0f
     private val scaleHide = 0f
+
     private var isAppLocked = false
-    private lateinit var appLockManager: LockActivity
-    private lateinit var lockSwitch: Switch
+    private val LOCKED_ACTIVITY_REQUEST_CODE = 123
 
     private lateinit var networkChangeReceiver: BroadcastReceiver
 
@@ -138,12 +138,31 @@ class MainActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
         val hasLoggedInBefore = prefs.getBoolean("hasLoggedInBefore", false)
         val currentUser = auth.currentUser
+        isAppLocked = prefs.getBoolean("is_app_locked", false)
+
+
 
         // Check if the user is already logged in
         if (currentUser != null && currentUser.isEmailVerified) {
             if (hasLoggedInBefore) {
-                // Navigate to the HomeFragment
-                navController.navigate(R.id.action_homeFragment)
+                if (isAppLocked == true) {
+
+                    val unlockedValue = intent.getBooleanExtra("Unlocked", false)
+                    if (unlockedValue == true) {
+                        // If the "Unlocked" value is true, navigate to the HomeFragment
+                        navController.navigate(R.id.action_homeFragment)
+                    } else if (unlockedValue == false) {
+                        // If the "Unlocked" value is false, start the LockedActivity
+                        val lockedIntent = Intent(this, LockedActivity::class.java)
+                        startActivity(lockedIntent)
+                        finish()
+                        return
+                    }
+
+                } else if (isAppLocked == false) {
+                    // If the app is not locked, navigate to the HomeFragment
+                    navController.navigate(R.id.action_homeFragment)
+                }
             }
         } else {
             // Navigate to the LoginActivity
@@ -356,13 +375,32 @@ class MainActivity : AppCompatActivity() {
                     bottomAppBar.cradleVerticalOffset = 0f
                 }
             }
+
+
         }
 
 
         // Show the Create Profile Dialog if the user does not have a display name
         if (currentUser != null && currentUser.isEmailVerified) {
 
-            navController.navigate(R.id.action_homeFragment)
+            if (isAppLocked == true) {
+
+                val unlockedValue = intent.getBooleanExtra("Unlocked", false)
+                if (unlockedValue == true) {
+                    // If the "Unlocked" value is true, navigate to the HomeFragment
+                    navController.navigate(R.id.action_homeFragment)
+                } else if (unlockedValue == false) {
+                    // If the "Unlocked" value is false, start the LockedActivity
+                    val lockedIntent = Intent(this, LockedActivity::class.java)
+                    startActivity(lockedIntent)
+                    finish()
+                    return
+                }
+
+            } else if (isAppLocked == false) {
+                // If the app is not locked, navigate to the HomeFragment
+                navController.navigate(R.id.action_homeFragment)
+            }
 
             // Check if the user has a name in Firestore
             val currentUser = auth.currentUser
@@ -409,21 +447,28 @@ class MainActivity : AppCompatActivity() {
             showEditProfileDialog()
         }
 
-        appLockManager = LockActivity(this)
+        // Find the "Lock App" switch
+        val lockAppSwitch: Switch = navView.menu.findItem(R.id.lock_app_switch).actionView as Switch
 
-        lockSwitch = navView.menu.findItem(R.id.lock_app_switch).actionView as Switch
-        lockSwitch.isChecked = appLockManager.isAppLocked()
+        // Set the initial state of the switch based on the isAppLocked variable
+        lockAppSwitch.isChecked = isAppLocked
 
-        lockSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                appLockManager.showFingerprintPrompt(
-                    onSuccess = { appLockManager.setAppLocked(true) },
-                    onError = { lockSwitch.isChecked = false }
-                )
-            } else {
-                appLockManager.setAppLocked(false)
-            }
+        // Set a listener to handle switch state changes
+        lockAppSwitch.setOnCheckedChangeListener { _, isChecked ->
+            // Update the isAppLocked variable based on the switch state
+            isAppLocked = isChecked
+
+            // Save the updated value of isAppLocked to SharedPreferences
+            val editor = prefs.edit()
+            editor.putBoolean("is_app_locked", isAppLocked)
+            editor.apply()
+
+            // Log the value of isAppLocked whenever it changes
+            Log.d("MainActivity", "isAppLocked value changed: $isAppLocked")
+
+            // TODO: Add any additional logic you want to perform when the app is locked or unlocked.
         }
+
     }
 
     override fun onDestroy() {
@@ -486,37 +531,6 @@ class MainActivity : AppCompatActivity() {
         return super.onPrepareOptionsMenu(menu)
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.lock_app_switch -> {
-                toggleAppLock()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.P)
-    private fun toggleAppLock() {
-        if (appLockManager.isAppLocked()) {
-            showFingerprintPrompt()
-        } else {
-            appLockManager.setAppLocked(true)
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.P)
-    private fun showFingerprintPrompt() {
-        appLockManager.showFingerprintPrompt(
-            onSuccess = { unlockApp() },
-            onError = { /* Handle error */ }
-        )
-    }
-
-    private fun unlockApp() {
-        appLockManager.setAppLocked(false)
-    }
 
 
 }
