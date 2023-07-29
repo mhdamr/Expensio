@@ -8,16 +8,17 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.ColorFilter
-import android.content.SharedPreferences
 import android.graphics.LightingColorFilter
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -32,11 +33,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.expensio.Auth.CreateProfileDialogFragment
-import com.example.expensio.Auth.EditProfileDialogFragment
 import com.example.expensio.Auth.LoginActivity
 import com.example.expensio.databinding.ActivityMainBinding
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -47,7 +48,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import pl.droidsonroids.gif.GifImageView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     private val scaleHide = 0f
 
     private var isAppLocked = false
-    private val LOCKED_ACTIVITY_REQUEST_CODE = 123
+
 
     private lateinit var networkChangeReceiver: BroadcastReceiver
 
@@ -186,6 +187,7 @@ class MainActivity : AppCompatActivity() {
         // Set the Toolbar as the support Action Bar
         setSupportActionBar(toolbar)
 
+
         // Set the function of the hamburger menu to open/close the Navigation Drawer
         toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close)
         drawerLayout.addDrawerListener(toggle)
@@ -273,6 +275,11 @@ class MainActivity : AppCompatActivity() {
 
         // Add the destination change listener
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            val title = destination.label ?: return@addOnDestinationChangedListener
+
+            val spannableString = SpannableString(title)
+            spannableString.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
+            supportActionBar?.title = spannableString
             when (destination.id) {
                 R.id.homeFragment, R.id.walletsFragment -> {
                     toggle.setDrawerIndicatorEnabled(true)
@@ -424,7 +431,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        // Show the Edit Profile Dialog
+        // Navigate to Edit Profile Dialog
         val userNameTextView : TextView = headerView.findViewById(R.id.user_name)
         val userEmailTextView : TextView = headerView.findViewById(R.id.user_email)
 
@@ -444,7 +451,7 @@ class MainActivity : AppCompatActivity() {
 
         val profileBox : LinearLayout = headerView.findViewById(R.id.profile_box)
         profileBox.setOnClickListener {
-            showEditProfileDialog()
+            navController.navigate(R.id.action_editProfileFragment)
         }
 
         // Find the "Lock App" switch
@@ -465,9 +472,10 @@ class MainActivity : AppCompatActivity() {
 
             // Log the value of isAppLocked whenever it changes
             Log.d("MainActivity", "isAppLocked value changed: $isAppLocked")
-
-            // TODO: Add any additional logic you want to perform when the app is locked or unlocked.
         }
+
+        // Set up the NavController destination changed listener
+        navController.addOnDestinationChangedListener(this)
 
     }
 
@@ -479,12 +487,6 @@ class MainActivity : AppCompatActivity() {
     private fun showCreateProfileDialog() {
         val createProfileDialogFragment = CreateProfileDialogFragment()
         createProfileDialogFragment.show(supportFragmentManager, "CreateProfileDialog")
-    }
-
-    // Activates the function which shows EditProfileDialogFragment
-    private fun showEditProfileDialog() {
-        val editProfileDialogFragment = EditProfileDialogFragment()
-        editProfileDialogFragment.show(supportFragmentManager, "EditProfileDialog")
     }
 
     override fun onBackPressed() {
@@ -531,6 +533,15 @@ class MainActivity : AppCompatActivity() {
         return super.onPrepareOptionsMenu(menu)
     }
 
+    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
+        // Find the Drawer Layout
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawerLayout)
+
+        // Close the drawer when navigating to the Edit Profile Fragment
+        if (destination.id == R.id.editProfileFragment) {
+            drawerLayout.closeDrawers()
+        }
+    }
 
 
 }

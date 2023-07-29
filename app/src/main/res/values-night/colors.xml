@@ -9,6 +9,7 @@
 
     <!--For delete button-->
     <color name="colorRed">#A10101</color>
+    <color name="colorBlue">#007ae6</color>
 
     <!--For Income and Expense text-->
     <color name="Income">#39FA41</color>

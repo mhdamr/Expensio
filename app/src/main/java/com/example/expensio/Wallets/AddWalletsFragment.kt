@@ -18,6 +18,9 @@ import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.core.content.ContextCompat
+import com.example.expensio.CountryCurrency
+import com.example.expensio.CountryCurrencyAdapter
+import com.example.expensio.CurrencyDialogFragment
 import com.example.expensio.R
 import com.github.dhaval2404.colorpicker.listener.ColorListener
 import com.github.dhaval2404.colorpicker.model.ColorShape
@@ -51,20 +54,164 @@ class AddWalletsFragment : Fragment() {
 
 
         // Set up currency spinner
-        val currencies = arrayOf("USD", "EUR", "GBP", "JPY")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, currencies)
+        val currencies = mutableListOf(
+            CountryCurrency("Afghanistan", "AFN"),
+            CountryCurrency("Albania", "ALL"),
+            CountryCurrency("Algeria", "DZD"),
+            CountryCurrency("Eurozone", "EUR"),
+            CountryCurrency("Angola", "AOA"),
+            CountryCurrency("Eastern Caribbean", "XCD"),
+            CountryCurrency("Argentina", "ARS"),
+            CountryCurrency("Armenia", "AMD"),
+            CountryCurrency("Australia", "AUD"),
+            CountryCurrency("Azerbaijan", "AZN"),
+            CountryCurrency("Bahamas", "BSD"),
+            CountryCurrency("Bahrain", "BHD"),
+            CountryCurrency("Bangladesh", "BDT"),
+            CountryCurrency("Barbados", "BBD"),
+            CountryCurrency("Belarus", "BYN"),
+            CountryCurrency("Belize", "BZD"),
+            CountryCurrency("West African CFA", "XOF"),
+            CountryCurrency("Bhutan", "BTN"),
+            CountryCurrency("Bolivia", "BOB"),
+            CountryCurrency("Bosnia and Herzegovina", "BAM"),
+            CountryCurrency("Botswana", "BWP"),
+            CountryCurrency("Brazil", "BRL"),
+            CountryCurrency("Brunei", "BND"),
+            CountryCurrency("Bulgaria", "BGN"),
+            CountryCurrency("Burundi", "BIF"),
+            CountryCurrency("Cambodia", "KHR"),
+            CountryCurrency("Central African CFA", "XAF"),
+            CountryCurrency("Canada", "CAD"),
+            CountryCurrency("Cape Verde", "CVE"),
+            CountryCurrency("Chile", "CLP"),
+            CountryCurrency("China", "CNY"),
+            CountryCurrency("Colombia", "COP"),
+            CountryCurrency("Comoros", "KMF"),
+            CountryCurrency("Costa Rica", "CRC"),
+            CountryCurrency("Cuba", "CUP"),
+            CountryCurrency("Czech Republic", "CZK"),
+            CountryCurrency("DR Congo", "CDF"),
+            CountryCurrency("Denmark", "DKK"),
+            CountryCurrency("Djibouti", "DJF"),
+            CountryCurrency("Dominican Republic", "DOP"),
+            CountryCurrency("United States", "USD"),
+            CountryCurrency("Egypt", "EGP"),
+            CountryCurrency("Eritrea", "ERN"),
+            CountryCurrency("Eswatini", "SZL"),
+            CountryCurrency("Ethiopia", "ETB"),
+            CountryCurrency("Fiji", "FJD"),
+            CountryCurrency("Gambia", "GMD"),
+            CountryCurrency("Georgia", "GEL"),
+            CountryCurrency("Ghana", "GHS"),
+            CountryCurrency("Guatemala", "GTQ"),
+            CountryCurrency("Guinea", "GNF"),
+            CountryCurrency("Guyana", "GYD"),
+            CountryCurrency("Haiti", "HTG"),
+            CountryCurrency("Honduras", "HNL"),
+            CountryCurrency("Hungary", "HUF"),
+            CountryCurrency("Iceland", "ISK"),
+            CountryCurrency("India", "INR"),
+            CountryCurrency("Indonesia", "IDR"),
+            CountryCurrency("Iran", "IRR"),
+            CountryCurrency("Iraq", "IQD"),
+            CountryCurrency("Israel", "ILS"),
+            CountryCurrency("Jamaica", "JMD"),
+            CountryCurrency("Japan", "JPY"),
+            CountryCurrency("Jordan", "JOD"),
+            CountryCurrency("Kazakhstan", "KZT"),
+            CountryCurrency("Kenya", "KES"),
+            CountryCurrency("North Korea", "KPW"),
+            CountryCurrency("South Korea", "KRW"),
+            CountryCurrency("Kuwait", "KWD"),
+            CountryCurrency("Kyrgyzstan", "KGS"),
+            CountryCurrency("Laos", "LAK"),
+            CountryCurrency("Lebanon", "LBP"),
+            CountryCurrency("Lesotho", "LSL"),
+            CountryCurrency("Liberia", "LRD"),
+            CountryCurrency("Libya", "LYD"),
+            CountryCurrency("Switzerland", "CHF"),
+            CountryCurrency("Madagascar", "MGA"),
+            CountryCurrency("Malawi", "MWK"),
+            CountryCurrency("Malaysia", "MYR"),
+            CountryCurrency("Maldives", "MVR"),
+            CountryCurrency("Mauritania", "MRO"),
+            CountryCurrency("Mauritius", "MUR"),
+            CountryCurrency("Mexico", "MXN"),
+            CountryCurrency("Moldova", "MDL"),
+            CountryCurrency("Mongolia", "MNT"),
+            CountryCurrency("Morocco", "MAD"),
+            CountryCurrency("Mozambique", "MZN"),
+            CountryCurrency("Myanmar", "MMK"),
+            CountryCurrency("Namibia", "NAD"),
+            CountryCurrency("Nepal", "NPR"),
+            CountryCurrency("New Zealand", "NZD"),
+            CountryCurrency("Nicaragua", "NIO"),
+            CountryCurrency("Nigeria", "NGN"),
+            CountryCurrency("North Macedonia", "MKD"),
+            CountryCurrency("Norway", "NOK"),
+            CountryCurrency("Oman", "OMR"),
+            CountryCurrency("Pakistan", "PKR"),
+            CountryCurrency("Panama", "PAB"),
+            CountryCurrency("Papua New Guinea", "PGK"),
+            CountryCurrency("Paraguay", "PYG"),
+            CountryCurrency("Peru", "PEN"),
+            CountryCurrency("Philippines", "PHP"),
+            CountryCurrency("Poland", "PLN"),
+            CountryCurrency("Qatar", "QAR"),
+            CountryCurrency("Romania", "RON"),
+            CountryCurrency("Russia", "RUB"),
+            CountryCurrency("Rwanda", "RWF"),
+            CountryCurrency("Samoa", "WST"),
+            CountryCurrency("São Tomé and Príncipe", "STD"),
+            CountryCurrency("Saudi Arabia", "SAR"),
+            CountryCurrency("Serbia", "RSD"),
+            CountryCurrency("Seychelles", "SCR"),
+            CountryCurrency("Sierra Leone", "SLL"),
+            CountryCurrency("Singapore", "SGD"),
+            CountryCurrency("Solomon Islands", "SBD"),
+            CountryCurrency("Somalia", "SOS"),
+            CountryCurrency("South Africa", "ZAR"),
+            CountryCurrency("South Sudan", "SSP"),
+            CountryCurrency("Sri Lanka", "LKR"),
+            CountryCurrency("Sudan", "SDG"),
+            CountryCurrency("Suriname", "SRD"),
+            CountryCurrency("Sweden", "SEK"),
+            CountryCurrency("Syria", "SYP"),
+            CountryCurrency("Taiwan", "TWD"),
+            CountryCurrency("Tajikistan", "TJS"),
+            CountryCurrency("Tanzania", "TZS"),
+            CountryCurrency("Thailand", "THB"),
+            CountryCurrency("Tonga", "TOP"),
+            CountryCurrency("Trinidad and Tobago", "TTD"),
+            CountryCurrency("Tunisia", "TND"),
+            CountryCurrency("Turkey", "TRY"),
+            CountryCurrency("Turkmenistan", "TMT"),
+            CountryCurrency("Uganda", "UGX"),
+            CountryCurrency("Ukraine", "UAH"),
+            CountryCurrency("United Arab Emirates", "AED"),
+            CountryCurrency("United Kingdom", "GBP"),
+            CountryCurrency("Uruguay", "UYU"),
+            CountryCurrency("Uzbekistan", "UZS"),
+            CountryCurrency("Vanuatu", "VUV"),
+            CountryCurrency("Venezuela", "VES"),
+            CountryCurrency("Vietnam", "VND"),
+            CountryCurrency("Yemen", "YER"),
+            CountryCurrency("Zambia", "ZMW"),
+            CountryCurrency("Zimbabwe", "ZWL")
+        )
+        val adapter = CountryCurrencyAdapter(requireContext(), currencies)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         // Set the adapter for the spinner
         currencyEditText.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Select a currency")
-            builder.setAdapter(adapter) { _, position ->
-                // Set the selected currency in the EditText
-                currencyEditText.setText(currencies[position])
+            val dialogFragment = CurrencyDialogFragment().apply {
+                setCurrencyData(currencies)
+                setTargetFragment(this@AddWalletsFragment, 0)
             }
-            builder.create().show()
+            dialogFragment.show(parentFragmentManager, "CurrencyDialogFragment")
         }
+
 
         binding.btnSelectColor.setOnClickListener {
             ColorPickerDialog
@@ -121,6 +268,10 @@ class AddWalletsFragment : Fragment() {
         }
 
 
+    }
+
+    fun onCurrencySelected(countryCurrency: CountryCurrency) {
+        binding.currencySpinner.setText(countryCurrency.currency)
     }
 
     override fun onDestroyView() {

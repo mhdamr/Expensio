@@ -27,9 +27,10 @@
         <activity android:name=".Wallets.EditWalletsFragment" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".IntroActivity"
             android:windowSoftInputMode="adjustPan"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="keyboardHidden|orientation|screenSize">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +38,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

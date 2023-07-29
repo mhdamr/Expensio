@@ -16,8 +16,9 @@ import java.util.*
 class TransactionListFragment : Fragment(R.layout.fragment_transaction_list),
     TransactionsAdapter.OnTransactionUpdatedListener,
     TransactionsAdapter.OnWalletBalanceUpdatedListener {
-    private var _binding: FragmentTransactionListBinding? = null
-    private val binding get() = _binding!!
+
+    // Remove the nullable property for ViewBinding
+    private lateinit var binding: FragmentTransactionListBinding
 
     private val db = FirebaseFirestore.getInstance()
 
@@ -82,7 +83,7 @@ class TransactionListFragment : Fragment(R.layout.fragment_transaction_list),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentTransactionListBinding.bind(view)
+        binding = FragmentTransactionListBinding.bind(view)
 
         // Set up the transactions RecyclerView and adapter
         transactionsAdapter = TransactionsAdapter(requireContext(), walletId, this, this)
@@ -153,8 +154,4 @@ class TransactionListFragment : Fragment(R.layout.fragment_transaction_list),
             }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

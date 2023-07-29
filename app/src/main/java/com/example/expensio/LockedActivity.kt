@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
@@ -21,11 +22,16 @@ class LockedActivity : AppCompatActivity() {
     private lateinit var cipher: Cipher
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
+    private lateinit var btnReOpenFingerprint: Button
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_locked)
+
+
+        // Initialize views
+        btnReOpenFingerprint = findViewById(R.id.btnReOpenFingerprint)
 
         keyguardManager = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
 
@@ -46,6 +52,13 @@ class LockedActivity : AppCompatActivity() {
                 .setNegativeButtonText("Cancel")
                 .build()
             biometricPrompt.authenticate(promptInfo)
+
+            // Set click listener for the "Re-open Fingerprint" button
+            btnReOpenFingerprint.setOnClickListener {
+                // Re-open the fingerprint prompt
+                biometricPrompt.authenticate(promptInfo)
+            }
+
         } else {
             // Device does not support fingerprint authentication or lock screen is not secure
             // Handle the situation accordingly (e.g., show a message or navigate back to LoginActivity)
@@ -97,14 +110,12 @@ class LockedActivity : AppCompatActivity() {
             super.onAuthenticationFailed()
             // Fingerprint authentication failed, you may handle it as needed (e.g., show a message)
             // In this case, since there's no fallback mechanism, let's navigate to HomeFragment as well.
-            navigateToHomeFragment()
         }
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             super.onAuthenticationError(errorCode, errString)
             // Handle authentication errors (e.g., no fingerprint enrolled, etc.)
             // For simplicity, we'll just navigate to HomeFragment in all cases.
-            navigateToHomeFragment()
         }
 
 
